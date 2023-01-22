@@ -913,7 +913,11 @@ plot.hmm_mcmc_poisson <- function(x,
   lltrace_df <- as.data.frame(cbind(c((info$warmup + 1):info$iter), lltrace))
   names(lltrace_df) <- c("iteration", "log_likelihood")
   
-  llplot <- ggplot2::ggplot(lltrace_df, ggplot2::aes(x = iteration, y = log_likelihood)) +
+  # llplot <- ggplot2::ggplot(lltrace_df, ggplot2::aes(x = iteration, y = log_likelihood)) +
+  #   ggplot2::geom_line() +
+  #   ggplot2::labs(x = "Iteration", y = "Log-likelihood")
+  
+  llplot <- ggplot2::ggplot(lltrace_df, ggplot2::aes_string(x = "iteration", y = "log_likelihood")) +
     ggplot2::geom_line() +
     ggplot2::labs(x = "Iteration", y = "Log-likelihood")
   
@@ -951,10 +955,18 @@ plot.hmm_mcmc_poisson <- function(x,
   states_df$post_means <- post_means
   names(states_df) <- c("position", "data", "posterior_states", "posterior_means")
   states_df$posterior_states <- as.factor(states_df$posterior_states)
-  statesplot <- ggplot2::ggplot(states_df, ggplot2::aes(x = position, y = data)) +
+  
+  # statesplot <- ggplot2::ggplot(states_df, ggplot2::aes(x = position, y = data)) +
+  #   ggplot2::geom_line(col = "grey") +
+  #   ggplot2::geom_point(ggplot2::aes(colour = posterior_states), shape = 20, size = 1.5, alpha = 0.75) +
+  #   ggplot2::geom_line(ggplot2::aes(x = position, y = posterior_means), size = 0.15) +
+  #   ggplot2::guides(colour = ggplot2::guide_legend(title = "Post States")) +
+  #   ggplot2::labs(x = "Position", y = "Data")
+  
+  statesplot <- ggplot2::ggplot(states_df, ggplot2::aes_string(x = "position", y = "data")) +
     ggplot2::geom_line(col = "grey") +
-    ggplot2::geom_point(ggplot2::aes(colour = posterior_states), shape = 20, size = 1.5, alpha = 0.75) +
-    ggplot2::geom_line(ggplot2::aes(x = position, y = posterior_means), size = 0.15) +
+    ggplot2::geom_point(ggplot2::aes_string(colour = "posterior_states"), shape = 20, size = 1.5, alpha = 0.75) +
+    ggplot2::geom_line(ggplot2::aes_string(x = "position", y = "posterior_means"), size = 0.15) +
     ggplot2::guides(colour = ggplot2::guide_legend(title = "Post States")) +
     ggplot2::labs(x = "Position", y = "Data")
   
@@ -964,10 +976,17 @@ plot.hmm_mcmc_poisson <- function(x,
     states_df2$post_means <- post_means
     names(states_df2) <- c("position", "data", "true_states", "true_means")
     states_df2$true_states <- as.factor(states_df2$true_states)
-    statesplot2 <- ggplot2::ggplot(states_df2, ggplot2::aes(x = position, y = data)) +
+    # statesplot2 <- ggplot2::ggplot(states_df2, ggplot2::aes(x = position, y = data)) +
+    #   ggplot2::geom_line(col = "grey") +
+    #   ggplot2::geom_point(ggplot2::aes(colour = true_states), shape = 20, size = 1.5, alpha = 0.75) +
+    #   ggplot2::geom_line(ggplot2::aes(x = position, y = true_means), size = 0.15) +
+    #   ggplot2::guides(colour = ggplot2::guide_legend(title = "True States")) +
+    #   ggplot2::labs(x = "Position", y = "Data")
+    
+    statesplot2 <- ggplot2::ggplot(states_df2, ggplot2::aes_string(x = "position", y = "data")) +
       ggplot2::geom_line(col = "grey") +
-      ggplot2::geom_point(ggplot2::aes(colour = true_states), shape = 20, size = 1.5, alpha = 0.75) +
-      ggplot2::geom_line(ggplot2::aes(x = position, y = true_means), size = 0.15) +
+      ggplot2::geom_point(ggplot2::aes_string(colour = "true_states"), shape = 20, size = 1.5, alpha = 0.75) +
+      ggplot2::geom_line(ggplot2::aes_string(x = "position", y = "true_means"), size = 0.15) +
       ggplot2::guides(colour = ggplot2::guide_legend(title = "True States")) +
       ggplot2::labs(x = "Position", y = "Data")
   }
@@ -994,11 +1013,11 @@ plot.hmm_mcmc_poisson <- function(x,
   
   
   kl_plot_f <- function() {
-    rootogram(as.numeric(dens_data1), 
+    vcd::rootogram(as.numeric(dens_data1), 
               as.numeric(dens_sim1),
-              lines_gp = gpar(col = "red", lwd = 1), 
+              lines_gp = grid::gpar(col = "red", lwd = 1), 
               main = "Model Fit",
-              points_gp = gpar(col = "black"), 
+              points_gp = grid::gpar(col = "black"), 
               pch = "",
               ylab = "Frequency (sqrt)",
               xlab = "Number of Occurrences")
@@ -1021,21 +1040,34 @@ plot.hmm_mcmc_poisson <- function(x,
   dens_df <- as.data.frame(cbind(rep("observed", length(data)), c(data)))
   
   names(dens_df) <- c("data_type", "value")
+  dens_df$value <- as.numeric(dens_df$value)
   
-  klplot <- ggplot2::ggplot(dens_df, ggplot2::aes(x = as.numeric(value))) +
-    geom_histogram(bins = floor(dim(table(factor(data, levels = 0:max(data))))), fill='grey', position='identity') +
-    scale_color_manual(values = c("black")) +
+  # klplot <- ggplot2::ggplot(dens_df, ggplot2::aes(x = as.numeric(value))) +
+  #   geom_histogram(bins = floor(dim(table(factor(data, levels = 0:max(data))))), fill='grey', position='identity') +
+  #   scale_color_manual(values = c("black")) +
+  #   ggplot2::geom_vline(xintercept = x$estimates$means, color = "black", size = 0.2) +
+  #   ggplot2::labs(title = "Observed Counts and Inferred Means", x = "Number of Occurences", y = "Frequency") 
+  
+  klplot <- ggplot2::ggplot(dens_df, ggplot2::aes_string(x = "value")) +
+    ggplot2::geom_histogram(bins = floor(dim(table(factor(data, levels = 0:max(data))))), fill = "grey", position = "identity") +
+    ggplot2::scale_color_manual(values = c("black")) +
     ggplot2::geom_vline(xintercept = x$estimates$means, color = "black", size = 0.2) +
     ggplot2::labs(title = "Observed Counts and Inferred Means", x = "Number of Occurences", y = "Frequency") 
   
   if (simulation) {
-    klplot <- ggplot2::ggplot(dens_df, ggplot2::aes(x = as.numeric(value))) +
-      geom_histogram(bins=floor(dim(table(factor(data, levels = 0:max(data))))), fill = 'grey', position = 'identity') +
-      scale_color_manual(values=c("black")) +
+    # klplot <- ggplot2::ggplot(dens_df, ggplot2::aes(x = as.numeric(value))) +
+    #   geom_histogram(bins=floor(dim(table(factor(data, levels = 0:max(data))))), fill = 'grey', position = 'identity') +
+    #   scale_color_manual(values=c("black")) +
+    #   ggplot2::geom_vline(xintercept = x$estimates$means, color = "black", size = 0.3) +
+    #   ggplot2::labs(title = "Observed Counts and Inferred (and True) Means", x = "Number of Occurences", y = "Frequency") + 
+    #   ggplot2::geom_vline(xintercept = true_alpha / true_betas, color = "blue", size = 0.2, linetype = "dotted") 
+    
+    klplot <- ggplot2::ggplot(dens_df, ggplot2::aes_string(x = "value")) +
+      ggplot2::geom_histogram(bins = floor(dim(table(factor(data, levels = 0:max(data))))), fill = "grey", position = "identity") +
+      ggplot2::scale_color_manual(values = c("black")) +
       ggplot2::geom_vline(xintercept = x$estimates$means, color = "black", size = 0.3) +
       ggplot2::labs(title = "Observed Counts and Inferred (and True) Means", x = "Number of Occurences", y = "Frequency") + 
       ggplot2::geom_vline(xintercept = true_alpha / true_betas, color = "blue", size = 0.2, linetype = "dotted") 
-    
   }
   #}
   

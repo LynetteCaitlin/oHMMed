@@ -1271,7 +1271,11 @@ plot.hmm_mcmc_normal <- function(x,
   lltrace_df <- as.data.frame(cbind(c((info$warmup+1):info$iter),lltrace))
   names(lltrace_df) <- c("iteration", "log_likelihood")
   
-  llplot <- ggplot2::ggplot(lltrace_df, ggplot2::aes(x = iteration, y = log_likelihood)) +
+  # llplot <- ggplot2::ggplot(lltrace_df, ggplot2::aes(x = iteration, y = log_likelihood)) +
+  #   ggplot2::geom_line() +
+  #   ggplot2::labs(x = "Iteration", y = "Log-likelihood")
+  
+  llplot <- ggplot2::ggplot(lltrace_df, ggplot2::aes_string(x = "iteration", y = "log_likelihood")) +
     ggplot2::geom_line() +
     ggplot2::labs(x = "Iteration", y = "Log-likelihood")
   
@@ -1309,10 +1313,18 @@ plot.hmm_mcmc_normal <- function(x,
   states_df$post_means <- post_means
   names(states_df) <- c("position", "data", "posterior_states", "posterior_means")
   states_df$posterior_states <- as.factor(states_df$posterior_states)
-  statesplot <- ggplot2::ggplot(states_df, ggplot2::aes(x = position, y = data)) +
+  
+  # statesplot <- ggplot2::ggplot(states_df, ggplot2::aes(x = position, y = data)) +
+  #   ggplot2::geom_line(col = "grey") +
+  #   ggplot2::geom_point(ggplot2::aes(colour = posterior_states), shape = 20, size = 1.5, alpha = 0.75) +
+  #   ggplot2::geom_line(ggplot2::aes(x = position, y = posterior_means), size = 0.15) +
+  #   ggplot2::guides(colour = ggplot2::guide_legend(title = "Post States")) +
+  #   ggplot2::labs(x = "Position", y = "Data")
+  
+  statesplot <- ggplot2::ggplot(states_df, ggplot2::aes_string(x = "position", y = "data")) +
     ggplot2::geom_line(col = "grey") +
-    ggplot2::geom_point(ggplot2::aes(colour = posterior_states), shape = 20, size = 1.5, alpha = 0.75) +
-    ggplot2::geom_line(ggplot2::aes(x = position, y = posterior_means), size = 0.15) +
+    ggplot2::geom_point(ggplot2::aes_string(colour = "posterior_states"), shape = 20, size = 1.5, alpha = 0.75) +
+    ggplot2::geom_line(ggplot2::aes_string(x = "position", y = "posterior_means"), size = 0.15) +
     ggplot2::guides(colour = ggplot2::guide_legend(title = "Post States")) +
     ggplot2::labs(x = "Position", y = "Data")
   
@@ -1322,10 +1334,18 @@ plot.hmm_mcmc_normal <- function(x,
     states_df2$post_means <- post_means
     names(states_df2) <- c("position", "data", "true_states", "posterior_means")
     states_df2$true_states <- as.factor(states_df2$true_states)
-    statesplot2 <- ggplot2::ggplot(states_df2, ggplot2::aes(x = position, y = data)) +
+    
+    # statesplot2 <- ggplot2::ggplot(states_df2, ggplot2::aes(x = position, y = data)) +
+    #   ggplot2::geom_line(col = "grey") +
+    #   ggplot2::geom_point(ggplot2::aes(colour = true_states), shape = 20, size = 1.5, alpha = 0.75) +
+    #   ggplot2::geom_line(ggplot2::aes(x = position, y = posterior_means), size = 0.15) +
+    #   ggplot2::guides(colour = ggplot2::guide_legend(title = "True States")) +
+    #   ggplot2::labs(x = "Position", y = "Data")
+    
+    statesplot2 <- ggplot2::ggplot(states_df2, ggplot2::aes_string(x = "position", y = "data")) +
       ggplot2::geom_line(col = "grey") +
-      ggplot2::geom_point(ggplot2::aes(colour = true_states), shape = 20, size = 1.5, alpha = 0.75) +
-      ggplot2::geom_line(ggplot2::aes(x = position, y = posterior_means), size = 0.15) +
+      ggplot2::geom_point(ggplot2::aes_string(colour = "true_states"), shape = 20, size = 1.5, alpha = 0.75) +
+      ggplot2::geom_line(ggplot2::aes_string(x = "position", y = "posterior_means"), size = 0.15) +
       ggplot2::guides(colour = ggplot2::guide_legend(title = "True States")) +
       ggplot2::labs(x = "Position", y = "Data")
   }
@@ -1360,7 +1380,19 @@ plot.hmm_mcmc_normal <- function(x,
                                  c(sim_output, data)))
   
   names(dens_df) <- c("data_type", "value")
-  kl_plot <- ggplot2::ggplot(dens_df, ggplot2::aes(x = as.numeric(value), fill = data_type)) +
+  dens_df$value <- as.numeric(dens_df$value)
+  # kl_plot <- ggplot2::ggplot(dens_df, ggplot2::aes(x = as.numeric(value), fill = data_type)) +
+  #   ggplot2::geom_density(alpha = 0.4) +
+  #   ggplot2::labs(title = "Model Fit", x = "Values", y = "Density") +
+  #   ggplot2::geom_vline(xintercept = x$estimates$means, color = "red", size = 1) +
+  #   ggplot2::geom_vline(xintercept = c(x$estimates$means) + x$estimates$sd,
+  #                       linetype = "dotted", color = "red", size = 1) +
+  #   ggplot2::geom_vline(xintercept = c(x$estimates$means) - x$estimates$sd,
+  #                       linetype = "dotted",  color = "red", size = 1) +
+  #   ggplot2::guides(fill = ggplot2::guide_legend(title = "Data type"))
+  
+  
+  kl_plot <- ggplot2::ggplot(dens_df, ggplot2::aes_string(x = "value", fill = "data_type")) +
     ggplot2::geom_density(alpha = 0.4) +
     ggplot2::labs(title = "Model Fit", x = "Values", y = "Density") +
     ggplot2::geom_vline(xintercept = x$estimates$means, color = "red", size = 1) +
