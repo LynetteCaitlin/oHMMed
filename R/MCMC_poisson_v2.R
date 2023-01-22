@@ -27,7 +27,7 @@
 #' # dens_sim <- table(factor(sim_output,levels=0:max(c(data,sim_output))))/sum(table(factor(sim_output,levels=0:max(c(data,sim_output)))))
 #' # 
 #' # kullback_leibler_disc(density(dist1)$y, density(dist2)$y)
-#' # kullback_leibler_disc(density(dist1)$y, density(dist3)$y)
+#' # kullback_leibler_disc(density(dist1)$y, density(dist3)$y) 
 
 kullback_leibler_disc <- function(p, q) {
   
