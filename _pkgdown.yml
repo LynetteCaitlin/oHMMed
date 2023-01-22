@@ -1,0 +1,43 @@
+template:
+  params:
+    bootswatch: spacelab
+reference:
+
+- title: Simulate data
+  desc: Functions for simulating data
+  contents:
+  - '`hmm_simulate_normal_data`'
+  - '`hmm_simulate_poisgamma_data`'
+
+- title: Simulate Hidden Markov Models
+  desc: Functions for simulating Hidden Markov Models
+  contents:
+  - '`hmm_mcmc_normal`'
+  - '`hmm_mcmc_pois`'
+
+- title: Inference
+  desc: Functions for inference on Hidden Markov Models
+  contents:
+  - '`posterior_probabilities_normal`'
+  - '`posterior_probabilities_poisgamma`'
+
+- title: Diagnostic tools
+  contents:
+  - '`plot.hmm_mcmc_normal`'
+  - '`plot.hmm_mcmc_poisson`'
+  - '`conf_mat`'
+  - '`kullback_leibler_cont_appr`'
+  - '`kullback_leibler_disc`'
+
+- title: Helper functions
+  contents:
+  - '`generate_random_T`'
+  - '`eigen_system`'
+  - '`get_pi`'
+  - '`convert_to_ggmcmc`'
+  - '`coef.hmm_mcmc_normal`'
+  - '`coef.hmm_mcmc_poisson`'
+
+
+
+
