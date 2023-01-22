@@ -40,7 +40,7 @@ from `github` repository by simply executing in the console the
 following line:
 
 ``` r
-devtools::install_github("majkamichal/oHMMed")
+devtools::install_github("LynetteCaitlin/oHMMed")
 ```
 
 ## 3. Usage

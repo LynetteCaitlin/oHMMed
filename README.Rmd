@@ -33,7 +33,7 @@ The `oHMMed` package contains an implementation of Hidden Markov Models with ord
 The `oHMMed` package is currently in development and it can be installed from `github` repository by simply executing in the console the following line:
     
 ```{r, eval = FALSE}
-devtools::install_github("majkamichal/oHMMed")
+devtools::install_github("LynetteCaitlin/oHMMed")
 ```
 
 ## 3. Usage
