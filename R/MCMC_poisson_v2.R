@@ -1,6 +1,7 @@
 # Hidden Markov Model simulation with Poisson-gamma data
 
 
+
 #' Calculate a Kullback-Leibler divergence for a discrete distribution
 #' 
 #' @param p (numeric) probabilities
