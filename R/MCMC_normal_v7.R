@@ -223,7 +223,7 @@ get_mat_T_ <- function(u, l) {
 #'
 #' @param x (mcmc_hmm_*) MCMC HMM object
 #'
-#' @param pattern (character) pattern(s) with model parameters to be included in the output
+#' @param pattern (character) pattern(s) with model parameters to be included in the output.
 #'
 #' @param include_warmup (logical) include warmup samples. By default \code{FALSE}
 #'

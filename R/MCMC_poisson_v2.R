@@ -1,7 +1,7 @@
 # Hidden Markov Model simulation with Poisson-gamma data
 
 
-#' Calculate a discrete approximation of the Kullback-Leibler divergence
+#' Calculate a Kullback-Leibler divergence for a discrete distribution
 #' 
 #' @param p (numeric) probabilities
 #'
@@ -16,7 +16,17 @@
 #' @export
 #'
 #' @examples
-#' # TODO
+#' # n <- 100
+#' # dist1 <- rpois(n, lambda = 1)
+#' # dist2 <- rpois(n, lambda = 5)
+#' # dist3 <- rpois(n, lambda = 50)
+#' # x_max <- max(c(dist1, dist2, dist3))
+#' # 
+#' # dens_data <- table(factor(dist,levels=0:max(c(data,sim_output))))/sum(table(factor(data,levels=0:max(c(data,sim_output))))) 
+#' # dens_sim <- table(factor(sim_output,levels=0:max(c(data,sim_output))))/sum(table(factor(sim_output,levels=0:max(c(data,sim_output)))))
+#' # 
+#' # kullback_leibler_disc(density(dist1)$y, density(dist2)$y)
+#' # kullback_leibler_disc(density(dist1)$y, density(dist3)$y)
 
 kullback_leibler_disc <- function(p, q) {
   
