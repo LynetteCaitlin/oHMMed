@@ -1,2 +1,17 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
+^\.Rhistory$
+^_pkgdown.yml$
+^README\.Rmd$
+^README\.md$
+^README_cache$
+^index\.Rmd$
+^index\.md$
+^index_cache$
+^LICENSE
+^NEWS\.md$
+^docs/
+^pkgdown/
+^inst$
+^simulation_scripts/
+^vignettes/oHMMed.Rmd$
