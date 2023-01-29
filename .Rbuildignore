@@ -14,4 +14,4 @@
 ^pkgdown/
 ^inst$
 ^simulation_scripts/
-^vignettes/oHMMed.Rmd$
+^vignettes/
