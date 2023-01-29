@@ -9,7 +9,10 @@
 #' @param q (numeric) probabilities
 #'
 #' @details
-#' TODO: write formula
+#' The Kullback-Leibler divergence for a discrete distribution
+#' is calculated as follows:
+#' 
+#' \deqn{\sum_{i=1}^n p_i \log\Big(\frac{p_i}{q_i}\Big)}
 #'
 #' @return
 #' Numeric vector
@@ -17,17 +20,30 @@
 #' @export
 #'
 #' @examples
-#' # n <- 100
-#' # dist1 <- rpois(n, lambda = 1)
-#' # dist2 <- rpois(n, lambda = 5)
-#' # dist3 <- rpois(n, lambda = 50)
-#' # x_max <- max(c(dist1, dist2, dist3))
-#' # 
-#' # dens_data <- table(factor(dist,levels=0:max(c(data,sim_output))))/sum(table(factor(data,levels=0:max(c(data,sim_output))))) 
-#' # dens_sim <- table(factor(sim_output,levels=0:max(c(data,sim_output))))/sum(table(factor(sim_output,levels=0:max(c(data,sim_output)))))
-#' # 
-#' # kullback_leibler_disc(density(dist1)$y, density(dist2)$y)
-#' # kullback_leibler_disc(density(dist1)$y, density(dist3)$y)  
+#' # Simulate n Poisson distributed variates
+#' n <- 1000
+#' dist1 <- rpois(n, lambda = 1)
+#' dist2 <- rpois(n, lambda = 5)
+#' dist3 <- rpois(n, lambda = 20)
+#' 
+#' # Generate common factor levels
+#' x_max <- max(c(dist1, dist2, dist3))
+#' all_levels <- 0:x_max
+#' 
+#' # Estimate probability mass functions 
+#' pmf_dist1 <- table(factor(dist1, levels = all_levels)) / n
+#' pmf_dist2 <- table(factor(dist2, levels = all_levels)) / n
+#' pmf_dist3 <- table(factor(dist3, levels = all_levels)) / n
+#' 
+#' # Visualise PMFs
+#' barplot(pmf_dist1, col = "green", xlim = c(0, x_max))
+#' barplot(pmf_dist2, col = "red", add = TRUE)
+#' barplot(pmf_dist3, col = "blue", add = TRUE)
+#' 
+#' # Calculate distances
+#' kullback_leibler_disc(pmf_dist1, pmf_dist2)
+#' kullback_leibler_disc(pmf_dist1, pmf_dist3)
+#' kullback_leibler_disc(pmf_dist2, pmf_dist3)
 
 kullback_leibler_disc <- function(p, q) {
   

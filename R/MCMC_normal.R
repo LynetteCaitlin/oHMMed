@@ -280,7 +280,7 @@ convert_to_ggmcmc <- function(x,
 }
 
 
-#' Generate a random transition matrix
+#' Generate a random transition matrix 
 #'
 #' This helper function generates a transition matrix at random for testing purposes
 #'
@@ -313,14 +313,18 @@ generate_random_T <- function(n = 3) {
 }
 
 
-#' Calculate Kullback-Leibler divergence
+#' Calculate a continuous approximation of the Kullback-Leibler divergence
 #'
 #' @param p (numeric) probabilities
 #'
 #' @param q (numeric) probabilities
 #'
 #' @details
-#' TODO: write formula
+#' The continuous approximation of the Kullback-Leibler divergence
+#' is calculated as follows:
+#' \deqn{
+#'   \frac{1}{n}\sum_{i=1}^n\big[\log(p_i) p_i - log(q_i) p_i \big]
+#' }
 #'
 #' @return
 #' Numeric vector
@@ -328,13 +332,30 @@ generate_random_T <- function(n = 3) {
 #' @export
 #'
 #' @examples
-#' n <- 100
+#' # Simulate n normally distributed variates
+#' n <- 1000
 #' dist1 <- rnorm(n)
-#' dist2 <- rnorm(n, mean = 0, sd =  5)
-#' dist3 <- rnorm(n, mean = 2, sd =  10)
-#'
-#' kullback_leibler(density(dist1)$y, density(dist2)$y)
-#' kullback_leibler(density(dist1)$y, density(dist3)$y)
+#' dist2 <- rnorm(n, mean = 0, sd = 2)
+#' dist3 <- rnorm(n, mean = 2, sd = 2)
+#' 
+#' # Estimate probability density functions
+#' pdf1 <- density(dist1)
+#' pdf2 <- density(dist2)
+#' pdf3 <- density(dist3)
+#' 
+#' # Visualise PDFs
+#' plot(pdf1, main = "PDFs", col = "red", xlim = range(dist3))
+#' lines(pdf2, col = "blue")
+#' lines(pdf3, col = "green")
+#' 
+#' # PDF 1 vs PDF 2
+#' kullback_leibler_cont_appr(pdf1$y, pdf2$y)
+#' 
+#' # PDF 1 vs PDF 3
+#' kullback_leibler_cont_appr(pdf1$y, pdf3$y)
+#' 
+#' # PDF 2 vs PDF 2
+#' kullback_leibler_cont_appr(pdf2$y, pdf3$y)
 
 kullback_leibler_cont_appr <- function(p, q) {
   
