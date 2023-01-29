@@ -521,7 +521,7 @@ init_hmm_mcmc_pois_ <- function(data, prior_T, prior_betas, prior_alpha,
 #' @export
 #'
 #' @examples
-#' # Simulate Poisson-gamma data
+#' # Simulate Poisson-Gamma data
 #' N <- 2^10
 #' true_T <- rbind(c(0.95, 0.05, 0),
 #'                 c(0.025, 0.95, 0.025),
@@ -535,24 +535,44 @@ init_hmm_mcmc_pois_ <- function(data, prior_T, prior_betas, prior_alpha,
 #'                                             betas = true_betas,
 #'                                             alpha = true_alpha)
 #' simdata <- simdata_full$data
-#' plot(density(simdata), main = "")
-#'
-#' # Set priors
+#' hist(simdata, breaks = 40, probability = TRUE,  
+#'      main = "Distribution of the simulated Poisson-Gamma data")
+#' lines(density(simdata), col = "red")
+#' 
+#' # Set numbers of states to be inferred
 #' n_states_inferred <- 3
+#' 
+#' # Set priors
 #' prior_T <- generate_random_T(n_states_inferred)
 #' prior_betas <- c(1, 0.5, 0.1)
 #' prior_alpha <- 3
+#' 
+#' # Simmulation settings
+#' iter <- 50
+#' warmup <- floor(iter / 5) # 20 percent
+#' thin <- 1
+#' seed <- sample.int(10000, 1)
+#' print_params <- FALSE # if TRUE then parameters are printed in each iteration
+#' verbose <- FALSE # if TRUE then the state of the simulation is printed
 #'
-#' # Run MCMC
+#' # Run MCMC sampler
 #' res <- hmm_mcmc_pois(data = simdata,
 #'                      prior_T = prior_T,
 #'                      prior_betas = prior_betas,
 #'                      prior_alpha = prior_alpha,
-#'                      iter = 50,
-#'                      print_params = FALSE,
-#'                      verbose = TRUE)
+#'                      iter = iter,
+#'                      warmup = warmup,  
+#'                      thin = thin,
+#'                      seed = seed,
+#'                      print_params = print_params,
+#'                      verbose = verbose)
 #' res
-#' summary_res <- summary(res)
+#'
+#' summary(res)# summary output can be also assigned to a variable
+#' 
+#' coef(res) # extract model estimates
+#' 
+#' # plot(res) # MCMC diagnostics
 
 hmm_mcmc_pois <- function(data,
                           prior_T,

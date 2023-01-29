@@ -906,38 +906,57 @@ init_hmm_mcmc_normal_ <- function(data, prior_T, prior_means, prior_sd,
 #' @export
 #'
 #' @examples
-#'  # Simulate normal data
-#'  N <- 2^10
-#'  true_T <- rbind(c(0.95, 0.05, 0),
-#'                   c(0.025, 0.95, 0.025),
-#'                   c(0.0, 0.05, 0.95))
+#' # Simulate normal data
+#' N <- 2^10
+#' true_T <- rbind(c(0.95, 0.05, 0),
+#'                 c(0.025, 0.95, 0.025),
+#'                 c(0.0, 0.05, 0.95))
 #'
-#'  true_means <- c(-5, 0, 5)
-#'  true_sd <- 1.5
+#' true_means <- c(-5, 0, 5)
+#' true_sd <- 1.5
 #'
-#'  simdata_full <- hmm_simulate_normal_data(L = N,
-#'                                           mat_T = true_T,
-#'                                           means = true_means,
-#'                                           sigma = true_sd)
-#'  simdata <- simdata_full$data
-#'  plot(density(simdata), main = "")
+#' simdata_full <- hmm_simulate_normal_data(L = N, 
+#'                                          mat_T = true_T, 
+#'                                          means = true_means,
+#'                                          sigma = true_sd)
+#' simdata <- simdata_full$data
+#' hist(simdata, breaks = 40, probability = TRUE,  
+#'      main = "Distribution of the simulated normal data")
+#' lines(density(simdata), col = "red")
 #'
-#'  # Set priors
-#'  n_states_inferred <- 3
-#'  prior_T <- generate_random_T(n_states_inferred)
-#'  prior_means <- c(-18, -1, 12)
-#'  prior_sd <- 3
-#'
-#'  # Run MCMC
-#'  res <- hmm_mcmc_normal(data = simdata,
-#'                         prior_T = prior_T,
-#'                         prior_means = prior_means,
-#'                         prior_sd = prior_sd,
-#'                         iter = 50,
-#'                         print_params = FALSE,
-#'                         verbose = TRUE)
-#'  res
-#'  summary_res <- summary(res)
+#' # Set numbers of states to be inferred
+#' n_states_inferred <- 3
+#' 
+#' # Set priors
+#' prior_T <- generate_random_T(n_states_inferred)
+#' prior_means <- c(-18, -1, 12)
+#' prior_sd <- 3
+#' 
+#' # Simmulation settings
+#' iter <- 50
+#' warmup <- floor(iter / 5) # 20 percent
+#' thin <- 1
+#' seed <- sample.int(10000, 1)
+#' print_params <- FALSE # if TRUE then parameters are printed in each iteration
+#' verbose <- FALSE # if TRUE then the state of the simulation is printed
+#' 
+#' # Run MCMC sampler
+#' res <- hmm_mcmc_normal(data = simdata,
+#'                        prior_T = prior_T,
+#'                        prior_means = prior_means,
+#'                        prior_sd = prior_sd,
+#'                        iter = iter,
+#'                        warmup = warmup,
+#'                        seed = seed,
+#'                        print_params = print_params,
+#'                        verbose = verbose)
+#' res
+#' 
+#' summary(res) # summary output can be also assigned to a variable
+#' 
+#' coef(res) # extract model estimates
+#' 
+#' # plot(res) # MCMC diagnostics
 
 hmm_mcmc_normal <- function(data,
                             prior_T,
@@ -1108,12 +1127,12 @@ summary.hmm_mcmc_normal <- function(object, ...) {
   post_states <- object$estimates$posterior_states
   state_tab <- table(post_states, dnn = "")
   
-  # Note: density kernel must be adapted in count version!!!
   dens_data <- stats::density(data)
   kl_list <- rep(NA, 500)
   for (j in 1:500) {
     sim_output <- unlist(lapply(1:length(state_tab), function(i) {
-      stats::rnorm(state_tab[i], m_est[i], sd_est) }))
+      stats::rnorm(state_tab[i], m_est[i], sd_est) })
+    )
     dens_sim <- stats::density(sim_output)
     kl_list[j] <- kullback_leibler_cont_appr(dens_data$y, dens_sim$y)
   }
