@@ -12,7 +12,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-Extended documentation can be found on the website: https://majkamichal.github.io/oHMMed/  
+Extended documentation can be found on the website: https://LynetteCaitlin.github.io/oHMMed/  
 
 ## 1. Overview
 
