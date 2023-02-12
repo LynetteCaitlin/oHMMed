@@ -920,8 +920,8 @@ plot.hmm_mcmc_poisson <- function(x,
   all_betas <- convert_to_ggmcmc(x, pattern = "beta")
   n_betas <- attributes(all_betas)$nParameters
   facet_means <- ggplot2::facet_wrap(~ Parameter, ncol = floor(n_betas / 2), scales = "free")
-  mdens <- ggmcmc::ggs_density(all_betas) + facet_means
-  mtrace <- ggmcmc::ggs_traceplot(all_betas) + facet_means
+  mdens <- ggmcmc::ggs_density(all_betas) + facet_means + ggplot2::labs(x = "Value", y = "Density")
+  mtrace <- ggmcmc::ggs_traceplot(all_betas) + facet_means + ggplot2::labs(x = "Iteration", y = "Value")
   
   # Diagnostics transitions
   all_T <- convert_to_ggmcmc(x, pattern = "T")
@@ -942,8 +942,8 @@ plot.hmm_mcmc_poisson <- function(x,
   all_means <- convert_to_ggmcmc(x, pattern = "means")
   n_means <- attributes(all_means)$nParameters
   facet_me <- ggplot2::facet_wrap(~ Parameter, ncol = floor(n_means / 2), scales = "free")
-  medens <- ggmcmc::ggs_density(all_means) + facet_me
-  metrace <- ggmcmc::ggs_traceplot(all_means) + facet_me
+  medens <- ggmcmc::ggs_density(all_means) + facet_me + ggplot2::labs(x = "Value", y = "Density")
+  metrace <- ggmcmc::ggs_traceplot(all_means) + facet_me + ggplot2::labs(x = "Iteration", y = "Value")
   
   # Likelihood trace
   lltrace <- x$estimates$log_likelihood
