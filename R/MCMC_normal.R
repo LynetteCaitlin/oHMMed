@@ -254,19 +254,23 @@ convert_to_ggmcmc <- function(x,
   n_states <- length(x$priors[[1]])
   s <- x$samples
   
-  ind_mat <- as.vector(outer(1:n_states, 1:n_states, function(x,y) paste0("T[", x, ",", y, "]")))
-  mat_T <- t(sapply(1:iter, function(i) { as.numeric(s$mat_T[, ,i])}))
+  ind_mat <- as.vector(outer(1:n_states, 1:n_states, function(x, y) paste0("T[", x, ",", y, "]")))
+  mat_T <- t(sapply(1:iter, function(i) { as.numeric(s$mat_T[, ,i]) }))
   colnames(mat_T) <- ind_mat
   
-  res <- cbind(s$means, s$betas, "sigma[1]" = s$sd, "alpha[1]" = s$alpha, s$pois_means,mat_T)
+  res <- cbind(s$means, s$betas, "sigma[1]" = s$sd, "alpha[1]" = s$alpha, s$pois_means, mat_T)
   
   nIterations <- iter
   nBurnin <- 0
   
-  res <- reshape2::melt(res)
+  # res <- reshape2::melt(res)
+  n_row <- nrow(res)
+  res <- data.frame(Var1 = rep(seq_len(n_row), ncol(res)),
+                    Var2 = rep(colnames(res), each = n_row),
+                    value = as.vector(res))
   res$Chain <- 1
   colnames(res) <- c("Iteration", "Parameter", "value", "Chain")
-  res <- res[ ,c(1,4,2,3)]
+  res <- res[ ,c(1, 4, 2, 3)]
   
   if (!include_warmup) {
     res <- res[res$Iteration %in% x$idx, ]
