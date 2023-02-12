@@ -922,8 +922,6 @@ plot.hmm_mcmc_poisson <- function(x,
   facet_means <- ggplot2::facet_wrap(~ Parameter, ncol = floor(n_betas / 2), scales = "free")
   mdens <- ggmcmc::ggs_density(all_betas) + facet_means
   mtrace <- ggmcmc::ggs_traceplot(all_betas) + facet_means
-  #mauto <- invisible(utils::capture.output(ggmcmc::ggs_autocorrelation(all_betas))) +
-  facet_means
   
   # Diagnostics transitions
   all_T <- convert_to_ggmcmc(x, pattern = "T")
@@ -940,36 +938,21 @@ plot.hmm_mcmc_poisson <- function(x,
     sddens <- ggmcmc::ggs_density(df_alpha) + ggplot2::labs(x = "Value", y = "Density")
   }
   
-  #Diagnostics mean
+  # Diagnostics mean
   all_means <- convert_to_ggmcmc(x, pattern = "means")
   n_means <- attributes(all_means)$nParameters
   facet_me <- ggplot2::facet_wrap(~ Parameter, ncol = floor(n_means / 2), scales = "free")
   medens <- ggmcmc::ggs_density(all_means) + facet_me
   metrace <- ggmcmc::ggs_traceplot(all_means) + facet_me
-  #meauto <- invisible(utils::capture.output(ggmcmc::ggs_autocorrelation(all_means))) + facet_me
   
   # Likelihood trace
   lltrace <- x$estimates$log_likelihood
   lltrace_df <- as.data.frame(cbind(c((info$warmup + 1):info$iter), lltrace))
   names(lltrace_df) <- c("iteration", "log_likelihood")
   
-  # llplot <- ggplot2::ggplot(lltrace_df, ggplot2::aes(x = iteration, y = log_likelihood)) +
-  #   ggplot2::geom_line() +
-  #   ggplot2::labs(x = "Iteration", y = "Log-likelihood")
-  
   llplot <- ggplot2::ggplot(lltrace_df, ggplot2::aes_string(x = "iteration", y = "log_likelihood")) +
     ggplot2::geom_line() +
     ggplot2::labs(x = "Iteration", y = "Log-likelihood")
-  
-  # NEW LCM: REMOVE BELOW
-  # lposterior trace
-  #posttrace <- x$estimates$log_posterior
-  #posttrace_df <- as.data.frame(cbind(idx,posttrace))
-  #names(posttrace_df) <- c("iteration", "log_posterior")
-  
-  #postplot <- ggplot2::ggplot(posttrace_df, ggplot2::aes(x = iteration, y = log_posterior)) +
-  #    ggplot2::geom_line() +
-  #    ggplot2::labs(x = "Iteration", y = "Log-posterior")
   
   # Confusion matrix
   if (simulation) {
@@ -996,13 +979,6 @@ plot.hmm_mcmc_poisson <- function(x,
   names(states_df) <- c("position", "data", "posterior_states", "posterior_means")
   states_df$posterior_states <- as.factor(states_df$posterior_states)
   
-  # statesplot <- ggplot2::ggplot(states_df, ggplot2::aes(x = position, y = data)) +
-  #   ggplot2::geom_line(col = "grey") +
-  #   ggplot2::geom_point(ggplot2::aes(colour = posterior_states), shape = 20, size = 1.5, alpha = 0.75) +
-  #   ggplot2::geom_line(ggplot2::aes(x = position, y = posterior_means), size = 0.15) +
-  #   ggplot2::guides(colour = ggplot2::guide_legend(title = "Post States")) +
-  #   ggplot2::labs(x = "Position", y = "Data")
-  
   statesplot <- ggplot2::ggplot(states_df, ggplot2::aes_string(x = "position", y = "data")) +
     ggplot2::geom_line(col = "grey") +
     ggplot2::geom_point(ggplot2::aes_string(colour = "posterior_states"), shape = 20, size = 1.5, alpha = 0.75) +
@@ -1016,12 +992,6 @@ plot.hmm_mcmc_poisson <- function(x,
     states_df2$post_means <- post_means
     names(states_df2) <- c("position", "data", "true_states", "true_means")
     states_df2$true_states <- as.factor(states_df2$true_states)
-    # statesplot2 <- ggplot2::ggplot(states_df2, ggplot2::aes(x = position, y = data)) +
-    #   ggplot2::geom_line(col = "grey") +
-    #   ggplot2::geom_point(ggplot2::aes(colour = true_states), shape = 20, size = 1.5, alpha = 0.75) +
-    #   ggplot2::geom_line(ggplot2::aes(x = position, y = true_means), size = 0.15) +
-    #   ggplot2::guides(colour = ggplot2::guide_legend(title = "True States")) +
-    #   ggplot2::labs(x = "Position", y = "Data")
     
     statesplot2 <- ggplot2::ggplot(states_df2, ggplot2::aes_string(x = "position", y = "data")) +
       ggplot2::geom_line(col = "grey") +
@@ -1032,7 +1002,6 @@ plot.hmm_mcmc_poisson <- function(x,
   }
   
   # Check fit
-  # if(dim(table(factor(data,levels=0:max(data))))<50){
   post_states <- x$estimates$posterior_states
   state_tab <- table(post_states)
   beta_est <- x$estimates$betas
@@ -1051,7 +1020,6 @@ plot.hmm_mcmc_poisson <- function(x,
   dens_data1 <- table(factor(data, levels = 0:max(c(data,sim_output1)))) / sum(table(factor(data, levels = 0:max(c(data, sim_output1))))) 
   dens_sim1 <- table(factor(sim_output1, levels = 0:max(c(data, sim_output1)))) / sum(table(factor(sim_output1, levels = 0:max(c(data, sim_output1)))))
   
-  
   kl_plot_f <- function() {
     vcd::rootogram(as.numeric(dens_data1), 
               as.numeric(dens_sim1),
@@ -1063,30 +1031,10 @@ plot.hmm_mcmc_poisson <- function(x,
               xlab = "Number of Occurrences")
     }
   
-  # if(dim(table(factor(data, levels = 0:max(data)))) > 49) {
-  #post_states <- x$estimates$posterior_states
-  #state_tab <- table(post_states)
-  #beta_est <- x$estimates$betas
-  #alpha_est <- x$estimates$alpha
-  #sim_output1 <- NA   
-  #for (j in 1:500) {
-  #  sim_output <- unlist(lapply(1:length(state_tab), function(i) {
-  #    stats::rnbinom(state_tab[i],
-  #                   size = alpha_est,
-  #                   prob = beta_est[i] / (1 + beta_est[i]))
-  #  }))
-  #  sim_output1 <- c(sim_output1,sim_output)
-  # }
   dens_df <- as.data.frame(cbind(rep("observed", length(data)), c(data)))
   
   names(dens_df) <- c("data_type", "value")
   dens_df$value <- as.numeric(dens_df$value)
-  
-  # klplot <- ggplot2::ggplot(dens_df, ggplot2::aes(x = as.numeric(value))) +
-  #   geom_histogram(bins = floor(dim(table(factor(data, levels = 0:max(data))))), fill='grey', position='identity') +
-  #   scale_color_manual(values = c("black")) +
-  #   ggplot2::geom_vline(xintercept = x$estimates$means, color = "black", size = 0.2) +
-  #   ggplot2::labs(title = "Observed Counts and Inferred Means", x = "Number of Occurences", y = "Frequency") 
   
   klplot <- ggplot2::ggplot(dens_df, ggplot2::aes_string(x = "value")) +
     ggplot2::geom_histogram(bins = floor(dim(table(factor(data, levels = 0:max(data))))), fill = "grey", position = "identity") +
@@ -1095,13 +1043,6 @@ plot.hmm_mcmc_poisson <- function(x,
     ggplot2::labs(title = "Observed Counts and Inferred Means", x = "Number of Occurences", y = "Frequency") 
   
   if (simulation) {
-    # klplot <- ggplot2::ggplot(dens_df, ggplot2::aes(x = as.numeric(value))) +
-    #   geom_histogram(bins=floor(dim(table(factor(data, levels = 0:max(data))))), fill = 'grey', position = 'identity') +
-    #   scale_color_manual(values=c("black")) +
-    #   ggplot2::geom_vline(xintercept = x$estimates$means, color = "black", size = 0.3) +
-    #   ggplot2::labs(title = "Observed Counts and Inferred (and True) Means", x = "Number of Occurences", y = "Frequency") + 
-    #   ggplot2::geom_vline(xintercept = true_alpha / true_betas, color = "blue", size = 0.2, linetype = "dotted") 
-    
     klplot <- ggplot2::ggplot(dens_df, ggplot2::aes_string(x = "value")) +
       ggplot2::geom_histogram(bins = floor(dim(table(factor(data, levels = 0:max(data))))), fill = "grey", position = "identity") +
       ggplot2::scale_color_manual(values = c("black")) +
@@ -1118,7 +1059,7 @@ plot.hmm_mcmc_poisson <- function(x,
   } 
   
   if (simulation & stats::sd(x$samples$alpha) == 0) {
-    plotlist <- list(mtrace, mdens,  Ttrace, Tdens, metrace, medens,
+    plotlist <- list(mtrace, mdens, Ttrace, Tdens, metrace, medens,
                      llplot, conf_mat_plot, klplot)
   } 
   
@@ -1131,13 +1072,6 @@ plot.hmm_mcmc_poisson <- function(x,
     plotlist <- list(mtrace, mdens, Ttrace, Tdens, metrace, medens, 
                      llplot, statesplot, klplot)
   } 
-  
-  #else {
-  # plotlist <- list(mtrace, mdens, mauto, Ttrace, Tdens, sdtrace, sddens,
-  #                  llplot, postplot, statesplot, qqplot, kl_plot)
-  #plotlist <- list(mtrace, mdens, mauto, Ttrace, Tdens, sdtrace, sddens,metrace,medens,meauto,
-  #                 llplot,statesplot,klplot) # no statesplot no qqplot
-  # }
   
   for (ii in 1:length(plotlist)) {
     
