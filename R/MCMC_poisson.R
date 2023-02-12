@@ -280,51 +280,56 @@ sample_states_pois_ <- function(mat_R, mat_T, pi, betas, alpha, data) {
 
 
 #' @keywords internal
-
-#' @keywords internal
 sample_betas_alpha_ <- function(cur_betas, cur_alpha, prior_betas, prior_alpha, states = NULL, data = NULL) {
+  
   N <- length(data)
   betas <- NULL
   alpha <- NULL
   n_states <- length(cur_betas)
   loglambda_p <- 0 # note: loglambda_p = log(lambda_p) in script
+  
   #### begin NEW LCM & CV: no data -> sample betas from priors and alphas from close to prior
   if (is.null(states) & is.null(data)) {
-    betas=sort(cur_betas,decreasing = TRUE) 
-    betas[i] <- stats::rgamma(1, shape = 1, rate = 1/prior_betas)
-    shape_param <- prior_alpha
-    alpha <- stats::rgamma(1, shape = shape_param, rate = 1)
-  }
-  #### end NEW LCM & CV
-  else{
+    
+    # betas <- sort(cur_betas, decreasing = TRUE) # MM: BUG (when applying "init_hmm_mcmc_pois_" the cur_betas=NULL --> sorts(NULL) --> NULL. No need for sorting)
+    # betas[i] <- stats::rgamma(1, shape = 1, rate = 1 / prior_betas) # MM: BUG (in addition to the above: missing for-loop. 3 betas with different rate parameters can be simulated in a vectorized way though)
+    betas <- stats::rgamma(length(prior_betas), shape = 1, rate = 1 / prior_betas)
+    
+    # shape_param <- prior_alpha
+    alpha <- stats::rgamma(1, shape = prior_alpha, rate = 1)
+    #### end NEW LCM & CV
+    
+  } else {
+    
     lvl <- list()
     for (i in 1:n_states) {
       vl <- data[states == i]
       N_i <- length(vl)
-      vl <- stats::rgamma(N_i, shape = cur_alpha + vl, rate = cur_betas[i]+1)
+      vl <- stats::rgamma(N_i, shape = cur_alpha + vl, rate = cur_betas[i] + 1)
       lvl[[i]] <- vl
       rate_gamma <- 1
-      post_shape=cur_alpha * N_i + 1
-      post_rate=sum(lvl[[i]])+1/prior_betas[i]
-      ##print(c(post_shape,post_rate,post_shape/post_rate))
+      post_shape <- cur_alpha * N_i + 1
+      post_rate <- sum(lvl[[i]]) + 1 / prior_betas[i]
+      ##print(c(post_shape, post_rate, post_shape / post_rate))
       betas[i] <- stats::rgamma(1, shape = post_shape, rate = post_rate)
     }
-    betas=sort(betas,decreasing = TRUE) 
+    
+    betas <- sort(betas, decreasing = TRUE) 
     for (i in 1:n_states) {
       if (N > 0) {
-        loglambda_p<- loglambda_p + sum(log(betas[i] * lvl[[i]]))
+        loglambda_p <- loglambda_p + sum(log(betas[i] * lvl[[i]]))
       }
     }  
     
-    HM <- exp(loglambda_p/(N+prior_alpha))
-    shape_param <- (N+prior_alpha) * cur_alpha
+    HM <- exp(loglambda_p / (N + prior_alpha))
+    shape_param <- (N + prior_alpha) * cur_alpha
     
     alpha_star <- stats::rgamma(1, shape = shape_param, rate = N)
     lh_star <- 0
     lh_old <- 0
     for (i in 1:n_states) {
-      lh_star <- lh_star + (log(HM)*alpha_star-lgamma(alpha_star)) * N
-      lh_old <- lh_old + (log(HM)*cur_alpha-lgamma(cur_alpha)) * N
+      lh_star <- lh_star + (log(HM) * alpha_star - lgamma(alpha_star)) * N
+      lh_old <- lh_old + (log(HM) * cur_alpha - lgamma(cur_alpha)) * N
     }
     
     d1 <- stats::dgamma(alpha_star, shape = shape_param, rate = N, log = TRUE)
@@ -332,21 +337,21 @@ sample_betas_alpha_ <- function(cur_betas, cur_alpha, prior_betas, prior_alpha, 
     lr <- lh_star - d1 - (lh_old - d2)
     alpha <- cur_alpha
     
-    ## print(c(HM,N, alpha_star, cur_alpha, d1, d2, lh_star, lh_old, lr))
+    ## print(c(HM, N, alpha_star, cur_alpha, d1, d2, lh_star, lh_old, lr))
     
     if (stats::runif(1) <= exp(lr)) {
       alpha <- alpha_star
     }
   }
-  ##print(c(betas,alpha))
+  ##print(c(betas, alpha))
   list(betas = betas, alpha = alpha)
 }
 
 
 #' @keywords internal
 init_hmm_mcmc_pois_ <- function(data, prior_T, prior_betas, prior_alpha,
-                                init_T, init_betas, init_alpha, fix_alpha,verbose,
-                                iter, warmup, thin, chain_id = NULL) {
+                                init_T, init_betas, init_alpha, fix_alpha, 
+                                verbose, iter, warmup, thin, chain_id = NULL) {
   
   if (!is.integer(data)) {
     stop("hmm_mcmc_poisson(): `data` needs to be an integer vector", call. = FALSE)
@@ -380,7 +385,7 @@ init_hmm_mcmc_pois_ <- function(data, prior_T, prior_betas, prior_alpha,
   
   # Initialization
   out <- sample_betas_alpha_(cur_betas = init_betas, cur_alpha = init_alpha,  
-                             prior_betas=prior_betas, prior_alpha = prior_alpha) ## CV: currently, pior_alpha and prior_betas useless
+                             prior_betas = prior_betas, prior_alpha = prior_alpha) ## CV: currently, pior_alpha and prior_betas useless
   if (is.null(init_betas)) {
     init_betas <- out$betas
   }
@@ -412,7 +417,7 @@ init_hmm_mcmc_pois_ <- function(data, prior_T, prior_betas, prior_alpha,
   
   #NEW LCM
   lambda1 <- sum(data) / length(data)
-  lambda2 <- rep(NA, length(init_betas))
+  lambda2 <- numeric(length(init_betas)) # rep(NA, length(init_betas))
   for (i in 1:length(init_betas)){ 
     lambda2[i] <- mean(stats::rgamma(1000, init_alpha, init_betas[i]))
   }
@@ -582,8 +587,8 @@ hmm_mcmc_pois <- function(data,
   set.seed(seed)
   
   init_data <- init_hmm_mcmc_pois_(data, prior_T, prior_betas, prior_alpha,
-                                   init_T, init_betas, init_alpha, fix_alpha,verbose,
-                                   iter, warmup, thin)
+                                   init_T, init_betas, init_alpha, fix_alpha,
+                                   verbose, iter, warmup, thin)
   
   n_data <- length(data)
   n_states <- length(prior_betas)
@@ -606,9 +611,10 @@ hmm_mcmc_pois <- function(data,
   for (it in 2:iter) {
     
     print_progress_(it, iter, verbose = verbose)
-    m <- sample_betas_alpha_(prior_betas = betas,
-                             prior_alpha = alpha,
-                             fix_alpha = fix_alpha,
+    m <- sample_betas_alpha_(cur_betas = betas,
+                             cur_alpha = alpha,
+                             prior_betas = prior_betas,
+                             prior_alpha = prior_alpha,
                              states = states,
                              data = data)
     
@@ -743,8 +749,13 @@ summary.hmm_mcmc_poisson <- function(object, ...) {
                      size = alpha_est,
                      prob = beta_est[i] / (1 + beta_est[i]))
     }))
-    dens_data <- table(factor(data,levels=0:max(c(data,sim_output))))/sum(table(factor(data,levels=0:max(c(data,sim_output))))) 
-    dens_sim <- table(factor(sim_output,levels=0:max(c(data,sim_output))))/sum(table(factor(sim_output,levels=0:max(c(data,sim_output)))))
+    jth_levels <- 0:max(c(data, sim_output))
+    dens_data_table <- table(factor(data, levels = jth_levels))
+    dens_sim_table <- table(factor(sim_output, levels = jth_levels))
+    
+    dens_data <- dens_data_table / sum(dens_data_table)
+    dens_sim <- dens_sim_table / sum(dens_sim_table)
+    
     kl_list[j] <- kullback_leibler_disc(dens_data, dens_sim)
   }
   kl_div <- mean(kl_list)
@@ -764,7 +775,9 @@ summary.hmm_mcmc_poisson <- function(object, ...) {
   for (k in 1:(length(beta_est) - 1)) {
     gr1 <- object$data[object$estimates$posterior_states == k]
     gr2 <- object$data[object$estimates$posterior_states == (k + 1)]
-    group_comparison[k] <- stats::poisson.test(x = c(sum(gr1), sum(gr2)), T = c(length(gr1), length(gr2)), alternative = "l")$p.value
+    group_comparison[k] <- stats::poisson.test(x = c(sum(gr1), sum(gr2)), 
+                                               T = c(length(gr1), length(gr2)), 
+                                               alternative = "l")$p.value
   }
   
   summary_res <- list("estimated_betas" = beta_est,
@@ -1099,8 +1112,8 @@ plot.hmm_mcmc_poisson <- function(x,
   
   
   if (simulation & stats::sd(x$samples$alpha) > 0) {
-    plotlist <- list(mtrace, mdens, Ttrace, Tdens, sdtrace, sddens, metrace, medens, 
-                     llplot, conf_mat_plot, klplot)
+    plotlist <- list(mtrace, mdens, Ttrace, Tdens, sdtrace, sddens, metrace, 
+                     medens, llplot, conf_mat_plot, klplot)
   } 
   
   if (simulation & stats::sd(x$samples$alpha) == 0) {
@@ -1109,8 +1122,8 @@ plot.hmm_mcmc_poisson <- function(x,
   } 
   
   if (isFALSE(simulation) & stats::sd(x$samples$alpha) > 0) {
-    plotlist <- list(mtrace, mdens, Ttrace, Tdens, sdtrace, sddens, metrace, medens, 
-                     llplot, statesplot,klplot)
+    plotlist <- list(mtrace, mdens, Ttrace, Tdens, sdtrace, sddens, metrace, 
+                     medens, llplot, statesplot, klplot)
   } 
   
   if (isFALSE(simulation) & stats::sd(x$samples$alpha) == 0) {
