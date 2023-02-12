@@ -1295,7 +1295,7 @@ plot.hmm_mcmc_normal <- function(x,
   facet_means <- ggplot2::facet_wrap(~ Parameter, ncol = floor(n_means / 2), scales = "free")
   mdens <- ggmcmc::ggs_density(all_means) + facet_means
   mtrace <- ggmcmc::ggs_traceplot(all_means) + facet_means
-  #mauto <- invisible(utils::capture.output(ggmcmc::ggs_autocorrelation(all_means))) +
+  mauto <- invisible(utils::capture.output(ggmcmc::ggs_autocorrelation(all_means))) +
   facet_means
   
   # Diagnostics transitions
@@ -1457,10 +1457,10 @@ plot.hmm_mcmc_normal <- function(x,
   }
   
   if (simulation) {
-    plotlist <- list(mtrace, mdens, Ttrace, Tdens, sdtrace, sddens,
+    plotlist <- list(mtrace, mdens, mauto, Ttrace, Tdens, sdtrace, sddens,
                      llplot, conf_mat_plot, qqplot, kl_plot)
   } else {
-    plotlist <- list(mtrace, mdens, Ttrace, Tdens, sdtrace, sddens,
+    plotlist <- list(mtrace, mdens, mauto, Ttrace, Tdens, sdtrace, sddens,
                      llplot, statesplot, qqplot, kl_plot)
   }
   
