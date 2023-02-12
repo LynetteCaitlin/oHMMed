@@ -725,7 +725,7 @@ sample_means_sd_ <- function(prior_means, prior_var, states = NULL, data = NULL)
     ybar <- tapply(data, states, mean, default = 0)
     vars <- tapply(data, states, stats::var, default = 0) # Denominator n-1
     vars[n == 1] <- 0 
-    ss <- sum(vars * (n + 1))
+    ss <- sum(vars * (n - 1)) ## NEW V9: since the denominator is n-1 should not the factor here be n-1????
   }      
   # Inverse gamma with shape=(L+1)/2, scale=(prior_var+ss)/2   
   # CV: I cannot see where the variable "L" is defined; (FIXED) 
@@ -763,8 +763,10 @@ sample_means_sd_ <- function(prior_means, prior_var, states = NULL, data = NULL)
 
 #' @keywords internal
 init_hmm_mcmc_normal_ <- function(data, prior_T, prior_means, prior_sd,
-                                  init_T, init_means, init_sd, verbose,
+                                  init_T=NULL, init_means=NULL, init_sd=NULL, verbose,
                                   iter, warmup, thin, chain_id = NULL) {
+  ## CV: init_T, init_means and init_sd may be set to NULL, 
+  ## in this case the initial values are sampled from the prior 
   
   if (!is.numeric(data)) {
     stop("hmm_mcmc_normal(): `data` needs to be a numeric vector", call. = FALSE)
@@ -791,6 +793,7 @@ init_hmm_mcmc_normal_ <- function(data, prior_T, prior_means, prior_sd,
   }
   
   # Initialization
+  # CV: function returns a sample from the prior
   out <- sample_means_sd_(prior_means = prior_means, prior_var = prior_sd^2)
   
   if (is.null(init_means)) {
@@ -800,7 +803,7 @@ init_hmm_mcmc_normal_ <- function(data, prior_T, prior_means, prior_sd,
     init_sd <- out$sdev
   }
   if (is.null(init_T)) {
-    init_T <- sample_T_(prior_mat = prior_T)
+    init_T <- sample_T_(prior_mat = prior_T) ## CV: function returns a sample from the prior
   }
   if (length(init_means) != nrow(init_T) | length(init_means) != ncol(init_T)) {
     stop("hmm_mcmc_normal(): number of states is not the same between input variables", call. = FALSE)
@@ -992,6 +995,8 @@ hmm_mcmc_normal <- function(data,
   all_mat_T[, ,1] <- init_data$init_T
   vlh[1] <- sum(log(init_data$init_mat_res$s))
   states <- init_data$init_states
+  prior_pi=get_pi_(prior_T) ## New V9
+  prior_P=diag(prior_pi)%*%prior_T ## New V9
   
   # Run sampler
   for (it in 2:iter) {
@@ -1004,7 +1009,7 @@ hmm_mcmc_normal <- function(data,
                           data = data)
     means <- m$means
     sd <- m$sdev
-    mat_T <- sample_T_(states, prior_mat = prior_T)
+    mat_T <- sample_T_(states, prior_mat = prior_P)
     pi <- get_pi_(mat_T)
     mat_res <- posterior_probabilities_normal(data = data,
                                               pi = pi,
