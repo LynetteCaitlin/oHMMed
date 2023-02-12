@@ -2,7 +2,7 @@ Package: oHMMed
 Type: Package
 Title: oHMMed
 Version: 0.9.0
-Imports: stats, ggplot2, gridExtra, ggmcmc, reshape2, scales, mistr, gtools, cvms, vcd
+Imports: stats, ggplot2, gridExtra, ggmcmc, reshape2, scales, mistr, cvms, vcd
 Author: CV, LCM, MM
 Maintainer: The package maintainer <yourself@somewhere.net>
 Description: More about what it does (maybe more than one line)

@@ -148,9 +148,19 @@
 
 
 #' @keywords internal
+rdirichlet_ <- function (n, alpha) {
+  l <- length(alpha)
+  x <- matrix(stats::rgamma(l * n, alpha), ncol = l, byrow = TRUE)
+  x / as.vector(x %*% rep(1, l))
+}
+
+
+#' @keywords internal
 get_pi_ <- function(mat_T) {
   ev <- eigen_system(mat_T)
-  Re(ev$forwards[1, ]) / sum(Re(ev$forwards[1, ]))
+  # Re(ev$forwards[1, ]) / sum(Re(ev$forwards[1, ]))
+  x <- Re(ev$forwards[1, ])
+  x / sum(x)
 }
 
 
@@ -437,15 +447,16 @@ get_pi <- function(mat_T = NULL) {
 #' eigen_system(mat_T0)
 
 eigen_system <- function(mat) {
-  
+
   es <- eigen(mat)
   backwards <- es$vectors
-  N <- length(mat[1, ])
+  n <- length(mat[1, ])
   
-  for(i in 1:length(mat[ ,1])) {
-    backwards[ ,i] <- N * backwards[ ,i] / sum(sqrt(backwards[ ,i] * backwards[ ,i]))
+  for (i in 1:length(mat[ ,1])) {
+    x <- backwards[ ,i]
+    backwards[ ,i] <- n * x / sum(sqrt(x^2))
   }
-  
+
   forwards <- solve(backwards)
   lambda <- es$values
   list("lambda" = lambda, "forwards" = forwards, "backwards" = backwards)
@@ -633,6 +644,7 @@ posterior_probabilities_normal <- function(data, pi, mat_T, means, sdev) {
 #    for (...)
 #    states[l] <- which.max(cumsum(p) - stats::runif(1) > 0)
 
+
 #' @keywords internal
 sample_states_normal_ <- function(mat_R, mat_T, pi, means, sdev, data) {
   
@@ -690,8 +702,7 @@ sample_T_ <- function(prior_mat, states = NULL) {
   vtemp[vtemp == 0] <- floor_
   vtemp[is.na(vtemp)] <- floor_
   
-  # vtemp <- MCMCprecision::rdirichlet(n = 1, a = vtemp)
-  vtemp <- gtools::rdirichlet(n = 1, alpha = vtemp)
+  vtemp <- rdirichlet_(n = 1, alpha = vtemp)
   mat_T <- diag(vtemp[1:n_states])
   
   for (i in 2:n_states) {
@@ -713,8 +724,9 @@ sample_T_ <- function(prior_mat, states = NULL) {
 
 #' @keywords internal
 
-# LCM: BELOW IS THE NEW SAMPLING FUNCTION FOR VERSION 8
+# LCM: BELOW IS THE NEW SAMPLING FUNCTION FOR VERSION 9
 sample_means_sd_ <- function(prior_means, prior_var, states = NULL, data = NULL) {
+  
   L <- length(states)
   n_states <- length(prior_means)
   ss <- 0 
@@ -729,13 +741,13 @@ sample_means_sd_ <- function(prior_means, prior_var, states = NULL, data = NULL)
   }      
   # Inverse gamma with shape=(L+1)/2, scale=(prior_var+ss)/2   
   # CV: I cannot see where the variable "L" is defined; (FIXED) 
-  #note: sigma2 is the variance!
+  # Note: sigma2 is the variance!
   sigma2 <- 1 / stats::rgamma(n = 1, shape = (L + 1) * 0.5,
-                              rate = (prior_var + ss + sum((ybar-prior_means)*(ybar-prior_means)*n/(n+1))) * 0.5) 
+                              rate = (prior_var + ss + sum((ybar - prior_means)^2 * n / (n + 1))) * 0.5) 
   means <- stats::rnorm(n = n_states, 
-                        mean = (n * ybar  + prior_means) / (n + 1),
+                        mean = (n * ybar + prior_means) / (n + 1),
                         ## sd = sigma2 / (L + 1)) ## BUGBUG: this is the variance and not the sdev!
-                        sd = sqrt(sigma2/(n+1))) 
+                        sd = sqrt(sigma2 / (n + 1))) 
   list(means = sort(means), sdev = sqrt(sigma2))
 }
 
@@ -1136,8 +1148,7 @@ summary.hmm_mcmc_normal <- function(object, ...) {
   kl_list <- rep(NA, 500)
   for (j in 1:500) {
     sim_output <- unlist(lapply(1:length(state_tab), function(i) {
-      stats::rnorm(state_tab[i], m_est[i], sd_est) })
-    )
+      stats::rnorm(state_tab[i], m_est[i], sd_est) }))
     dens_sim <- stats::density(sim_output)
     kl_list[j] <- kullback_leibler_cont_appr(dens_data$y, dens_sim$y)
   }
@@ -1411,7 +1422,6 @@ plot.hmm_mcmc_normal <- function(x,
     ggplot2::theme_get()
   
   # Compare densities
-  # Note: both rnorm() and density() must be adapted in count version!!!
   post_states <- x$estimates$posterior_states
   state_tab <- table(post_states)
   estim_means <- x$estimates$means
@@ -1634,7 +1644,7 @@ hmm_mcmc_normal_vary_K <- function(data,
       
       for (i in 1:(l + 1)) {
         # matT.init[i,] <- MCMCprecision::rdirichlet(1, matT.init[i, ] * shape)
-        matT.init[i,] <- gtools::rdirichlet(1, matT.init[i, ] * shape)
+        matT.init[i,] <- rdirichlet_(1, matT.init[i, ] * shape)
       }
       
       mn <- mean(data)
