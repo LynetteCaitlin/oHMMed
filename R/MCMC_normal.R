@@ -775,10 +775,14 @@ sample_means_sd_ <- function(prior_means, prior_var, states = NULL, data = NULL)
 
 #' @keywords internal
 init_hmm_mcmc_normal_ <- function(data, prior_T, prior_means, prior_sd,
-                                  init_T=NULL, init_means=NULL, init_sd=NULL, verbose,
-                                  iter, warmup, thin, chain_id = NULL) {
+                                  init_T = NULL, init_means = NULL, init_sd = NULL, 
+                                  verbose, iter, warmup, thin, chain_id = NULL) {
   ## CV: init_T, init_means and init_sd may be set to NULL, 
   ## in this case the initial values are sampled from the prior 
+  
+  if (iter < 2) {
+    stop("hmm_mcmc_normal(): `iter` needs to be bigger than 1", call. = FALSE)
+  }
   
   if (!is.numeric(data)) {
     stop("hmm_mcmc_normal(): `data` needs to be a numeric vector", call. = FALSE)
@@ -1304,8 +1308,8 @@ plot.hmm_mcmc_normal <- function(x,
   all_means <- convert_to_ggmcmc(x, pattern = "mean")
   n_means <- attributes(all_means)$nParameters
   facet_means <- ggplot2::facet_wrap(~ Parameter, ncol = floor(n_means / 2), scales = "free")
-  mdens <- ggmcmc::ggs_density(all_means) + facet_means
-  mtrace <- ggmcmc::ggs_traceplot(all_means) + facet_means
+  mtrace <- ggmcmc::ggs_traceplot(all_means) + facet_means + ggplot2::labs(x = "Iteration", y = "Value")
+  mdens <- ggmcmc::ggs_density(all_means) + facet_means + ggplot2::labs(x = "Value", y = "Density")
   # mauto <- invisible(utils::capture.output(ggmcmc::ggs_autocorrelation(all_means))) +
   facet_means
   

@@ -353,6 +353,10 @@ init_hmm_mcmc_pois_ <- function(data, prior_T, prior_betas, prior_alpha,
                                 init_T, init_betas, init_alpha, 
                                 verbose, iter, warmup, thin, chain_id = NULL) {
   
+  if (iter < 2) {
+    stop("hmm_mcmc_poisson(): `iter` needs to be bigger than 1", call. = FALSE)
+  }
+  
   if (!is.integer(data)) {
     stop("hmm_mcmc_poisson(): `data` needs to be an integer vector", call. = FALSE)
   }
