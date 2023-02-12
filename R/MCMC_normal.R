@@ -246,7 +246,7 @@ get_mat_T_ <- function(u, l) {
 #' # TODO
 
 convert_to_ggmcmc <- function(x,
-                              pattern = c("mean", "sigma", "beta", "alpha","pois_means", "T"),
+                              pattern = c("mean", "sigma", "beta", "alpha", "pois_means", "T"),
                               include_warmup = FALSE) {
   
   info <- x$info
@@ -1314,8 +1314,7 @@ plot.hmm_mcmc_normal <- function(x,
   facet_means <- ggplot2::facet_wrap(~ Parameter, ncol = floor(n_means / 2), scales = "free")
   mtrace <- ggmcmc::ggs_traceplot(all_means) + facet_means + ggplot2::labs(x = "Iteration", y = "Value")
   mdens <- ggmcmc::ggs_density(all_means) + facet_means + ggplot2::labs(x = "Value", y = "Density")
-  # mauto <- invisible(utils::capture.output(ggmcmc::ggs_autocorrelation(all_means))) +
-  facet_means
+  # mauto <- invisible(utils::capture.output(ggmcmc::ggs_autocorrelation(all_means))) + facet_means
   
   # Diagnostics transitions
   all_T <- convert_to_ggmcmc(x, pattern = "T")
@@ -1476,10 +1475,10 @@ plot.hmm_mcmc_normal <- function(x,
   
   if (simulation) {
     plotlist <- list(mtrace, mdens, Ttrace, Tdens, sdtrace, sddens,
-                     llplot, conf_mat_plot, qqplot, kl_plot)
+                     llplot, qqplot, conf_mat_plot, kl_plot)
   } else {
     plotlist <- list(mtrace, mdens, Ttrace, Tdens, sdtrace, sddens,
-                     llplot, statesplot, qqplot, kl_plot)
+                     llplot, qqplot, statesplot, kl_plot)
   }
   
   
