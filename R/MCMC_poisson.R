@@ -280,81 +280,66 @@ sample_states_pois_ <- function(mat_R, mat_T, pi, betas, alpha, data) {
 
 
 #' @keywords internal
-sample_betas_alpha_ <- function(prior_betas, prior_alpha, fix_alpha = FALSE, states = NULL, data = NULL) {
-  
+
+#' @keywords internal
+sample_betas_alpha_ <- function(cur_betas, cur_alpha, prior_betas, prior_alpha, states = NULL, data = NULL) {
   N <- length(data)
   betas <- NULL
-  n_states <- length(prior_betas)
-  HM <- 0
-  
-  #if (N == 0) {
-  #N <- 1
-  #}
-  
-  # begin NEW LCM: update for when there is no data -> draw from the prior
-  lvl <- list()
+  alpha <- NULL
+  n_states <- length(cur_betas)
+  loglambda_p <- 0 # note: loglambda_p = log(lambda_p) in script
+  #### begin NEW LCM & CV: no data -> sample betas from priors and alphas from close to prior
   if (is.null(states) & is.null(data)) {
-    N <- 1
-    for (i in 1:n_states){
-      N_i <- 1
-      vl <- 1
-      vl <- stats::rgamma(N_i, shape = prior_alpha, rate = prior_betas[i] + 1)
-      lvl[[i]] <- vl
-      rate_gamma <- 1
-      
-      if (N > 0) {
-        rate_gamma <- sum(vl) + 1
-        HM <- HM + sum(log(prior_betas[i] * vl))
-      }
-      betas[i] <- stats::rgamma(1, shape = prior_alpha * N + 1, rate = rate_gamma)
-    }
+    betas=sort(cur_betas,decreasing = TRUE) 
+    betas[i] <- stats::rgamma(1, shape = 1, rate = 1/prior_betas)
+    shape_param <- prior_alpha
+    alpha <- stats::rgamma(1, shape = shape_param, rate = 1)
   }
-  #### end NEW LCM
-  
-  if (!is.null(states) & !is.null(data)) {
-    
+  #### end NEW LCM & CV
+  else{
+    lvl <- list()
     for (i in 1:n_states) {
       vl <- data[states == i]
       N_i <- length(vl)
-      vl <- stats::rgamma(N_i, shape = prior_alpha + vl, rate = prior_betas[i] + 1)
+      vl <- stats::rgamma(N_i, shape = cur_alpha + vl, rate = cur_betas[i]+1)
       lvl[[i]] <- vl
       rate_gamma <- 1
-      
-      if (N_i > 0) {
-        rate_gamma <- sum(vl) + 1
-        HM <- HM + sum(log(prior_betas[i] * vl))
-      }
-      # NO LONGER?: When no data is available then betas are sampled from the distribution Gamma(1,1)
-      betas[i] <- stats::rgamma(1, shape = prior_alpha * N_i + 1, rate = rate_gamma)
+      post_shape=cur_alpha * N_i + 1
+      post_rate=sum(lvl[[i]])+1/prior_betas[i]
+      ##print(c(post_shape,post_rate,post_shape/post_rate))
+      betas[i] <- stats::rgamma(1, shape = post_shape, rate = post_rate)
     }
-  }
-  
-  if (isFALSE(fix_alpha)) {
+    betas=sort(betas,decreasing = TRUE) 
+    for (i in 1:n_states) {
+      if (N > 0) {
+        loglambda_p<- loglambda_p + sum(log(betas[i] * lvl[[i]]))
+      }
+    }  
     
-    HM <- exp(HM / N)
-    shape_param <- N * (HM + 0.5)
+    HM <- exp(loglambda_p/(N+prior_alpha))
+    shape_param <- (N+prior_alpha) * cur_alpha
     
     alpha_star <- stats::rgamma(1, shape = shape_param, rate = N)
     lh_star <- 0
     lh_old <- 0
     for (i in 1:n_states) {
-      lh_star <- lh_star + sum(stats::dgamma(lvl[[i]], alpha_star, betas[i], log = TRUE))
-      lh_old <- lh_old + sum(stats::dgamma(lvl[[i]], prior_alpha, betas[i], log = TRUE))
+      lh_star <- lh_star + (log(HM)*alpha_star-lgamma(alpha_star)) * N
+      lh_old <- lh_old + (log(HM)*cur_alpha-lgamma(cur_alpha)) * N
     }
     
     d1 <- stats::dgamma(alpha_star, shape = shape_param, rate = N, log = TRUE)
-    d2 <- stats::dgamma(prior_alpha, shape = shape_param, rate = N, log = TRUE)
+    d2 <- stats::dgamma(cur_alpha, shape = shape_param, rate = N, log = TRUE)
     lr <- lh_star - d1 - (lh_old - d2)
-    alpha <- prior_alpha
+    alpha <- cur_alpha
+    
+    ## print(c(HM,N, alpha_star, cur_alpha, d1, d2, lh_star, lh_old, lr))
     
     if (stats::runif(1) <= exp(lr)) {
       alpha <- alpha_star
     }
-  } else{
-    alpha <- prior_alpha
   }
-  
-  list(betas = sort(betas, decreasing = TRUE), alpha = alpha) 
+  ##print(c(betas,alpha))
+  list(betas = betas, alpha = alpha)
 }
 
 
@@ -394,8 +379,8 @@ init_hmm_mcmc_pois_ <- function(data, prior_T, prior_betas, prior_alpha,
   }
   
   # Initialization
-  out <- sample_betas_alpha_(prior_betas = prior_betas, prior_alpha = prior_alpha, fix_alpha = fix_alpha)
-  
+  out <- sample_betas_alpha_(cur_betas = init_betas, cur_alpha = init_alpha,  
+                             prior_betas=prior_betas, prior_alpha = prior_alpha) ## CV: currently, pior_alpha and prior_betas useless
   if (is.null(init_betas)) {
     init_betas <- out$betas
   }
@@ -434,6 +419,11 @@ init_hmm_mcmc_pois_ <- function(data, prior_T, prior_betas, prior_alpha,
   range1 <- lambda1 < lambda2
   range2 <- lambda1 > lambda2
   # END NEW LCM
+  # TODO: estimate more or less optimal range for prior betas
+  # sample_mean <- mean(data)
+  # sample_sd <- stats::sd(data)
+  # abs_mean_ratios <- abs(init_means) / abs(sample_mean)
+  # sd_ratio <- init_sd / sample_sd
 
   chain_char <- NULL
   if (!is.null(chain_id)) {
