@@ -653,7 +653,7 @@ hmm_mcmc_pois <- function(data,
   idx <- seq.int(warmup + 1, by = thin, to = iter)
   
   colnames(all_betas) <- paste0("beta[", 1:n_states,"]")
-  all_means <- all_alpha/all_betas
+  all_means <- all_alpha / all_betas
   colnames(all_means) <- paste0("means[", 1:n_states,"]")
   
   samples <- list(betas = all_betas,
