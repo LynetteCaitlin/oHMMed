@@ -350,7 +350,7 @@ sample_betas_alpha_ <- function(cur_betas, cur_alpha, prior_betas, prior_alpha, 
 
 #' @keywords internal
 init_hmm_mcmc_pois_ <- function(data, prior_T, prior_betas, prior_alpha,
-                                init_T, init_betas, init_alpha, fix_alpha, 
+                                init_T, init_betas, init_alpha, 
                                 verbose, iter, warmup, thin, chain_id = NULL) {
   
   if (!is.integer(data)) {
@@ -474,8 +474,6 @@ init_hmm_mcmc_pois_ <- function(data, prior_T, prior_betas, prior_alpha,
 #' @param prior_betas (numeric) prior beta parameters
 #'
 #' @param prior_alpha (numeric) a single prior alpha parameter. By default, \code{prior_alpha=1}
-#' 
-#' @param fix_alpha (logical) if \code{TRUE} then the alpha parameter is fixed. By default, \code{fix_alpha=TRUE}
 #'
 #' @param iter (integer) number of MCMC iterations
 #'
@@ -573,7 +571,6 @@ hmm_mcmc_pois <- function(data,
                           prior_T,
                           prior_betas,
                           prior_alpha = 1,
-                          fix_alpha = TRUE,
                           iter = 1500,
                           warmup = floor(iter / 1.5),
                           thin = 1,
@@ -587,7 +584,7 @@ hmm_mcmc_pois <- function(data,
   set.seed(seed)
   
   init_data <- init_hmm_mcmc_pois_(data, prior_T, prior_betas, prior_alpha,
-                                   init_T, init_betas, init_alpha, fix_alpha,
+                                   init_T, init_betas, init_alpha,
                                    verbose, iter, warmup, thin)
   
   n_data <- length(data)
@@ -758,8 +755,8 @@ summary.hmm_mcmc_poisson <- function(object, ...) {
     
     kl_list[j] <- kullback_leibler_disc(dens_data, dens_sim)
   }
-  kl_div <- mean(kl_list)
   
+  kl_div <- mean(kl_list)
   ll_info <- c(mean(object$estimates$log_likelihood),
                stats::sd(object$estimates$log_likelihood),
                stats::median(object$estimates$log_likelihood))
