@@ -1,5 +1,3 @@
-# Note for us: Can the rootogram go in the same panel as the ggplot plots????
-####
 
 # START TUTORIAL
 #######################
@@ -7,7 +5,7 @@
 #######################################################################
 # This script produces comparative plots for...
 #...1) summarizing the output of multiple runs of the MCMC algorithm on the same genomic feature with different numbers of states
-#... and 2) analyzing the output of MCMC algorithms with fixed numbers of states run on two different genomic features.
+#... and 2) analysing the output of MCMC algorithms with fixed numbers of states run on two different genomic features.
 # These  plots presented in the paper --- that accompanies the first release of the package. 
 #######################################################################
 

@@ -932,11 +932,11 @@ plot.hmm_mcmc_poisson <- function(x,
   Tdens <- ggmcmc::ggs_density(all_T) + facet_t + labels_t + ggplot2::labs(x = "Value", y = "Density")
   
   # Diagnostics alpha
-  if (stats::sd(x$samples$alpha) > 0) {
+  #if (stats::sd(x$samples$alpha) > 0) {
     df_alpha <- convert_to_ggmcmc(x, "alpha")
     sdtrace <- ggmcmc::ggs_traceplot(df_alpha) + ggplot2::labs(x = "Iteration", y = "Value")
     sddens <- ggmcmc::ggs_density(df_alpha) + ggplot2::labs(x = "Value", y = "Density")
-  }
+  #}
   
   # Diagnostics mean
   all_means <- convert_to_ggmcmc(x, pattern = "means")
@@ -1053,25 +1053,25 @@ plot.hmm_mcmc_poisson <- function(x,
   #}
   
   
-  if (simulation & stats::sd(x$samples$alpha) > 0) {
+  if (simulation) {
     plotlist <- list(mtrace, mdens, Ttrace, Tdens, sdtrace, sddens, metrace, 
                      medens, llplot, conf_mat_plot, klplot)
   } 
   
-  if (simulation & stats::sd(x$samples$alpha) == 0) {
-    plotlist <- list(mtrace, mdens, Ttrace, Tdens, metrace, medens,
-                     llplot, conf_mat_plot, klplot)
-  } 
+  #if (simulation & stats::sd(x$samples$alpha) == 0) {
+  #  plotlist <- list(mtrace, mdens, Ttrace, Tdens, metrace, medens,
+  #                   llplot, conf_mat_plot, klplot)
+  #} 
   
-  if (isFALSE(simulation) & stats::sd(x$samples$alpha) > 0) {
+  if (isFALSE(simulation)) {
     plotlist <- list(mtrace, mdens, Ttrace, Tdens, sdtrace, sddens, metrace, 
                      medens, llplot, statesplot, klplot)
   } 
   
-  if (isFALSE(simulation) & stats::sd(x$samples$alpha) == 0) {
-    plotlist <- list(mtrace, mdens, Ttrace, Tdens, metrace, medens, 
-                     llplot, statesplot, klplot)
-  } 
+  #if (isFALSE(simulation) & stats::sd(x$samples$alpha) == 0) {
+  #  plotlist <- list(mtrace, mdens, Ttrace, Tdens, metrace, medens, 
+  #                   llplot, statesplot, klplot)
+  #} 
   
   for (ii in 1:length(plotlist)) {
     

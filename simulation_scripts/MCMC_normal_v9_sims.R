@@ -1,8 +1,5 @@
-setwd("~/Documents/Documents - Lynette’s MacBook Pro/Research/Active/MalariaProj/optimized_hmm_scripts")
-setwd("/Users/vogl/TeX/ordered_hmm/programsNdata_20221114")
-#### load code
-####  as well as dependencies
 
+## load dependencies:
 library(ggmcmc)
 library(ggplot2)
 library(gridExtra)
@@ -10,16 +7,19 @@ library(cvms)
 library(gtools)
 library(mistr)
 
-source("MCMC_normal_v7.R")
+## set the source directory 
+setwd("~/Documents/GitHub/oHMMed/R")
+## load the source file for oHMMed with normal emission densities
+source("MCMC_normal.R")
 
 
 
-#### general MCMC parameters for all the simulations
-iter <- 600
-warmup <- floor(iter / 5) # 20%
-thin <- 1
-print_params <- FALSE
-verbose <- TRUE
+## set general MCMC parameters
+
+iter <- 600               # set number of iterations; note this is redundant since it is equal to the default 
+warmup <- floor(iter / 5) # length of burnin is 20% of iter; note this is redundant since it is equal to the default
+print_params <- FALSE     # parameters after each iteraion will NOT be printed on the screen
+verbose <- TRUE           # progress bar will be shown
 
 
 

@@ -1386,7 +1386,7 @@ plot.hmm_mcmc_normal <- function(x,
   
   # qq-plot
   dims <- length(x$estimates$means)
-  dist <- rep("norm", dims)    #### NOTE: distribution here will have to be changed for count version!!
+  dist <- rep("norm", dims)    
   params <- list()
   for (j in 1:dims) {
     params[[j]] <- c(as.numeric(x$estimates$means[j]), x$estimates$sd)
@@ -1441,7 +1441,6 @@ plot.hmm_mcmc_normal <- function(x,
     plotlist <- list(mtrace, mdens, Ttrace, Tdens, sdtrace, sddens,
                      llplot, qqplot, statesplot, kl_plot)
   }
-  
   
   for (ii in 1:length(plotlist)) {
     
@@ -1545,100 +1544,4 @@ conf_mat <- function(N, res, plot = TRUE) {
   }
   conf_mat
 }
-
-
-# hmm_simulate_normal_data_vary_K
-hmm_simulate_normal_data_vary_K <- function(L, tr, sp, sigma0, maxK) {
-  
-  lmatT <- list()
-  lvecMeans <- list()
-  lvecEmit <- list()
-  lvecStates <- list()
-  
-  for (k in 1:maxK) {
-    vU <- rep(tr,k)
-    vL <- rep(tr,k)
-    lmatT[[k]] <- get_mat_T_(vU,vL)
-    lvecMeans[[k]] <- seq(0, k, 1) / k * sp
-    simData <- hmm_simulate_normal_data(L, lmatT[[k]], lvecMeans[[k]], sigma0)
-    lvecEmit[[k]] <- simData$data
-    lvecStates[[k]] <- simData$states
-  }
-  list("transition_matrices" = lmatT,
-       "true_means" = lvecMeans,
-       "simulated_data" = lvecEmit,
-       "simulated_states" = lvecStates)
-}
-
-
-# hmm_mcmc_normal_vary_K
-hmm_mcmc_normal_vary_K <- function(data,
-                                   matT.init.list = FALSE,
-                                   matT.sim.list,
-                                   shape = 25,
-                                   means.init.list = FALSE,
-                                   sd.init = 2,
-                                   iter = 500) {
-  
-  L <- length(data)
-  
-  if (is.vector(data) != TRUE) {
-    stop("hmm_mcmc_normal_vary_K(): data input must be a vector", call. = FALSE)
-  }
-  
-  maxK <- length(matT.sim.list)
-  
-  if (matT.init.list != FALSE) {
-    maxK <- length(matT.init.list)
-    if (length(means.init.list) != maxK) {
-      stop("hmm_mcmc_normal_vary_K(): `matT.sim.list` and `means.init.list` must be the same length", call. = FALSE)
-    }
-  }
-  
-  if(length(sd.init) != 1 ) {
-    stop("hmm_mcmc_normal_vary_K(): sd.init must be a constant", call. = FALSE)
-  }
-  
-  ResK <- list()
-  
-  if (matT.init.list == FALSE) {
-    for (l in 1:(maxK)) {
-      matT.init <- matT.sim.list[[l]]
-      
-      for (i in 1:(l + 1)) {
-        # matT.init[i,] <- MCMCprecision::rdirichlet(1, matT.init[i, ] * shape)
-        matT.init[i,] <- rdirichlet_(1, matT.init[i, ] * shape)
-      }
-      
-      mn <- mean(data)
-      std <- stats::sd(data) / (l + 1)
-      means.init <- sort(stats::rnorm(l + 1, mean = mn, sd = std))
-      hmm_mcmc_normal.out <- hmm_mcmc_normal(data = data,
-                                             init_T = NULL,
-                                             init_means = NULL,
-                                             init_sd = NULL,
-                                             prior_T = matT.init,
-                                             prior_means = means.init,
-                                             prior_sd = sd.init,
-                                             iter = iter
-      )
-      ResK[[l]] <- hmm_mcmc_normal.out
-    }
-  } else {
-    for (l in 1:(maxK - 1)) {
-      hmm_mcmc_normal.out <- hmm_mcmc_normal(data = data,
-                                             init_T = NULL,
-                                             init_means = NULL,
-                                             init_sd = NULL,
-                                             prior_T = matT.init.list[[l]],
-                                             prior_means = means.init.list[[l]],
-                                             prior_sd = sd.init,
-                                             iter = iter)
-      
-      ResK[[l]] <- hmm_mcmc_normal.out
-    }
-  }
-  ResK
-}
-
 
