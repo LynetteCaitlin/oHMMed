@@ -440,6 +440,11 @@ init_hmm_mcmc_pois_ <- function(data, prior_T, prior_betas, prior_alpha,
   }
   
   if (verbose) {
+     set_alpha <- (mean(data)^2)/((var(data)-mean(data))/length(init_betas))
+     if( (init_alpha > (set_alpha+3)) | (init_alpha < (set_alpha-3)) ){
+       message("hmm_mcmc_poisson(): ", chain_char, "initial alpha is not close to the recommended value")
+     }
+     
     if ((sum(range1) == length(lambda2)) | (sum(range2) == length(lambda2))) {
       message("hmm_mcmc_poisson(): ", chain_char, "rate parameter of observed distribution is either above or below all of the initial rate parameters")
     }

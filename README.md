@@ -3,6 +3,7 @@
 
 Extended documentation can be found on the website:
 <https://LynetteCaitlin.github.io/oHMMed/>
+(Website is still work in progress!)
 
 ## 1. Overview
 
@@ -44,7 +45,20 @@ devtools::install_github("LynetteCaitlin/oHMMed")
 ```
 
 ## 3. Usage
+Please read the following usage recommendations: <https://github.com/LynetteCaitlin/oHMMed/UsageRecommendations.pdf>
 
-## 3.1 Normal Model
+The accompanying R scripts are, for the case of normal emission densities...:
+<https://github.com/LynetteCaitlin/oHMMed/simulation_scripts/MCMC_normal_sims.R>
 
-## 3.2 Poisson Model
+... and for gamma-poisson emission densities:
+<https://github.com/LynetteCaitlin/oHMMed/simulation_scripts/MCMC_poisson_sims.R>
+ 
+Template code viewing the results of two different sequence annotations side-by-side and assessing associations between the two observed sequences can be found at:
+<https://github.com/LynetteCaitlin/oHMMed/simulation_scripts/StandardOutputPlots.R>
+
+## 4. Package Maintainers
+
+Michal Majka
+
+Lynette Caitlin Mikula
+

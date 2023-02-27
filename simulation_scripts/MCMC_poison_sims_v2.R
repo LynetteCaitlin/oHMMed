@@ -23,10 +23,10 @@ source("MCMC_poisson.R")
 ####################################################################
 
 ##### Set general MCMC parameters:
-iter <- 600               # set number of iterations; note that 1000 is the default 
-warmup <- floor(iter / 5) # length of burnin is 20% of iter; note this is redundant since it is equal to the default
+iter <- 2000               # set number of iterations; note that the default is 1000
+warmup <- floor(iter / 2.5) # length of burnin is 40% of iter; note that the default is 20%
 print_params <- FALSE     # parameters after each iteration will NOT be printed on the screen
-verbose <- TRUE           # progress bar will be shown
+verbose <- TRUE           # progress bar will be shown, as well as messages
 
 ###################################
 # Appendix Example 
@@ -35,7 +35,7 @@ verbose <- TRUE           # progress bar will be shown
 ##### Simulate a sequence!:
 
 ## set parameters:
-L1 <- 2^16  # sequence length
+L1 <- 2^13  # sequence length
             #transition rate matrix between hidden states:
 true_T1 <- rbind(c(0.99, 0.01, 0),
                  c(0.01, 0.98, 0.01),
@@ -69,7 +69,7 @@ hist(simdata1,breaks=50,main="")
 
 #  all prior betas will likely lie below the 'empirical overall beta':
 (sum(simdata1)/length(simdata1))/((mean(simdata1)^2)/((var(simdata1)-mean(simdata1))))
-#  with near or lower than the following being a good bet:
+#  But note that setting them near or lower than the following being a good bet:
 mean(simdata1)
 
 #  set up the priors for all runs with these recommended betas
@@ -105,8 +105,9 @@ res1_n2 <- hmm_mcmc_pois(data = simdata1,
                            print_params = print_params,
                            verbose = verbose)#
 
-#   Recall: it is recommended to also set: init_betas = prior_betas2,init_alpha = prior_alpha2,init_T = prior2_T
+# Recall: it is recommended to also set: init_betas = prior_betas2,init_alpha = prior_alpha2,init_T = prior2_T
 
+start_time <- Sys.time()
 res1_n3 <- hmm_mcmc_pois(data = simdata1,
                          prior_T = prior3_T,
                          prior_betas = prior_betas3,
@@ -115,6 +116,7 @@ res1_n3 <- hmm_mcmc_pois(data = simdata1,
                          warmup = warmup,
                          print_params = print_params,
                          verbose = verbose)
+end_time <- Sys.time()
 
 res1_n4 <- hmm_mcmc_pois(data = simdata1,
                          prior_T = prior4_T,
@@ -389,7 +391,7 @@ postscript("PoisSimsDiag1b.eps", width = 10, height = 8,paper="special",pointsiz
 plot_grid(Tdens,medens,Ttrace,metrace,nrow=2, rel_widths = c(2/3,1/3))
 dev.off()
 
-
+######################################### !!!
 
 ###################################
 # Appendix Checks 
@@ -431,6 +433,8 @@ end_time <- Sys.time()
 #Time difference of 6.688331 mins for 2^14 (16384)- 401.29986
 #Time difference of 13.46753 mins for 2^15 (32768) - 808.0518  
 # Time difference of 26.98619 mins - 1619.1714
+
+# compare: iter  (time/5000)*10
 
 setEPS()
 postscript("PoisSysTime.eps", width = 6, height = 4,paper="special",pointsize=10)
