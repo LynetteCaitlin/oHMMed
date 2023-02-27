@@ -1,5 +1,4 @@
-setwd("~/Documents/Documents - Lynette’s MacBook Pro/Research/Active/MalariaProj/optimized_hmm_scripts")
-
+## load dependencies:
 library(ggmcmc)
 library(ggplot2)
 library(gridExtra)
@@ -10,115 +9,131 @@ library(zoo)
 library(vcd)
 library(cowplot)
 
-source("MCMC_normal_v7.R")
-source("MCMC_poisson_v2.R")
+## set the source directory 
+setwd("~/Documents/GitHub/oHMMed/R")
+## load the source file for oHMMed with poisson emission densities
+## (note it is dependent on the version with normal emissions)
+source("MCMC_normal.R")
+source("MCMC_poisson.R")
 
+####################################################################
+# Please read the following usage recommendations:
+# https://github.com/LynetteCaitlin/oHMMed/UsageRecommendations.pdf
+# This code is for the example simulations in the above. 
+####################################################################
 
-#### general MCMC parameters for all the simulations
-iter <- 1000
-warmup <- floor(iter / 5) # 20%
-thin <- 1
-print_params <- FALSE
-verbose <- TRUE
+##### Set general MCMC parameters:
+iter <- 600               # set number of iterations; note that 1000 is the default 
+warmup <- floor(iter / 5) # length of burnin is 20% of iter; note this is redundant since it is equal to the default
+print_params <- FALSE     # parameters after each iteration will NOT be printed on the screen
+verbose <- TRUE           # progress bar will be shown
 
 ###################################
 # Appendix Example 
 ###################################
 
-L3 <- 2^16
-true_T3p <- rbind(c(0.99, 0.01, 0),
+##### Simulate a sequence!:
+
+## set parameters:
+L1 <- 2^16  # sequence length
+            #transition rate matrix between hidden states:
+true_T1 <- rbind(c(0.99, 0.01, 0),
                  c(0.01, 0.98, 0.01),
                  c(0.0, 0.01, 0.99))
 
-true_betas3 <- 1 / (c(0.2, 1.5, 9))
-true_alpha3 <- 1
+true_betas1 <- 1 / (c(0.2, 1.5, 9))  # state specific rate parameters for gamma-poisson emission densities
+true_alpha1 <- 1.3                   # shared shape parameters across states for gamma-poisson emission densities
+
+# simulation step:
+simdata1full <- hmm_simulate_poisgamma_data(L = L1,
+                                            mat_T = true_T1,
+                                            betas = true_betas1,
+                                            alpha = true_alpha1)
+# then extract the simulated data/observed sequence...:
+simdata1 <- simdata1full$data
+# ... and have a quick peek at the overall emission density:
+hist(simdata1,breaks=50,main="")
 
 
+##### Set up inference framework!:
 
-simdata3full <- hmm_simulate_poisgamma_data(L = L3,
-                                            mat_T = true_T3p,
-                                            betas = true_betas3,
-                                            alpha = true_alpha3)
-simdata3 <- simdata3full$data
+# Set priors and initial values!
 
+# RECOMMENDED PROCEDURE:
+#   initial values and prior values should be set to the same value
+#     however, for demonstration purposes we will not set initial values here
+#       by default, these are then drawn from the priors
+#   however, we will set all the priors according to our recommendations
+#     note that these recommendations apply to overall emission densities that resemble overdispersed poisson densities
+#         and user discretion is advised for overall emission densities that already resemble mixtures of bell curves
 
-#Set different priors: ----—----—----—----—----—----—----—----—----—----—----—----—----—----—----—----—----—----
+#  all prior betas will likely lie below the 'empirical overall beta':
+(sum(simdata1)/length(simdata1))/((mean(simdata1)^2)/((var(simdata1)-mean(simdata1))))
+#  with near or lower than the following being a good bet:
+mean(simdata1)
 
-n2_states_inferred <- 2
-prior2_Tp <- generate_random_T(n2_states_inferred)
-prior_alpha2 <- true_alpha3 - 0.4
-prior_betas2 <- c(2,1)
+#  set up the priors for all runs with these recommended betas
+
+n2_states_inferred <- 2                            # number of states to be inferred
+prior2_T <- generate_random_T(n2_states_inferred) # prior transition matrix, randomly generated
+prior_alpha2 <- (mean(simdata1)^2)/((var(simdata1)-mean(simdata1))/2) # recommended prior alpha! changes by number of inferred states!
+prior_betas2 <- c(5,1)
 
 n3_states_inferred <- 3
-prior3_Tp <- generate_random_T(n3_states_inferred)
-prior_alpha3 <- true_alpha3 - 0.4
-prior_betas3 <- true_betas3 + 0.62
+prior3_T <- generate_random_T(n3_states_inferred)
+prior_alpha3 <- (mean(simdata1)^2)/((var(simdata1)-mean(simdata1))/3)
+prior_betas3 <- c(5,3,1)
 
 n4_states_inferred <- 4
-prior4_Tp <- generate_random_T(n4_states_inferred)
-prior_alpha4 <- true_alpha3 - 0.4
-prior_betas4 <- c(3,2.5,2,1)
+prior4_T <- generate_random_T(n4_states_inferred)
+prior_alpha4 <- (mean(simdata1)^2)/((var(simdata1)-mean(simdata1))/4)
+prior_betas4 <- c(5,4,3,1)
 
 n5_states_inferred <- 5
-prior5_Tp <- generate_random_T(n5_states_inferred)
-prior_alpha5 <- true_alpha3 - 0.4
-prior_betas5 <- c(3.3,2.5,2,1,0.2)
+prior5_T <- generate_random_T(n5_states_inferred)
+prior_alpha5 <- (mean(simdata1)^2)/((var(simdata1)-mean(simdata1))/5)
+prior_betas5 <- c(5,4,3,2,1)
 
-#
-# Run different MCMCs: ----—----—----—----—----—----—----—----—----—----—----—----—----—----—----—----—----—----
+##### Series of oHMMed inference runs for increasing numbers of states:
 
-res3_p_n2 <- hmm_mcmc_pois(data = simdata3,
-                           prior_T = prior2_Tp,
+res1_n2 <- hmm_mcmc_pois(data = simdata1,
+                           prior_T = prior2_T,
                            prior_betas = prior_betas2,
                            prior_alpha = prior_alpha2,
                            iter = iter,
                            warmup = warmup,
-                           thin = thin,
-                           init_betas = prior_betas2,
-                           init_alpha = prior_alpha2,
-                           init_T = prior2_Tp,
                            print_params = print_params,
-                           verbose = verbose)
+                           verbose = verbose)#
 
-res3_p_n3 <- hmm_mcmc_pois(data = simdata3,
-                      prior_T = prior3_Tp,
-                      prior_betas = prior_betas3,
-                      prior_alpha = prior_alpha3,
-                      iter = iter,
-                      warmup = warmup,
-                      thin = thin,
-                      init_betas = prior_betas3,
-                      init_alpha = prior_alpha3,
-                      init_T = prior3_Tp,
-                      print_params = print_params,
-                      verbose = verbose)
+#   Recall: it is recommended to also set: init_betas = prior_betas2,init_alpha = prior_alpha2,init_T = prior2_T
 
+res1_n3 <- hmm_mcmc_pois(data = simdata1,
+                         prior_T = prior3_T,
+                         prior_betas = prior_betas3,
+                         prior_alpha = prior_alpha3,
+                         iter = iter,
+                         warmup = warmup,
+                         print_params = print_params,
+                         verbose = verbose)
 
-res3_p_n4 <- hmm_mcmc_pois(data = simdata3,
-                           prior_T = prior4_Tp,
-                           prior_betas = prior_betas4,
-                           prior_alpha = prior_alpha4,
-                           iter = iter,
-                           warmup = warmup,
-                           thin = thin,
-                           init_betas = prior_betas4,
-                           init_alpha = prior_alpha4,
-                           init_T = prior4_Tp,
-                           print_params = print_params,
-                           verbose = verbose)
+res1_n4 <- hmm_mcmc_pois(data = simdata1,
+                         prior_T = prior4_T,
+                         prior_betas = prior_betas4,
+                         prior_alpha = prior_alpha4,
+                         iter = iter,
+                         warmup = warmup,
+                         print_params = print_params,
+                         verbose = verbose)
 
-res3_p_n5 <- hmm_mcmc_pois(data = simdata3,
-                           prior_T = prior5_Tp,
-                           prior_betas = prior_betas5,
-                           prior_alpha = prior_alpha5,
-                           iter = iter,
-                           warmup = warmup,
-                           thin = thin,
-                           init_betas = prior_betas5,
-                           init_alpha = prior_alpha5,
-                           init_T = prior5_Tp,
-                           print_params = print_params,
-                           verbose = verbose)
+res1_n5 <- hmm_mcmc_pois(data = simdata1,
+                         prior_T = prior5_T,
+                         prior_betas = prior_betas5,
+                         prior_alpha = prior_alpha5,
+                         iter = iter,
+                         warmup = warmup,
+                         print_params = print_params,
+                         verbose = verbose)
+
 
 
 ###--- Analyse Output and Prep plots for reading out as eps files for the overleaf document
