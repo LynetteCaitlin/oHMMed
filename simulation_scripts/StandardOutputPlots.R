@@ -9,9 +9,9 @@
 # These  plots presented in the paper --- that accompanies the first release of the package. 
 #######################################################################
 
-#-------------------------------
+#--------------------------------
 #  load the following libraries
-#-------------------------------
+#--------------------------------
  library(ggplot2)
  library(mistr)
  library(gridExtra)
