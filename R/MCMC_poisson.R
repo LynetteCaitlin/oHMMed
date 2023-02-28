@@ -372,10 +372,11 @@ init_hmm_mcmc_pois_ <- function(data, prior_T, prior_betas, prior_alpha,
     stop("hmm_mcmc_poisson(): number of states is not the same between input variables", call. = FALSE)
   }
   
-  is_prior_beta_decreasing <- all(sort(prior_betas, decreasing = TRUE) == prior_betas)
-  if (!is_prior_beta_decreasing) {
-    warning("hmm_mcmc_poisson(): `prior_betas` should be sorted in decreasing order", call. = FALSE)
-  }
+  # the algorithm takes care of it anyway....
+  #is_prior_beta_decreasing <- all(sort(prior_betas, decreasing = TRUE) == prior_betas)
+  #if (!is_prior_beta_decreasing) {
+  #  warning("hmm_mcmc_poisson(): `prior_betas` should be sorted in decreasing order", call. = FALSE)
+  #}
   
   if (length(prior_alpha) != 1) {
     stop("hmm_mcmc_poisson(): `prior_alpha` must be of length 1", call. = FALSE)
@@ -413,11 +414,11 @@ init_hmm_mcmc_pois_ <- function(data, prior_T, prior_betas, prior_alpha,
   if (any(is_row_sum_one_(init_T) == FALSE)) {
     stop("hmm_mcmc_poisson(): rows in the transition matrix `init_T` must sum up to 1", call. = FALSE)
   }
-  
-  is_init_betas_decreasing <- all(sort(init_betas, decreasing = TRUE) == init_betas)
-  if (!is_init_betas_decreasing) {
-    warning("hmm_mcmc_poisson(): `init_betas` should be sorted in decreasing order", call. = FALSE)
-  }
+  # the algorithm takes care of it anyway....
+  #is_init_betas_decreasing <- all(sort(init_betas, decreasing = TRUE) == init_betas)
+  #if (!is_init_betas_decreasing) {
+  #  warning("hmm_mcmc_poisson(): `init_betas` should be sorted in decreasing order", call. = FALSE)
+  #}
   
   #NEW LCM
   lambda1 <- sum(data) / length(data)
@@ -809,13 +810,6 @@ summary.hmm_mcmc_poisson <- function(object, ...) {
     cat("\n")
   }
   
-  if (stats::sd(object$samples$alpha) == 0) {
-    cat("Estimated alpha (CONSTANT):\n")
-    cat(summary_res$estimated_alpha)
-    cat("\n")
-    cat("\n")
-  }
-  
   cat("Estimated means:\n")
   cat(summary_res$estimated_means)
   cat("\n")
@@ -1051,9 +1045,9 @@ plot.hmm_mcmc_poisson <- function(x,
     klplot <- ggplot2::ggplot(dens_df, ggplot2::aes_string(x = "value")) +
       ggplot2::geom_histogram(bins = floor(dim(table(factor(data, levels = 0:max(data))))), fill = "grey", position = "identity") +
       ggplot2::scale_color_manual(values = c("black")) +
-      ggplot2::geom_vline(xintercept = x$estimates$means, color = "black", size = 0.3) +
+      ggplot2::geom_vline(xintercept = x$estimates$means, color = "black", size = 0.6) +
       ggplot2::labs(title = "Observed Counts and Inferred (and True) Means", x = "Number of Occurences", y = "Frequency") + 
-      ggplot2::geom_vline(xintercept = true_alpha / true_betas, color = "blue", size = 0.2, linetype = "dotted") 
+      ggplot2::geom_vline(xintercept = true_alpha /true_betas, color = "blue", size = 0.4, linetype = "dotted") 
   }
   #}
   

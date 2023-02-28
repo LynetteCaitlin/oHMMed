@@ -180,9 +180,8 @@ vll2=c(median(res1_n2$estimates$log_likelihood),
 ind <- c(2,3,4,5)
 mat_liks1 <- data.frame(cbind(ind,vll1,vll2))
 
-p1 <- ggplot(mat_liks1)+geom_point(data=mat_liks1,aes(ind,vll1),size=3)+ylim(-5500,-2500)+geom_hline(yintercept=-2880,linetype="dashed",colour="grey")+geom_point(data=mat_liks1,aes(ind,vll2.1),colour="darkgrey",size=1.6)+xlab("Number of States")+ylab("Mean (Median) Log-Likelihood")+ggtitle("A")
+p1 <- ggplot(mat_liks1)+geom_point(data=mat_liks1,aes(ind,vll1),size=3)+geom_point(data=mat_liks1,aes(ind,vll2),size=1.5,col="grey")+ylim(-5500,-2500)+geom_hline(yintercept=-2675,linetype="dashed",colour="grey")+xlab("Number of States") + ylab("Mean (Median) Log-Likelihood")
 p1
-
 
 # looks like the optimal number of states is 3 (where the plateau starts), so examine the results:
 #   the summary contains all the estimates, and the approximate kullback-leibler divergence
