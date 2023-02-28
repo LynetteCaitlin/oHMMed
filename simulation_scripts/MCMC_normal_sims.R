@@ -18,10 +18,10 @@ source("MCMC_normal.R")
 ####################################################################
 
 ##### Set general MCMC parameters:
-iter <- 600               # set number of iterations; note this is redundant since it is equal to the default 
-warmup <- floor(iter / 5) # length of burnin is 20% of iter; note this is redundant since it is equal to the default
-print_params <- FALSE     # parameters after each iteration will NOT be printed on the screen
-verbose <- TRUE           # progress bar will be shown, as well as messages
+iter <- 600                 # set number of iterations; note this is redundant since it is equal to the default 
+warmup <- floor(iter * 0.2) # length of burnin is 20% of iter; note this is redundant since it is equal to the default
+print_params <- FALSE       # parameters after each iteration will NOT be printed on the screen
+verbose <- TRUE             # progress bar will be shown, as well as messages
 
 
 ##### Simulate a sequence!:
