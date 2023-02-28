@@ -51,7 +51,7 @@ The accompanying R scripts are, for the case of normal emission densities...:
 <https://github.com/LynetteCaitlin/oHMMed/simulation_scripts/MCMC_normal_sims.R>
 
 ... and for gamma-poisson emission densities:
-<https://github.com/LynetteCaitlin/oHMMed/simulation_scripts/MCMC_poisson_sims.R>
+<https://github.com/LynetteCaitlin/oHMMed/simulation_scripts/MCMC_gamma-poisson_sims.R>
  
 Template code viewing the results of two different sequence annotations side-by-side and assessing associations between the two observed sequences can be found at:
 <https://github.com/LynetteCaitlin/oHMMed/simulation_scripts/StandardOutputPlots.R>
