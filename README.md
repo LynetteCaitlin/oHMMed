@@ -58,7 +58,7 @@ Template code viewing the results of two different sequence annotations side-by-
 
 ## 4. Package Maintainers
 
-Michal Majka
+Michal Majka (R technicalities and technical algorithm improvement)
 
-Lynette Caitlin Mikula
+Lynette Caitlin Mikula (Algorithm development, usage, and application)
 
