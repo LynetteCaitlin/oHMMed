@@ -27,20 +27,21 @@ verbose <- TRUE           # progress bar will be shown, as well as messages
 ##### Simulate a sequence!:
 
 ## set parameters:
-L1=2^13                   # sequence length
-true_sigma1 <- 0.195           # standard deviation for emission densities of all states
-true_means1 <- c(0.55,1,1.9)   # state-specific means for emission densities
-      #transition rate matrix between hidden states:
+L1 <- 2^13                      # sequence length
+true_sigma1 <- 0.195            # standard deviation for emission densities of all states
+true_means1 <- c(0.55, 1, 1.9)  # state-specific means for emission densities
+      
+# transition rate matrix between hidden states:
 true_T1 <- rbind(c(0.7, 0.3, 0),    
                  c(0.3, 0.6, 0.1),
                  c(0.0, 0.35, 0.65))
 
 # simulation step:
-simdata1full <- hmm_simulate_normal_data(L1,true_T1,true_means1,true_sigma1)
+simdata1full <- hmm_simulate_normal_data(L1, true_T1, true_means1, true_sigma1)
 # then extract the simulated data/observed sequence...:
 simdata1 <- simdata1full$data 
 # ... and have a quick peek at the overall emission density:
-plot(density(simdata1), main="")
+plot(density(simdata1), main = "")
 
 
 ##### Set up inference framework!:
@@ -51,12 +52,12 @@ plot(density(simdata1), main="")
 #   initial values and prior values should be set to the same value
 
 # run:
-c(min(simdata1),max(simdata1))
+c(min(simdata1), max(simdata1))
 # then, set initial and prior means to either:
 #     (1) values near modes or saddle points seen in the previous density plot
 #  or (2) equally spaced values within the just calculated range of the data
 # for example (using (1)) and assuming 3 states:
-pr_means <- c(0.6,0.95,1.95)
+pr_means <- c(0.6, 0.95, 1.95)
 
 # run:
 sd(simdata1)
@@ -70,10 +71,10 @@ rand_T <- generate_random_T(n3_states_inferred)
 res_opt_n3 <- hmm_mcmc_normal(data = simdata1,
                            prior_T = rand_T,
                            prior_means = pr_means,
-                           prior_sd = sd(simdata1)/3,
+                           prior_sd = sd(simdata1) / 3,
                            init_T = rand_T,
                            init_means = pr_means,
-                           init_sd = sd(simdata1)/3,
+                           init_sd = sd(simdata1) / 3,
                            iter = iter,
                            warmup = warmup,
                            print_params = print_params,
@@ -86,7 +87,8 @@ res_opt_n3 <- hmm_mcmc_normal(data = simdata1,
 #   the summary contains all the estimates, and the approximate kullback-leibler divergence
 summary(res_opt_n3)
 #   graphical diagnostics and confusion matrix
-plot(res_opt_n3, simulation=TRUE,true_means1,true_sigma1,true_T1,simdata1full$states)
+plot(res_opt_n3, simulation = TRUE, true_means1,
+     true_sigma1, true_T1, simdata1full$states)
 
 # Note:
 # if this were not a simulation, but a real example, the graphical diagnostics are: 
@@ -105,25 +107,25 @@ plot(res_opt_n3, simulation=TRUE,true_means1,true_sigma1,true_T1,simdata1full$st
 # Further, we will set a higher prior standard deviation than recommended and more poorly placed means
 # So, the prior parameters are set as the following per number of states:
 
-n2_states_inferred <- 2                          # number of states to be inferred
-prior2_T <- generate_random_T(n2_states_inferred)# prior transition matrix, randomly generated
-prior2_means <- c(0,3)                           # prior means
-prior2_sd <- 2.5/2                               # prior standard deviation
+n2_states_inferred <- 2                           # number of states to be inferred
+prior2_T <- generate_random_T(n2_states_inferred) # prior transition matrix, randomly generated
+prior2_means <- c(0, 3)                            # prior means
+prior2_sd <- 2.5 / 2                                # prior standard deviation
 
 n3_states_inferred <- 3
 prior3_T <- generate_random_T(n3_states_inferred)
 prior3_means <- c(0.1, 0.8, 3)
-prior3_sd <- 2.5/3
+prior3_sd <- 2.5 / 3
 
 n4_states_inferred <- 4
 prior4_T <- generate_random_T(n4_states_inferred)
-prior4_means <- c(0.1,0.7, 0.8, 3)
-prior4_sd <-2.5/4
+prior4_means <- c(0.1, 0.7, 0.8, 3)
+prior4_sd <- 2.5 / 4
 
 n5_states_inferred <- 5
 prior5_T <- generate_random_T(n5_states_inferred)
-prior5_means <- c(0.1,0.7, 0.8, 1.5, 3)
-prior5_sd <- 2.5/5
+prior5_means <- c(0.1, 0.7, 0.8, 1.5, 3)
+prior5_sd <- 2.5 / 5
 
 
 ##### Series of oHMMed inference runs for increasing numbers of states:
@@ -167,26 +169,33 @@ res1_n5 <- hmm_mcmc_normal(data = simdata1,
 
 # first compare the log.likelihoods for different numbers of states
 #   and find the plateau
-vll1=c(mean(res1_n2$estimates$log_likelihood),
-       mean(res1_n3$estimates$log_likelihood),
-       mean(res1_n4$estimates$log_likelihood),
-       mean(res1_n5$estimates$log_likelihood))
+vll1 <- c(mean(res1_n2$estimates$log_likelihood),
+          mean(res1_n3$estimates$log_likelihood),
+          mean(res1_n4$estimates$log_likelihood),
+          mean(res1_n5$estimates$log_likelihood))
 
-vll2=c(median(res1_n2$estimates$log_likelihood),
-       median(res1_n3$estimates$log_likelihood),
-       median(res1_n4$estimates$log_likelihood),
-       median(res1_n5$estimates$log_likelihood))
+vll2 <- c(median(res1_n2$estimates$log_likelihood),
+          median(res1_n3$estimates$log_likelihood),
+          median(res1_n4$estimates$log_likelihood),
+          median(res1_n5$estimates$log_likelihood))
 
-ind <- c(2,3,4,5)
-mat_liks1 <- data.frame(cbind(ind,vll1,vll2))
+ind <- c(2, 3, 4, 5)
+mat_liks1 <- data.frame(cbind(ind, vll1, vll2))
 
-p1 <- ggplot(mat_liks1)+geom_point(data=mat_liks1,aes(ind,vll1),size=3)+geom_point(data=mat_liks1,aes(ind,vll2),size=1.5,col="grey")+ylim(-5500,-2500)+geom_hline(yintercept=-2675,linetype="dashed",colour="grey")+xlab("Number of States") + ylab("Mean (Median) Log-Likelihood")
+p1 <- ggplot(mat_liks1) + 
+  geom_point(aes(ind, vll1), size = 3) +
+  geom_point(aes(ind, vll2), size = 1.5, col = "grey") + 
+  geom_hline(yintercept = -2675, linetype = "dashed", colour = "grey") + 
+  ylim(-5500, -2500) + 
+  xlab("Number of States") + 
+  ylab("Mean (Median) Log-Likelihood")
 p1
 
 # looks like the optimal number of states is 3 (where the plateau starts), so examine the results:
 #   the summary contains all the estimates, and the approximate kullback-leibler divergence
 summary(res_n3)
 #   graphical diagnostics and confusion matrix
-plot(res_n3, simulation=TRUE,true_means1,true_sigma1,true_T1,simdata1full$states)
+plot(res_n3, simulation = TRUE, true_means1, 
+     true_sigma1, true_T1, simdata1full$states)
 
 
