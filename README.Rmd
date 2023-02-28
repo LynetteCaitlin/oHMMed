@@ -55,7 +55,7 @@ https://github.com/LynetteCaitlin/oHMMed/simulation_scripts/StandardOutputPlots.
 
 ## 4. Package Maintainers
 
-Michal Majka (R technicalities and technical algorithm improvement)
+Michal Majka (R technicalities and code optimisation)
 
 Lynette Caitlin Mikula (Algorithm development, usage, and application)
 
