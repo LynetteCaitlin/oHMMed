@@ -66,7 +66,7 @@
 <div class="section level2">
 <h2 id="id_1-overview">1. Overview<a class="anchor" aria-label="anchor" href="#id_1-overview"></a>
 </h2>
-<p>The <code>oHMMed</code> package contains an implementation of Hidden Markov Models with ordered hidden states and emission densities. More precisely: We assume a sequence of un-observable (’hidden’) variables with discrete categories known as states. Moving along this sequence, the probability of a specific state occurring at any step depends only on the state preceding it. Each hidden variable along the sequence produces/’emits’ an observable data point. We assume that these emitted data points are distributed according to some continuous distribution (currently: normal or gamma-poisson compound) with state-specific parameters. Further, we assume that the continuous emission distributions per state are parameterised so that they can be ordered by increasing mean. In fact, transitions between states in the hidden sequence can only occur between states that emit densities that are neighbours in the ordering by mean. Given the observed data sequence, our models assign each part of the hidden sequence to a state, and infer the transition rates between them as well as the parameters of the state-specific emission distributions. This is the general framework of <code>oHMMed</code> (ordered Hidden Markov Model with emission densities), and it can be applied to any system that fulfills these assumptions.</p>
+<p>The <code>oHMMed</code> package contains an implementation of Hidden Markov Models with ordered hidden states and emission densities. More precisely: We assume a sequence of un-observable (’hidden’) variables with discrete categories known as states. Moving along this sequence, the probability of a specific state occurring at any step depends only on the state preceding it. Each hidden variable along the sequence produces/’emits’ an observable data point. We assume that these emitted data points are distributed according to some continuous distribution (currently: normal or gamma-poisson compound) with state-specific parameters. Further, we assume that the continuous emission distributions per state are parametrised so that they can be ordered by increasing mean. In fact, transitions between states in the hidden sequence can only occur between states that emit densities that are neighbours in the ordering by mean. Given the observed data sequence, our models assign each part of the hidden sequence to a state, and infer the transition rates between them as well as the parameters of the state-specific emission distributions. This is the general framework of <code>oHMMed</code> (ordered Hidden Markov Model with emission densities), and it can be applied to any system that fulfils these assumptions.</p>
 </div>
 <div class="section level2">
 <h2 id="id_2-installation">2. Installation<a class="anchor" aria-label="anchor" href="#id_2-installation"></a>
@@ -79,7 +79,7 @@
 <!-- ``` -->
 <p>The <code>oHMMed</code> package is currently in development and it can be installed from <code>github</code> repository by simply executing in the console the following line:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/remote-reexports.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"majkamichal/oHMMed"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/remote-reexports.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"LynetteCaitlin/oHMMed"</span><span class="op">)</span></code></pre></div>
 </div>
 
   </div>
@@ -120,7 +120,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>

@@ -82,7 +82,7 @@ produces/’emits’ an observable data point. We assume that these emitted
 data points are distributed according to some continuous distribution
 (currently: normal or gamma-poisson compound) with state-specific
 parameters. Further, we assume that the continuous emission
-distributions per state are parameterised so that they can be ordered by
+distributions per state are parametrised so that they can be ordered by
 increasing mean. In fact, transitions between states in the hidden
 sequence can only occur between states that emit densities that are
 neighbours in the ordering by mean. Given the observed data sequence,
@@ -90,7 +90,7 @@ our models assign each part of the hidden sequence to a state, and infer
 the transition rates between them as well as the parameters of the
 state-specific emission distributions. This is the general framework of
 <code>oHMMed</code> (ordered Hidden Markov Model with emission
-densities), and it can be applied to any system that fulfills these
+densities), and it can be applied to any system that fulfils these
 assumptions.</p>
 <div class="section level2">
 <h2 id="normal-model">Normal model<a class="anchor" aria-label="anchor" href="#normal-model"></a>
@@ -155,28 +155,28 @@ assumptions.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">summary_res_normal</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">res_normal</span><span class="op">)</span></code></pre></div>
 <pre><code><span class="co">## Estimated means:</span>
-<span class="co">##     mean[1]     mean[2]     mean[3] </span>
-<span class="co">## -5.16280802 -0.04480435  5.00591401 </span>
+<span class="co">##   mean[1]   mean[2]   mean[3] </span>
+<span class="co">## -4.863729  1.727790  1.918168 </span>
 <span class="co">## </span>
 <span class="co">## Estimated sd:</span>
-<span class="co">## 1.540892</span>
+<span class="co">## 2.639458</span>
 <span class="co">## </span>
 <span class="co">## Estimated transition rates:</span>
-<span class="co">##            1          2          3</span>
-<span class="co">## 1 0.93103943 0.06896057 0.00000000</span>
-<span class="co">## 2 0.02003991 0.96028450 0.01967559</span>
-<span class="co">## 3 0.00000000 0.07306297 0.92693703</span>
+<span class="co">##            1           2          3</span>
+<span class="co">## 1 0.96160629 0.038393714 0.00000000</span>
+<span class="co">## 2 0.02589449 0.001118749 0.97298676</span>
+<span class="co">## 3 0.00000000 0.914032829 0.08596717</span>
 <span class="co">## </span>
 <span class="co">## Assigned states:</span>
 <span class="co">##   1   2   3 </span>
-<span class="co">## 190 659 175 </span>
+<span class="co">## 250 347 427 </span>
 <span class="co">## </span>
 <span class="co">## Approximate Kullback-Leibler divergence:</span>
-<span class="co">## 0.002634623</span>
+<span class="co">## 0.011923</span>
 <span class="co">## </span>
 <span class="co">## Log Likelihood:</span>
 <span class="co">##         mean           sd       median </span>
-<span class="co">## -2093.035625     1.107013 -2092.698899</span></code></pre>
+<span class="co">## -2505.737959     1.748131 -2505.356037</span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="diagnostics">Diagnostics<a class="anchor" aria-label="anchor" href="#diagnostics"></a>
@@ -205,7 +205,7 @@ assumptions.</p>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>

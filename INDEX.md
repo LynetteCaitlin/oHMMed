@@ -13,7 +13,7 @@ an observable data point. We assume that these emitted data points are
 distributed according to some continuous distribution (currently: normal
 or gamma-poisson compound) with state-specific parameters. Further, we
 assume that the continuous emission distributions per state are
-parameterised so that they can be ordered by increasing mean. In fact,
+parametrised so that they can be ordered by increasing mean. In fact,
 transitions between states in the hidden sequence can only occur between
 states that emit densities that are neighbours in the ordering by mean.
 Given the observed data sequence, our models assign each part of the
@@ -21,7 +21,7 @@ hidden sequence to a state, and infer the transition rates between them
 as well as the parameters of the state-specific emission distributions.
 This is the general framework of `oHMMed` (ordered Hidden Markov Model
 with emission densities), and it can be applied to any system that
-fulfills these assumptions.
+fulfils these assumptions.
 
 ## 2. Installation
 
@@ -37,5 +37,5 @@ from `github` repository by simply executing in the console the
 following line:
 
 ``` r
-devtools::install_github("majkamichal/oHMMed")
+devtools::install_github("LynetteCaitlin/oHMMed")
 ```

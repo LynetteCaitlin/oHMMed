@@ -180,6 +180,7 @@
 <span class="r-in">                     iter <span class="op">=</span> <span class="fl">50</span>,</span>
 <span class="r-in">                     print_params <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span class="r-in">                     verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> hmm_mcmc_poisson(): at least one initial rate parameter is greater than the overall variance</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> 10%</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> 20%</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> 30%</span>
@@ -200,33 +201,33 @@
 <span class="r-in"><span class="va">summary_res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Estimated betas:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   beta[1]   beta[2]   beta[3] </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4.8665665 1.2298352 0.2060177 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1.8742237 0.3408881 0.1180917 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Estimated alpha (CONSTANT):</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Estimated alpha:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1.428274</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Estimated means:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.6171475 2.449806 14.64632</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.7646206 4.435907 12.11657</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Estimated transition rates:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           1          2         3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 0.9234600 0.07654004 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 0.2224833 0.64915773 0.1283590</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 0.0000000 0.28437577 0.7156242</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 0.9651845 0.03481551 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 0.1759962 0.01307159 0.8109322</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 0.0000000 0.40245783 0.5975422</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Assigned states:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   1   2   3 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 726 172 126 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 655 110 259 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Approximate Kullback-Leibler divergence:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.2254098</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.220797</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Log Likelihood:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          mean            sd        median </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> -1815.0866270     0.8867134 -1815.0579714 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         mean           sd       median </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -2162.513855     1.389263 -2162.155514 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Significance of Difference between Rates (stepwise):</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 5.757079e-114 4.720096e-242</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  9.650665e-65 4.853066e-203</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 </code></pre></div>
     </div>
@@ -242,7 +243,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>
