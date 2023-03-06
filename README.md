@@ -2,7 +2,7 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 Extended documentation can be found on the website:
-<https://github.io/LynetteCaitlin/oHMMed>
+<https://github.io/LynetteCaitlin/oHMMed/>
 (Website is still work in progress!)
 
 ## 1. Overview
