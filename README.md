@@ -47,7 +47,7 @@ devtools::install_github("LynetteCaitlin/oHMMed")
 ```
 
 ## 3. Usage
-Please read the following usage recommendations: <https://github.com/LynetteCaitlin/oHMMed/UsageRecommendations.pdf>
+Please read the following usage recommendations: <https://github.com/LynetteCaitlin/oHMMed/blob/main/UsageRecommendations.pdf>
 
 The accompanying R scripts are, for the case of normal emission densities...:
 
