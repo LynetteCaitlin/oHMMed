@@ -65,6 +65,7 @@ sd(simdata1)
 
 # the prior/initial transition rate matrix can be randomly generated
 # for eg, by assuming 3 states:
+n2_states_inferred <- 3
 rand_T <- generate_random_T(n3_states_inferred)
 
 # overall, the recommended procedure would lead us to run the following inference procedure for 3 states:
@@ -94,8 +95,8 @@ plot(res_opt_n3, simulation = TRUE, true_means1,
 # if this were not a simulation, but a real example, the graphical diagnostics are: 
 #     plot(res_opt_n3)
 # and use the following confusion matrix to assess stability of parameter ranges:
-#    x <- conf_mat(N=L1,res=opt_n3)
-#    plot_confusion_matrix(x$`Confusion Matrix`[[1]],add_sums = TRUE)
+#    x <- conf_mat(N = L1, res = opt_n3)
+#    plot_confusion_matrix(x$`Confusion Matrix`[[1]], add_sums = TRUE)
 
 
 
@@ -109,8 +110,8 @@ plot(res_opt_n3, simulation = TRUE, true_means1,
 
 n2_states_inferred <- 2                           # number of states to be inferred
 prior2_T <- generate_random_T(n2_states_inferred) # prior transition matrix, randomly generated
-prior2_means <- c(0, 3)                            # prior means
-prior2_sd <- 2.5 / 2                                # prior standard deviation
+prior2_means <- c(0, 3)                           # prior means
+prior2_sd <- 2.5 / 2                              # prior standard deviation
 
 n3_states_inferred <- 3
 prior3_T <- generate_random_T(n3_states_inferred)
