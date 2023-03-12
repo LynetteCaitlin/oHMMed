@@ -16,3 +16,4 @@
 ^simulation_scripts/
 ^vignettes/
 ^usageRecommendations.pdf$
+^authors.R$
