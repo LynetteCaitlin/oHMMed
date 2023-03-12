@@ -1,7 +1,6 @@
 # Hidden Markov Model simulation with Poisson-gamma data
 
 
-
 #' Calculate a Kullback-Leibler divergence for a discrete distribution
 #' 
 #' @param p (numeric) probabilities
@@ -441,8 +440,8 @@ init_hmm_mcmc_pois_ <- function(data, prior_T, prior_betas, prior_alpha,
   }
   
   if (verbose) {
-     set_alpha <- (mean(data)^2)/((var(data)-mean(data))/length(init_betas))
-     if( (init_alpha > (set_alpha+3)) | (init_alpha < (set_alpha-3)) ){
+     set_alpha <- (mean(data)^2) / ((stats::var(data) - mean(data)) / length(init_betas))
+     if( (init_alpha > (set_alpha + 3)) | (init_alpha < (set_alpha - 3)) ){
        message("hmm_mcmc_poisson(): ", chain_char, "initial alpha is not close to the recommended value")
      }
      
@@ -475,7 +474,6 @@ init_hmm_mcmc_pois_ <- function(data, prior_T, prior_betas, prior_alpha,
 
 
 #' MCMC simulation of a Hidden Markov Normal Model for Poisson model
-#'
 #'
 #' @param data (numeric) data
 #'
@@ -890,7 +888,6 @@ coef.hmm_mcmc_poisson <- function(object, ...) {
 #' @export
 #' @export plot.hmm_mcmc_poisson
 #'
-#'
 #' @examples
 #' # TODO
 
@@ -1081,6 +1078,3 @@ plot.hmm_mcmc_poisson <- function(x,
   }
   kl_plot_f()   
 }
-
-
-
