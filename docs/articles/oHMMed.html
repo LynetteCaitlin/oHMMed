@@ -118,7 +118,7 @@ assumptions.</p>
                                         sigma <span class="op">=</span> <span class="va">true_sd</span><span class="op">)</span>
 <span class="va">simdata</span> <span class="op">&lt;-</span> <span class="va">simdata_full</span><span class="op">$</span><span class="va">data</span>
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/density.html" class="external-link">density</a></span><span class="op">(</span><span class="va">simdata</span><span class="op">)</span>, main <span class="op">=</span> <span class="st">""</span><span class="op">)</span></code></pre></div>
-<p><img src="../docs/articles/oHMMed_files/figure-html/data_normal-1.png" width="700"></p>
+<p><img src="vignettesdata_normal-1.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="simulation">Simulation<a class="anchor" aria-label="anchor" href="#simulation"></a>
@@ -127,7 +127,7 @@ assumptions.</p>
 <code class="sourceCode R"><span class="co"># Set priors</span>
 <span class="va">n_states_inferred</span> <span class="op">&lt;-</span> <span class="fl">3</span>
 <span class="va">prior_T</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/generate_random_T.html">generate_random_T</a></span><span class="op">(</span><span class="va">n_states_inferred</span><span class="op">)</span>
-<span class="va">prior_means</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">18</span>, <span class="op">-</span><span class="fl">1</span>, <span class="fl">12</span><span class="op">)</span>
+<span class="va">prior_means</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">7</span>, <span class="op">-</span><span class="fl">1</span>, <span class="fl">12</span><span class="op">)</span>
 <span class="va">prior_sd</span> <span class="op">&lt;-</span> <span class="fl">3</span>
 
 <span class="co"># Run MCMC</span>
@@ -135,48 +135,48 @@ assumptions.</p>
                               prior_T <span class="op">=</span> <span class="va">prior_T</span>,
                               prior_means <span class="op">=</span> <span class="va">prior_means</span>,
                               prior_sd <span class="op">=</span> <span class="va">prior_sd</span>,
-                              iter <span class="op">=</span> <span class="fl">50</span>,
+                              iter <span class="op">=</span> <span class="fl">1500</span>,
                               print_params <span class="op">=</span> <span class="cn">FALSE</span>,
                               verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-<span class="va">res_normal</span></code></pre></div>
-<pre><code><span class="co">## Model: HMM Normal </span>
-<span class="co">## Type: MCMC </span>
-<span class="co">## Iter: 50 </span>
-<span class="co">## Warmup: 10 </span>
-<span class="co">## Thin: 1 </span>
-<span class="co">## States: 3</span></code></pre>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">summary_res_normal</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">res_normal</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## Estimated means:</span>
-<span class="co">##    mean[1]    mean[2]    mean[3] </span>
-<span class="co">## -17.267737  -1.107681   4.916515 </span>
-<span class="co">## </span>
-<span class="co">## Estimated sd:</span>
-<span class="co">## 2.284409</span>
-<span class="co">## </span>
-<span class="co">## Estimated transition rates:</span>
-<span class="co">##              1          2          3</span>
-<span class="co">## 1 0.4617402057 0.53825979 0.00000000</span>
-<span class="co">## 2 0.0006792535 0.97182229 0.02749846</span>
-<span class="co">## 3 0.0000000000 0.05362272 0.94637728</span>
-<span class="co">## </span>
-<span class="co">## Assigned states:</span>
-<span class="co">##   1   2   3 </span>
-<span class="co">##   0 685 339 </span>
-<span class="co">## </span>
-<span class="co">## Approximate Kullback-Leibler divergence:</span>
-<span class="co">## 0.01158248</span>
-<span class="co">## </span>
-<span class="co">## Log Likelihood:</span>
-<span class="co">##         mean           sd       median </span>
-<span class="co">## -2419.045955     1.495257 -2418.761716</span></code></pre>
+<span class="va">res_normal</span>
+<span class="co">#&gt; Model: HMM Normal </span>
+<span class="co">#&gt; Type: MCMC </span>
+<span class="co">#&gt; Iter: 1500 </span>
+<span class="co">#&gt; Warmup: 300 </span>
+<span class="co">#&gt; Thin: 1 </span>
+<span class="co">#&gt; States: 3</span>
+
+<span class="va">summary_res_normal</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">res_normal</span><span class="op">)</span>
+<span class="co">#&gt; Estimated means:</span>
+<span class="co">#&gt;    mean[1]    mean[2]    mean[3] </span>
+<span class="co">#&gt; -4.9488931 -0.1122093  5.0463459 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Estimated sd:</span>
+<span class="co">#&gt; 1.482213</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Estimated transition rates:</span>
+<span class="co">#&gt;            1          2          3</span>
+<span class="co">#&gt; 1 0.93750880 0.06249120 0.00000000</span>
+<span class="co">#&gt; 2 0.02350138 0.95463953 0.02185909</span>
+<span class="co">#&gt; 3 0.00000000 0.03754865 0.96245135</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Assigned states:</span>
+<span class="co">#&gt;   1   2   3 </span>
+<span class="co">#&gt; 196 524 304 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Approximate Kullback-Leibler divergence:</span>
+<span class="co">#&gt; 0.004917547</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Log Likelihood:</span>
+<span class="co">#&gt;         mean           sd       median </span>
+<span class="co">#&gt; -2036.726273     1.838977 -2036.423079</span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="diagnostics">Diagnostics<a class="anchor" aria-label="anchor" href="#diagnostics"></a>
 </h3>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">res_normal</span><span class="op">)</span></code></pre></div>
-<p><img src="../docs/articles/oHMMed_files/figure-html/diagnostics_normal-1.png" width="700"><img src="../docs/articles/oHMMed_files/figure-html/diagnostics_normal-2.png" width="700"><img src="../docs/articles/oHMMed_files/figure-html/diagnostics_normal-3.png" width="700"><img src="../docs/articles/oHMMed_files/figure-html/diagnostics_normal-4.png" width="700"><img src="../docs/articles/oHMMed_files/figure-html/diagnostics_normal-5.png" width="700"><img src="../docs/articles/oHMMed_files/figure-html/diagnostics_normal-6.png" width="700"><img src="../docs/articles/oHMMed_files/figure-html/diagnostics_normal-7.png" width="700"><img src="../docs/articles/oHMMed_files/figure-html/diagnostics_normal-8.png" width="700"><img src="../docs/articles/oHMMed_files/figure-html/diagnostics_normal-9.png" width="700"><img src="../docs/articles/oHMMed_files/figure-html/diagnostics_normal-10.png" width="700"></p>
+<p><img src="vignettesdiagnostics_normal-1.png" width="700"><img src="vignettesdiagnostics_normal-2.png" width="700"><img src="vignettesdiagnostics_normal-3.png" width="700"><img src="vignettesdiagnostics_normal-4.png" width="700"><img src="vignettesdiagnostics_normal-5.png" width="700"><img src="vignettesdiagnostics_normal-6.png" width="700"><img src="vignettesdiagnostics_normal-7.png" width="700"><img src="vignettesdiagnostics_normal-8.png" width="700"><img src="vignettesdiagnostics_normal-9.png" width="700"><img src="vignettesdiagnostics_normal-10.png" width="700"></p>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

@@ -4,7 +4,7 @@
     
 <!-- INDEX.md is generated from INDEX.Rmd. Please edit that file -->
     
-    ```{r, echo = FALSE}
+```{r, echo = FALSE}
 knitr::opts_chunk$set(
     collapse = TRUE,
     comment = "#>",

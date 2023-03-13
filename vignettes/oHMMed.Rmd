@@ -8,6 +8,14 @@ The `oHMMed` package contains an implementation of Hidden Markov Models with ord
 ## Normal model
 
 ### Example data
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+    collapse = TRUE,
+    comment = "#>",
+    fig.path = "vignettes"
+)
+```
   
 ```{r data, warning=FALSE, cache=TRUE, include=FALSE}
 library(oHMMed)
@@ -37,7 +45,7 @@ plot(density(simdata), main = "")
 # Set priors
 n_states_inferred <- 3
 prior_T <- generate_random_T(n_states_inferred)
-prior_means <- c(-18, -1, 12)
+prior_means <- c(-7, -1, 12)
 prior_sd <- 3
 
 # Run MCMC
@@ -45,7 +53,7 @@ res_normal <- hmm_mcmc_normal(data = simdata,
                               prior_T = prior_T,
                               prior_means = prior_means,
                               prior_sd = prior_sd,
-                              iter = 50,
+                              iter = 1500,
                               print_params = FALSE,
                               verbose = FALSE)
 res_normal
