@@ -56,9 +56,10 @@ Template code viewing the results of two different sequence annotations side-by-
 
 https://github.com/LynetteCaitlin/oHMMed/blob/main/simulation_scripts/StandardOutputPlots.R
 
-## 4. Package Maintainers
-
-Michal Majka (R technicalities and code optimisation)
+## 4. Package Authors
 
 Lynette Caitlin Mikula (Algorithm development, usage, and application)
 
+Claus Vogl (Algorithm development)
+
+Michal Majka (R technicalities and code optimisation) - PACKAGE MAINTAINER
