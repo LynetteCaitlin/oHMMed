@@ -9,7 +9,7 @@ hmm_mcmc_pois(
   prior_T,
   prior_betas,
   prior_alpha = 1,
-  iter = 1000,
+  iter = 1500,
   warmup = floor(iter/1.5),
   thin = 1,
   seed = sample.int(.Machine$integer.max, 1),

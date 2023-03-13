@@ -1,6 +1,13 @@
+# template:
+#   params:
+#     bootswatch: spacelab
+
 template:
-  params:
-    bootswatch: spacelab
+  bootstrap: 5
+  bootswatch: lux
+  bslib:
+    pkgdown-nav-height: 100px
+
 reference:
 
 - title: Simulate data

@@ -1,4 +1,4 @@
-# naivebayes 0.9.0
+# oHMMED 0.9.0
 
 * Initial release 
 	
