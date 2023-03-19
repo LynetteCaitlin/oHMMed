@@ -353,38 +353,38 @@ init_hmm_mcmc_pois_ <- function(data, prior_T, prior_betas, prior_alpha,
                                 verbose, iter, warmup, thin, chain_id = NULL) {
   
   if (iter < 2) {
-    stop("hmm_mcmc_poisson(): `iter` needs to be bigger than 1", call. = FALSE)
+    stop("hmm_mcmc_pois(): `iter` needs to be bigger than 1", call. = FALSE)
   }
   
   if (!is.integer(data)) {
-    stop("hmm_mcmc_poisson(): `data` needs to be an integer vector", call. = FALSE)
+    stop("hmm_mcmc_pois(): `data` needs to be an integer vector", call. = FALSE)
   }
-  ## new LCM
+  
   if (sum(is.na(data)) > 0) {
-    stop("hmm_mcmc_poisson(): `data` contains missing values", call. = FALSE)
+    stop("hmm_mcmc_pois(): `data` contains missing values", call. = FALSE)
   }
-  ##end  new LCM
+  
   if (any(is_row_sum_one_(prior_T) == FALSE)) {
-    stop("hmm_mcmc_poisson(): rows in the transition matrix `prior_T` must sum up to 1", call. = FALSE)
+    stop("hmm_mcmc_pois(): rows in the transition matrix `prior_T` must sum up to 1", call. = FALSE)
   }
   if (length(prior_betas) != nrow(prior_T) | length(prior_betas) != ncol(prior_T)) {
-    stop("hmm_mcmc_poisson(): number of states is not the same between input variables", call. = FALSE)
+    stop("hmm_mcmc_pois(): number of states is not the same between input variables", call. = FALSE)
   }
   
   # the algorithm takes care of it anyway....
   #is_prior_beta_decreasing <- all(sort(prior_betas, decreasing = TRUE) == prior_betas)
   #if (!is_prior_beta_decreasing) {
-  #  warning("hmm_mcmc_poisson(): `prior_betas` should be sorted in decreasing order", call. = FALSE)
+  #  warning("hmm_mcmc_pois(): `prior_betas` should be sorted in decreasing order", call. = FALSE)
   #}
   
   if (length(prior_alpha) != 1) {
-    stop("hmm_mcmc_poisson(): `prior_alpha` must be of length 1", call. = FALSE)
+    stop("hmm_mcmc_pois(): `prior_alpha` must be of length 1", call. = FALSE)
   }
   if (warmup >= iter + 2) {
-    stop("hmm_mcmc_poisson(): `warmup` must be lower than `iter`", call. = FALSE)
+    stop("hmm_mcmc_pois(): `warmup` must be lower than `iter`", call. = FALSE)
   }
   if (thin > iter - warmup) {
-    stop("hmm_mcmc_poisson(): `thin` cannot exceed iterations after warmup period", call. = FALSE)
+    stop("hmm_mcmc_pois(): `thin` cannot exceed iterations after warmup period", call. = FALSE)
   }
   
   # Initialization
@@ -403,15 +403,15 @@ init_hmm_mcmc_pois_ <- function(data, prior_T, prior_betas, prior_alpha,
   }
   
   if (length(init_betas) != nrow(init_T) | length(init_betas) != ncol(init_T)) {
-    stop("hmm_mcmc_poisson(): number of states is not the same between input variables", call. = FALSE)
+    stop("hmm_mcmc_pois(): number of states is not the same between input variables", call. = FALSE)
   }
   
   if (length(init_alpha) != 1) {
-    stop("hmm_mcmc_poisson(): `init_alpha` must be of length 1", call. = FALSE)
+    stop("hmm_mcmc_pois(): `init_alpha` must be of length 1", call. = FALSE)
   }
   
   if (any(is_row_sum_one_(init_T) == FALSE)) {
-    stop("hmm_mcmc_poisson(): rows in the transition matrix `init_T` must sum up to 1", call. = FALSE)
+    stop("hmm_mcmc_pois(): rows in the transition matrix `init_T` must sum up to 1", call. = FALSE)
   }
   # the algorithm takes care of it anyway....
   #is_init_betas_decreasing <- all(sort(init_betas, decreasing = TRUE) == init_betas)
@@ -442,14 +442,14 @@ init_hmm_mcmc_pois_ <- function(data, prior_T, prior_betas, prior_alpha,
   if (verbose) {
      set_alpha <- (mean(data)^2) / ((stats::var(data) - mean(data)) / length(init_betas))
      if( (init_alpha > (set_alpha + 3)) | (init_alpha < (set_alpha - 3)) ){
-       message("hmm_mcmc_poisson(): ", chain_char, "initial alpha is not close to the recommended value")
+       message("hmm_mcmc_pois(): ", chain_char, "initial alpha is not close to the recommended value")
      }
      
     if ((sum(range1) == length(lambda2)) | (sum(range2) == length(lambda2))) {
-      message("hmm_mcmc_poisson(): ", chain_char, "rate parameter of observed distribution is either above or below all of the initial rate parameters")
+      message("hmm_mcmc_pois(): ", chain_char, "rate parameter of observed distribution is either above or below all of the initial rate parameters")
     }
     if (any(lambda2 > stats::var(data))) {
-      message("hmm_mcmc_poisson(): ", chain_char, "at least one initial rate parameter is greater than the overall variance")
+      message("hmm_mcmc_pois(): ", chain_char, "at least one initial rate parameter is greater than the overall variance")
     }
   }
   
@@ -691,7 +691,7 @@ hmm_mcmc_pois <- function(data,
                     means = all_means[iter, ],
                     mat_T = all_mat_T[ , ,iter])
   
-  info <- list(model_name = "hmm_mcmc_poisson",
+  info <- list(model_name = "hmm_mcmc_pois",
                date = as.character(Sys.time()),
                seed = seed,
                iter = iter,
@@ -718,8 +718,7 @@ hmm_mcmc_pois <- function(data,
 
 print.hmm_mcmc_poisson <- function(x, ...) {
   info <- x$info
-  mod <- if (info$model_name == "hmm_mcmc_poisson") "HMM Poisson" else NA
-  cat("Model:", mod, "\n")
+  cat("Model:", "HMM Poisson-Gamma", "\n")
   cat("Type:", "MCMC", "\n")
   cat("Iter:", info$iter, "\n")
   cat("Warmup:", info$warmup, "\n")
@@ -792,7 +791,7 @@ summary.hmm_mcmc_poisson <- function(object, ...) {
                       "assigned_states" = state_tab,
                       "approximate_kullback_leibler_divergence" = kl_div,
                       "log_likelihood" = ll_info,
-                      "state_differences_significance"=group_comparison)
+                      "state_differences_significance" = group_comparison)
   
   #### NEW LCM: remove below????
   #"log_posterior" = post_info)
