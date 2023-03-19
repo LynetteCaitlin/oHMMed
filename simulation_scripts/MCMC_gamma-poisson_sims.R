@@ -18,7 +18,7 @@ source("MCMC_poisson.R")
 
 ####################################################################
 # Please read the following usage recommendations:
-# https://github.com/LynetteCaitlin/oHMMed/UsageRecommendations.pdf
+# https://github.com/LynetteCaitlin/oHMMed/blob/main/UsageRecommendations.pdf
 # This code is for the example simulations in the above. 
 ####################################################################
 
@@ -71,7 +71,7 @@ mean(simdata1)
 #     Remember: We do not know the true number of states!
 # The recommendations for the betas are heeded below. 
 
-n2_states_inferred <- 2                            # number of states to be inferred
+n2_states_inferred <- 2                           # number of states to be inferred
 prior2_T <- generate_random_T(n2_states_inferred) # prior transition matrix, randomly generated
 prior_alpha2 <- (mean(simdata1)^2) / ((var(simdata1) - mean(simdata1)) / 2) # recommended prior alpha! changes with number of inferred states!
 prior_betas2 <- c(5, 1)
@@ -102,7 +102,7 @@ res1_n2 <- hmm_mcmc_gamma_poisson(data = simdata1,
                                   print_params = print_params,
                                   verbose = verbose)
 
-# Recall: it is recommended to also set: init_betas = prior_betas2,init_alpha = prior_alpha2,init_T = prior2_T
+# Recall: it is recommended to also set: init_betas = prior_betas2; init_alpha = prior_alpha2; init_T = prior2_T
 
 
 res1_n3 <- hmm_mcmc_gamma_poisson(data = simdata1,
@@ -161,7 +161,7 @@ p1
 
 
 # looks like the optimal number of states is 3 (where the plateau starts), so examine the results:
-#   the summary contains all the estimates, and the approximate kullback-leibler divergence
+#   the summary contains all the estimates, and the approximate Kullback-Leibler divergence
 summary(res1_n3)
 #   graphical diagnostics and confusion matrix
 plot(res1_n3, simulation = TRUE, true_alpha1, 
