@@ -237,13 +237,41 @@ get_mat_T_ <- function(u, l) {
 #'
 #' @param include_warmup (logical) include warmup samples. By default \code{FALSE}
 #'
+#' @details
+#' By default, for a given model, all parameters are converted into ggmcmc format.
+#' 
+#' The parameter \code{pattern} can be used to extract specific parameters.
+#' For instance \code{pattern="mean"} extracts all mean parameters from 
+#' a hmm_mcmc_normal model.
+#' 
+#' If a specific parameter is of interest it can be matched by an exact name:
+#' \code{pattern=c("mean[1]", "T[1,1]")}.
+#'
 #' @return
 #' data.frame compatible with functions from the \code{ggmcmc} package
 #'
 #' @export
 #'
 #' @examples
-#' # TODO
+#' # Convert all parameters (Normal model)
+#' convert_normal_all <- convert_to_ggmcmc(example_hmm_mcmc_normal)
+#' unique(convert_normal_all$Parameter)
+#' head(convert_normal_all)
+#' 
+#' # Convert only means (Normal model)
+#' convert_normal_means <- convert_to_ggmcmc(example_hmm_mcmc_normal, 
+#'                                           pattern = "mean")
+#' unique(convert_normal_means$Parameter)
+#' 
+#' # Convert selected parameter (Normal model)
+#' pattern_normal <- c("mean[1]", "sigma[1]", "T[1,1]")
+#' convert_normal_param <- convert_to_ggmcmc(example_hmm_mcmc_normal, 
+#'                                           pattern = pattern_normal)
+#' unique(convert_normal_param$Parameter)
+#' 
+#' # Convert all parameters (Poisson-Gamma model)
+#' convert_pois_gamma_all <- convert_to_ggmcmc(example_hmm_mcmc_pois)
+#' unique(convert_pois_gamma_all$Parameter)
 
 convert_to_ggmcmc <- function(x,
                               pattern = c("mean", "sigma", "beta", "alpha", "pois_means", "T"),
@@ -909,10 +937,10 @@ init_hmm_mcmc_normal_ <- function(data, prior_T, prior_means, prior_sd,
 #' @param verbose (logical) \code{optional parameter}; print additional messages. By default, \code{TRUE}
 #'
 #' @details
-#' Here details
+#' TODO: Here details
 #'
 #' @references
-#' Here references
+#' TODO: Here references
 #'
 #' @return
 #' List with following elements:
@@ -1233,7 +1261,7 @@ summary.hmm_mcmc_normal <- function(object, ...) {
 #' @export coef.hmm_mcmc_normal
 #'
 #' @examples
-#' # TODO
+#' coef(example_hmm_mcmc_normal)
 
 coef.hmm_mcmc_normal <- function(object, ...) {
   est <- object$estimates
@@ -1274,17 +1302,7 @@ coef.hmm_mcmc_normal <- function(object, ...) {
 #' @importFrom stats qqplot
 #'
 #' @examples
-#' # TODO
-#'
-
-# simulation = TRUE
-# true_T <- rbind(c(0.95, 0.05, 0),
-#                 c(0.025, 0.95, 0.025),
-#                 c(0.0, 0.05, 0.95))
-#
-# true_means <- c(-5, 0, 5)
-# true_sd <- 1.5
-# true_states <- simdata_full$states
+#' plot(example_hmm_mcmc_normal)
 
 plot.hmm_mcmc_normal <- function(x,
                                  simulation = FALSE,
@@ -1475,7 +1493,8 @@ plot.hmm_mcmc_normal <- function(x,
 #'
 #'
 #' @examples
-#' # TODO
+#' res <- conf_mat(100, example_hmm_mcmc_normal, plot = TRUE)
+#' res
 
 conf_mat <- function(N, res, plot = TRUE) {
   

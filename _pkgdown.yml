@@ -45,6 +45,11 @@ reference:
   - '`coef.hmm_mcmc_normal`'
   - '`coef.hmm_mcmc_poisson`'
 
+- title: Simulated example models
+  contents:
+  - '`example_hmm_mcmc_normal`'
+  - '`example_hmm_mcmc_pois`'
+
 
 
 

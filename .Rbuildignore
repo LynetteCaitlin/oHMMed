@@ -17,3 +17,4 @@
 ^vignettes/
 ^usageRecommendations.pdf$
 ^authors.R$
+^examples.R$

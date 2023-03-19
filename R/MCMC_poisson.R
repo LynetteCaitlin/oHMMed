@@ -511,6 +511,7 @@ init_hmm_mcmc_pois_ <- function(data, prior_T, prior_betas, prior_alpha,
 #' List with following elements:
 #' \itemize{
 #'   \item data: data used for simulation
+#'   \item samples: list with samples
 #'   \item estimates: list with various estimates
 #'   \item idx: indices with iterations after the warmup period
 #'   \item priors: prior parameters
@@ -851,7 +852,7 @@ summary.hmm_mcmc_poisson <- function(object, ...) {
 #' @export coef.hmm_mcmc_poisson
 #'
 #' @examples
-#' # TODO
+#' coef(example_hmm_mcmc_pois)
 
 coef.hmm_mcmc_poisson <- function(object, ...) {
   est <- object$estimates
@@ -888,7 +889,7 @@ coef.hmm_mcmc_poisson <- function(object, ...) {
 #' @export plot.hmm_mcmc_poisson
 #'
 #' @examples
-#' # TODO
+#' plot(example_hmm_mcmc_pois)
 
 plot.hmm_mcmc_poisson <- function(x,
                                   simulation = FALSE,
