@@ -65,7 +65,7 @@ sd(simdata1)
 
 # the prior/initial transition rate matrix can be randomly generated
 # for eg, by assuming 3 states:
-n2_states_inferred <- 3
+n3_states_inferred <- 3
 rand_T <- generate_random_T(n3_states_inferred)
 
 # overall, the recommended procedure would lead us to run the following inference procedure for 3 states:
