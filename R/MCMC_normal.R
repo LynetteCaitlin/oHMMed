@@ -257,6 +257,7 @@ get_mat_T_ <- function(u, l) {
 #' convert_normal_all <- convert_to_ggmcmc(example_hmm_mcmc_normal)
 #' unique(convert_normal_all$Parameter)
 #' head(convert_normal_all)
+#' tail(convert_normal_all)
 #' 
 #' # Convert only means (Normal model)
 #' convert_normal_means <- convert_to_ggmcmc(example_hmm_mcmc_normal, 
@@ -270,7 +271,7 @@ get_mat_T_ <- function(u, l) {
 #' unique(convert_normal_param$Parameter)
 #' 
 #' # Convert all parameters (Poisson-Gamma model)
-#' convert_pois_gamma_all <- convert_to_ggmcmc(example_hmm_mcmc_pois)
+#' convert_pois_gamma_all <- convert_to_ggmcmc(example_hmm_mcmc_gamma_poisson)
 #' unique(convert_pois_gamma_all$Parameter)
 
 convert_to_ggmcmc <- function(x,
@@ -309,7 +310,7 @@ convert_to_ggmcmc <- function(x,
   pat <- paste0(pat, collapse = "|")
   
   res <- res[grepl(pat, res$Parameter), ]
-  
+  rownames(res) <- NULL
   n_params <- length(unique(res$Parameter))
   
   attr(res, "nChains") <- 1
