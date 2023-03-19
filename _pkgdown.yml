@@ -14,24 +14,24 @@ reference:
   desc: Functions for simulating data
   contents:
   - '`hmm_simulate_normal_data`'
-  - '`hmm_simulate_poisgamma_data`'
+  - '`hmm_simulate_gamma_poisson_data`'
 
 - title: Simulate Hidden Markov Models
   desc: Functions for simulating Hidden Markov Models
   contents:
   - '`hmm_mcmc_normal`'
-  - '`hmm_mcmc_pois`'
+  - '`hmm_mcmc_gamma_poisson`'
 
 - title: Inference
   desc: Functions for inference on Hidden Markov Models
   contents:
-  - '`posterior_probabilities_normal`'
-  - '`posterior_probabilities_poisgamma`'
+  - '`posterior_prob_normal`'
+  - '`posterior_prob_gamma_poisson`'
 
 - title: Diagnostic tools
   contents:
   - '`plot.hmm_mcmc_normal`'
-  - '`plot.hmm_mcmc_poisson`'
+  - '`plot.hmm_mcmc_gamma_poisson`'
   - '`conf_mat`'
   - '`kullback_leibler_cont_appr`'
   - '`kullback_leibler_disc`'
@@ -43,12 +43,12 @@ reference:
   - '`get_pi`'
   - '`convert_to_ggmcmc`'
   - '`coef.hmm_mcmc_normal`'
-  - '`coef.hmm_mcmc_poisson`'
+  - '`coef.hmm_mcmc_gamma_poisson`'
 
 - title: Simulated example models
   contents:
   - '`example_hmm_mcmc_normal`'
-  - '`example_hmm_mcmc_pois`'
+  - '`example_hmm_mcmc_gamma_poisson`'
 
 
 

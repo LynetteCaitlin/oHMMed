@@ -41,10 +41,10 @@ true_betas1 <- 1 / (c(0.2, 1.5, 9))  # state specific rate parameters for gamma-
 true_alpha1 <- 1.3                   # shared shape parameters across states for gamma-poisson emission densities
 
 # simulation step:
-simdata1full <- hmm_simulate_poisgamma_data(L = L1,
-                                            mat_T = true_T1,
-                                            betas = true_betas1,
-                                            alpha = true_alpha1)
+simdata1full <- hmm_simulate_gamma_poisson_data(L = L1,
+                                                mat_T = true_T1,
+                                                betas = true_betas1,
+                                                alpha = true_alpha1)
 # then extract the simulated data/observed sequence...:
 simdata1 <- simdata1full$data
 # ... and have a quick peek at the overall emission density:

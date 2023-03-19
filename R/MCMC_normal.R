@@ -46,7 +46,7 @@
 #
 #
 ## DETAILED CHANGES:
-# "posterior_probabilities_normal": -------------------------------------------------------------------------
+# "posterior_prob_normal": -------------------------------------------------------------------------
 # MM: few adjustments have been made to make the function robust.
 #
 # Main story: if the prior values (also initial values) for means and the variance
@@ -495,9 +495,8 @@ eigen_system <- function(mat) {
 }
 
 
-#' Hidden Markov Model simulation with normal data.
+#' Simulate data based on a Normal model for a Hidden Markov Model simulation
 #'
-#' Simulate a Hidden Markov Model based on normal data.
 #'
 #' @param L (integer) number of simulations
 #'
@@ -608,13 +607,13 @@ hmm_simulate_normal_data <- function(L, mat_T, means, sigma) {
 #' hmm_norm_data <- sim_data_normal$data
 #'
 #' # Calculate posterior probabilities of hidden states
-#' post_prob <-  posterior_probabilities_normal(data = hmm_norm_data,
-#'                                              pi = pi,
-#'                                              mat_T = prior_mat,
-#'                                              means = prior_means,
-#'                                              sdev = prior_sd)
+#' post_prob <-  posterior_prob_normal(data = hmm_norm_data,
+#'                                     pi = pi,
+#'                                     mat_T = prior_mat,
+#'                                     means = prior_means,
+#'                                     sdev = prior_sd)
 
-posterior_probabilities_normal <- function(data, pi, mat_T, means, sdev) {
+posterior_prob_normal <- function(data, pi, mat_T, means, sdev) {
   
   cap_ <- .Machine$double.xmax
   floor_ <- .Machine$double.xmin
@@ -890,11 +889,11 @@ init_hmm_mcmc_normal_ <- function(data, prior_T, prior_means, prior_sd,
   
   init_pi <- get_pi_(init_T)
   
-  init_mat_res <- posterior_probabilities_normal(data = data,
-                                                 pi = init_pi,
-                                                 mat_T = init_T,
-                                                 means = init_means,
-                                                 sdev = init_sd)
+  init_mat_res <- posterior_prob_normal(data = data,
+                                        pi = init_pi,
+                                        mat_T = init_T,
+                                        means = init_means,
+                                        sdev = init_sd)
   init_states <- sample_states_normal_(mat_R = init_mat_res,
                                        pi = init_pi,
                                        mat_T = init_T,
@@ -946,6 +945,7 @@ init_hmm_mcmc_normal_ <- function(data, prior_T, prior_means, prior_sd,
 #' List with following elements:
 #' \itemize{
 #'   \item data: data used for simulation
+#'   \item samples: list with samples
 #'   \item estimates: list with various estimates
 #'   \item idx: indices with iterations after the warmup period
 #'   \item priors: prior parameters
@@ -1059,7 +1059,7 @@ hmm_mcmc_normal <- function(data,
     sd <- m$sdev
     mat_T <- sample_T_(states, prior_mat = prior_P)
     pi <- get_pi_(mat_T)
-    mat_res <- posterior_probabilities_normal(data = data,
+    mat_res <- posterior_prob_normal(data = data,
                                               pi = pi,
                                               mat_T = mat_T,
                                               means = means,
@@ -1503,13 +1503,13 @@ conf_mat <- function(N, res, plot = TRUE) {
                                       res$estimates$mat_T,
                                       res$estimates$means,
                                       res$estimates$sd)
-  } else if (inherits(res, "hmm_mcmc_poisson")) {
-    trial <- hmm_simulate_poisgamma_data(N,
-                                         res$estimates$mat_T,
-                                         res$estimates$betas,
-                                         res$estimates$alpha)
+  } else if (inherits(res, "hmm_mcmc_gamma_poisson")) {
+    trial <- hmm_simulate_gamma_poisson_data(N,
+                                             res$estimates$mat_T,
+                                             res$estimates$betas,
+                                             res$estimates$alpha)
   } else {
-    stop("conf_mat(): currently \"hmm_mcmc_normal\" and \"hmm_mcmc_poisson\" models are supported", call = FALSE)
+    stop("conf_mat(): currently \"hmm_mcmc_normal\" and \"hmm_mcmc_gamma_poisson\" models are supported", call = FALSE)
   }
   
   vpi <- trial$pi
@@ -1518,7 +1518,7 @@ conf_mat <- function(N, res, plot = TRUE) {
   
   if (inherits(res, "hmm_mcmc_normal")) {
     # Calculate posterior probabilities of hidden states
-    post_prob <-  posterior_probabilities_normal(data = trial_data,
+    post_prob <-  posterior_prob_normal(data = trial_data,
                                                  pi = vpi,
                                                  mat_T = res$estimates$mat_T,
                                                  means = res$estimates$means,
@@ -1532,13 +1532,13 @@ conf_mat <- function(N, res, plot = TRUE) {
                                               data = trial_data)
   }
   
-  if (inherits(res, "hmm_mcmc_poisson")) {
+  if (inherits(res, "hmm_mcmc_gamma_poisson")) {
     # Calculate posterior probabilities of hidden states
-    post_prob <-  posterior_probabilities_poisgamma(data = trial_data,
-                                                    pi = vpi,
-                                                    mat_T = res$estimates$mat_T,
-                                                    betas = res$estimates$betas,
-                                                    alpha = res$estimates$alpha)
+    post_prob <-  posterior_prob_gamma_poisson(data = trial_data,
+                                               pi = vpi,
+                                               mat_T = res$estimates$mat_T,
+                                               betas = res$estimates$betas,
+                                               alpha = res$estimates$alpha)
     # See how many states are recovered
     estimated_states <- sample_states_pois_(mat_R = post_prob,
                                             pi = vpi,

@@ -70,7 +70,7 @@ kullback_leibler_disc <- function(p, q) {
 }
 
 
-#' Simulate a Hidden Markov Model based on Poisson-gamma data
+#' Simulate data based on a Gamma-Poisson Model for a Hidden Markov Model simulation
 #'
 #' @param L (integer) number of simulations
 #'
@@ -94,36 +94,36 @@ kullback_leibler_disc <- function(p, q) {
 #' betas <- c(0.1, 0.3, 0.5)
 #' alpha <- 1
 #'
-#' sim_data <- hmm_simulate_poisgamma_data(L = L,
-#'                                         mat_T = mat_T,
-#'                                         betas = betas,
-#'                                         alpha = alpha)
+#' sim_data <- hmm_simulate_gamma_poisson_data(L = L,
+#'                                             mat_T = mat_T,
+#'                                             betas = betas,
+#'                                             alpha = alpha)
 #' hist(sim_data$data, breaks = 100, main = "Histogram")
 
-hmm_simulate_poisgamma_data = function(L, mat_T, betas, alpha) {
+hmm_simulate_gamma_poisson_data = function(L, mat_T, betas, alpha) {
   
   if (length(alpha) != 1) {
-    stop("hmm_simulate_poisgamma_data(): shape parameter `alpha` must be of length 1", call. = FALSE)
+    stop("hmm_simulate_gamma_poisson_data(): shape parameter `alpha` must be of length 1", call. = FALSE)
   }
   
   if (alpha < 0) {
-    stop("hmm_simulate_poisgamma_data(): shape parameter `alpha` must be non-negative", call. = FALSE)
+    stop("hmm_simulate_gamma_poisson_data(): shape parameter `alpha` must be non-negative", call. = FALSE)
   }
   
   if (any(betas < 0)) {
-    stop("hmm_simulate_poisgamma_data(): rate parameters `betas` must be non-negative", call. = FALSE)
+    stop("hmm_simulate_gamma_poisson_data(): rate parameters `betas` must be non-negative", call. = FALSE)
   }
   
   if (!is.matrix(mat_T)) {
-    stop("hmm_simulate_poisgamma_data(): `mat_T` must be a numeric matrix", call. = FALSE)
+    stop("hmm_simulate_gamma_poisson_data(): `mat_T` must be a numeric matrix", call. = FALSE)
   }
   
   if (any(is_row_sum_one_(mat_T) == FALSE)) {
-    stop("hmm_simulate_poisgamma_data(): rows in the transition matrix `mat_T` must sum up to 1", call. = FALSE)
+    stop("hmm_simulate_gamma_poisson_data(): rows in the transition matrix `mat_T` must sum up to 1", call. = FALSE)
   }
   
   if (length(L) != 1) {
-    stop("hmm_simulate_poisgamma_data(): the number of simulations `L` must be a single integer", call. = FALSE)
+    stop("hmm_simulate_gamma_poisson_data(): the number of simulations `L` must be a single integer", call. = FALSE)
   }
   
   vstate <- rep(NA, L)
@@ -176,7 +176,7 @@ hmm_simulate_poisgamma_data = function(L, mat_T, betas, alpha) {
 #' Here some references
 #'
 #' @return
-#' List with posterior probabilities (TO BE CORRECTED)
+#' List with posterior probabilities
 #'
 #' @export
 #'
@@ -188,22 +188,22 @@ hmm_simulate_poisgamma_data = function(L, mat_T, betas, alpha) {
 #' betas <- c(0.1, 0.3, 0.5)
 #' alpha <- 1
 #'
-#' sim_data <- hmm_simulate_poisgamma_data(L = L,
-#'                                         mat_T = mat_T,
-#'                                         betas = betas,
-#'                                         alpha = alpha)
+#' sim_data <- hmm_simulate_gamma_poisson_data(L = L,
+#'                                             mat_T = mat_T,
+#'                                             betas = betas,
+#'                                             alpha = alpha)
 #' pi <- sim_data$pi
 #' hmm_poison_data <- sim_data$data
 #' hist(hmm_poison_data, breaks = 100)
 #'
 #' # Calculate posterior probabilities of hidden states
-#' post_prob <-  posterior_probabilities_poisgamma(data = hmm_poison_data,
-#'                                                 pi = pi,
-#'                                                 mat_T = mat_T,
-#'                                                 betas = betas,
-#'                                                 alpha = alpha)
+#' post_prob <- posterior_prob_gamma_poisson(data = hmm_poison_data,
+#'                                           pi = pi,
+#'                                           mat_T = mat_T,
+#'                                           betas = betas,
+#'                                           alpha = alpha)
 
-posterior_probabilities_poisgamma <- function(data, pi, mat_T, betas, alpha) {
+posterior_prob_gamma_poisson <- function(data, pi, mat_T, betas, alpha) {
   
   cap_ <- .Machine$double.xmax
   floor_ <- .Machine$double.xmin
@@ -290,7 +290,7 @@ sample_betas_alpha_ <- function(cur_betas, cur_alpha, prior_betas, prior_alpha, 
   #### begin NEW LCM & CV: no data -> sample betas from priors and alphas from close to prior
   if (is.null(states) & is.null(data)) {
     
-    # betas <- sort(cur_betas, decreasing = TRUE) # MM: BUG (when applying "init_hmm_mcmc_pois_" the cur_betas=NULL --> sorts(NULL) --> NULL. No need for sorting)
+    # betas <- sort(cur_betas, decreasing = TRUE) # MM: BUG (when applying "init_hmm_mcmc_gamma_poisson_" the cur_betas=NULL --> sorts(NULL) --> NULL. No need for sorting)
     # betas[i] <- stats::rgamma(1, shape = 1, rate = 1 / prior_betas) # MM: BUG (in addition to the above: missing for-loop. 3 betas with different rate parameters can be simulated in a vectorized way though)
     betas <- stats::rgamma(length(prior_betas), shape = 1, rate = 1 / prior_betas)
     
@@ -348,43 +348,43 @@ sample_betas_alpha_ <- function(cur_betas, cur_alpha, prior_betas, prior_alpha, 
 
 
 #' @keywords internal
-init_hmm_mcmc_pois_ <- function(data, prior_T, prior_betas, prior_alpha,
-                                init_T, init_betas, init_alpha, 
-                                verbose, iter, warmup, thin, chain_id = NULL) {
+init_hmm_mcmc_gamma_poisson_ <- function(data, prior_T, prior_betas, prior_alpha,
+                                         init_T, init_betas, init_alpha, 
+                                         verbose, iter, warmup, thin, chain_id = NULL) {
   
   if (iter < 2) {
-    stop("hmm_mcmc_pois(): `iter` needs to be bigger than 1", call. = FALSE)
+    stop("hmm_mcmc_gamma_poisson(): `iter` needs to be bigger than 1", call. = FALSE)
   }
   
   if (!is.integer(data)) {
-    stop("hmm_mcmc_pois(): `data` needs to be an integer vector", call. = FALSE)
+    stop("hmm_mcmc_gamma_poisson(): `data` needs to be an integer vector", call. = FALSE)
   }
   
   if (sum(is.na(data)) > 0) {
-    stop("hmm_mcmc_pois(): `data` contains missing values", call. = FALSE)
+    stop("hmm_mcmc_gamma_poisson(): `data` contains missing values", call. = FALSE)
   }
   
   if (any(is_row_sum_one_(prior_T) == FALSE)) {
-    stop("hmm_mcmc_pois(): rows in the transition matrix `prior_T` must sum up to 1", call. = FALSE)
+    stop("hmm_mcmc_gamma_poisson(): rows in the transition matrix `prior_T` must sum up to 1", call. = FALSE)
   }
   if (length(prior_betas) != nrow(prior_T) | length(prior_betas) != ncol(prior_T)) {
-    stop("hmm_mcmc_pois(): number of states is not the same between input variables", call. = FALSE)
+    stop("hmm_mcmc_gamma_poisson(): number of states is not the same between input variables", call. = FALSE)
   }
   
   # the algorithm takes care of it anyway....
   #is_prior_beta_decreasing <- all(sort(prior_betas, decreasing = TRUE) == prior_betas)
   #if (!is_prior_beta_decreasing) {
-  #  warning("hmm_mcmc_pois(): `prior_betas` should be sorted in decreasing order", call. = FALSE)
+  #  warning("hmm_mcmc_gamma_poisson(): `prior_betas` should be sorted in decreasing order", call. = FALSE)
   #}
   
   if (length(prior_alpha) != 1) {
-    stop("hmm_mcmc_pois(): `prior_alpha` must be of length 1", call. = FALSE)
+    stop("hmm_mcmc_gamma_poisson(): `prior_alpha` must be of length 1", call. = FALSE)
   }
   if (warmup >= iter + 2) {
-    stop("hmm_mcmc_pois(): `warmup` must be lower than `iter`", call. = FALSE)
+    stop("hmm_mcmc_gamma_poisson(): `warmup` must be lower than `iter`", call. = FALSE)
   }
   if (thin > iter - warmup) {
-    stop("hmm_mcmc_pois(): `thin` cannot exceed iterations after warmup period", call. = FALSE)
+    stop("hmm_mcmc_gamma_poisson(): `thin` cannot exceed iterations after warmup period", call. = FALSE)
   }
   
   # Initialization
@@ -403,26 +403,26 @@ init_hmm_mcmc_pois_ <- function(data, prior_T, prior_betas, prior_alpha,
   }
   
   if (length(init_betas) != nrow(init_T) | length(init_betas) != ncol(init_T)) {
-    stop("hmm_mcmc_pois(): number of states is not the same between input variables", call. = FALSE)
+    stop("hmm_mcmc_gamma_poisson(): number of states is not the same between input variables", call. = FALSE)
   }
   
   if (length(init_alpha) != 1) {
-    stop("hmm_mcmc_pois(): `init_alpha` must be of length 1", call. = FALSE)
+    stop("hmm_mcmc_gamma_poisson(): `init_alpha` must be of length 1", call. = FALSE)
   }
   
   if (any(is_row_sum_one_(init_T) == FALSE)) {
-    stop("hmm_mcmc_pois(): rows in the transition matrix `init_T` must sum up to 1", call. = FALSE)
+    stop("hmm_mcmc_gamma_poisson(): rows in the transition matrix `init_T` must sum up to 1", call. = FALSE)
   }
   # the algorithm takes care of it anyway....
   #is_init_betas_decreasing <- all(sort(init_betas, decreasing = TRUE) == init_betas)
   #if (!is_init_betas_decreasing) {
-  #  warning("hmm_mcmc_poisson(): `init_betas` should be sorted in decreasing order", call. = FALSE)
+  #  warning("hmm_mcmc_gamma_poisson(): `init_betas` should be sorted in decreasing order", call. = FALSE)
   #}
   
   #NEW LCM
   lambda1 <- sum(data) / length(data)
   lambda2 <- numeric(length(init_betas)) # rep(NA, length(init_betas))
-  for (i in 1:length(init_betas)){ 
+  for (i in 1:length(init_betas)) { 
     lambda2[i] <- mean(stats::rgamma(1000, init_alpha, init_betas[i]))
   }
   range1 <- lambda1 < lambda2
@@ -442,24 +442,25 @@ init_hmm_mcmc_pois_ <- function(data, prior_T, prior_betas, prior_alpha,
   if (verbose) {
      set_alpha <- (mean(data)^2) / ((stats::var(data) - mean(data)) / length(init_betas))
      if( (init_alpha > (set_alpha + 3)) | (init_alpha < (set_alpha - 3)) ){
-       message("hmm_mcmc_pois(): ", chain_char, "initial alpha is not close to the recommended value")
+       message("hmm_mcmc_gamma_poisson(): ", chain_char, "initial alpha is not close to the recommended value")
      }
      
     if ((sum(range1) == length(lambda2)) | (sum(range2) == length(lambda2))) {
-      message("hmm_mcmc_pois(): ", chain_char, "rate parameter of observed distribution is either above or below all of the initial rate parameters")
+      message("hmm_mcmc_gamma_poisson(): ", chain_char, "rate parameter of observed distribution is either above or below all of the initial rate parameters")
     }
     if (any(lambda2 > stats::var(data))) {
-      message("hmm_mcmc_pois(): ", chain_char, "at least one initial rate parameter is greater than the overall variance")
+      message("hmm_mcmc_gamma_poisson(): ", chain_char, "at least one initial rate parameter is greater than the overall variance")
     }
   }
   
   init_pi <- get_pi_(init_T)
   
-  init_mat_res <- posterior_probabilities_poisgamma(data = data,
-                                                    pi = init_pi,
-                                                    mat_T = init_T,
-                                                    betas = init_betas,
-                                                    alpha = init_alpha)
+  init_mat_res <- posterior_prob_gamma_poisson(data = data,
+                                               pi = init_pi,
+                                               mat_T = init_T,
+                                               betas = init_betas,
+                                               alpha = init_alpha)
+  
   init_states <- sample_states_pois_(mat_R = init_mat_res,
                                      pi = init_pi,
                                      mat_T = init_T,
@@ -473,7 +474,7 @@ init_hmm_mcmc_pois_ <- function(data, prior_T, prior_betas, prior_alpha,
 }
 
 
-#' MCMC simulation of a Hidden Markov Normal Model for Poisson model
+#' MCMC simulation of a Hidden Markov Normal Model for Gamma-Poisson model
 #'
 #' @param data (numeric) data
 #'
@@ -502,10 +503,10 @@ init_hmm_mcmc_pois_ <- function(data, prior_T, prior_betas, prior_alpha,
 #' @param verbose (logical) \code{optional parameter}; print additional messages. By default, \code{TRUE}
 #'
 #' @details
-#' Here details
+#' TODO: Here details
 #'
 #' @references
-#' Here references
+#' TODO: Here references
 #'
 #' @return
 #' List with following elements:
@@ -532,10 +533,10 @@ init_hmm_mcmc_pois_ <- function(data, prior_T, prior_betas, prior_alpha,
 #' true_betas <- c(2, 1, 0.1)
 #' true_alpha <- 1
 #'
-#' simdata_full <- hmm_simulate_poisgamma_data(L = N,
-#'                                             mat_T = true_T,
-#'                                             betas = true_betas,
-#'                                             alpha = true_alpha)
+#' simdata_full <- hmm_simulate_gamma_poisson_data(L = N,
+#'                                                 mat_T = true_T,
+#'                                                 betas = true_betas,
+#'                                                 alpha = true_alpha)
 #' simdata <- simdata_full$data
 #' hist(simdata, breaks = 40, probability = TRUE,  
 #'      main = "Distribution of the simulated Poisson-Gamma data")
@@ -558,16 +559,16 @@ init_hmm_mcmc_pois_ <- function(data, prior_T, prior_betas, prior_alpha,
 #' verbose <- FALSE # if TRUE then the state of the simulation is printed
 #'
 #' # Run MCMC sampler
-#' res <- hmm_mcmc_pois(data = simdata,
-#'                      prior_T = prior_T,
-#'                      prior_betas = prior_betas,
-#'                      prior_alpha = prior_alpha,
-#'                      iter = iter,
-#'                      warmup = warmup,  
-#'                      thin = thin,
-#'                      seed = seed,
-#'                      print_params = print_params,
-#'                      verbose = verbose)
+#' res <- hmm_mcmc_gamma_poisson(data = simdata,
+#'                               prior_T = prior_T,
+#'                               prior_betas = prior_betas,
+#'                               prior_alpha = prior_alpha,
+#'                               iter = iter,
+#'                               warmup = warmup,  
+#'                               thin = thin,
+#'                               seed = seed,
+#'                               print_params = print_params,
+#'                               verbose = verbose)
 #' res
 #'
 #' summary(res)# summary output can be also assigned to a variable
@@ -576,25 +577,25 @@ init_hmm_mcmc_pois_ <- function(data, prior_T, prior_betas, prior_alpha,
 #' 
 #' # plot(res) # MCMC diagnostics
 
-hmm_mcmc_pois <- function(data,
-                          prior_T,
-                          prior_betas,
-                          prior_alpha = 1,
-                          iter = 1500,
-                          warmup = floor(iter / 1.5),
-                          thin = 1,
-                          seed = sample.int(.Machine$integer.max, 1),
-                          init_T = NULL,
-                          init_betas = NULL,
-                          init_alpha = NULL,
-                          print_params = TRUE,
-                          verbose = TRUE) {
+hmm_mcmc_gamma_poisson <- function(data,
+                                   prior_T,
+                                   prior_betas,
+                                   prior_alpha = 1,
+                                   iter = 1500,
+                                   warmup = floor(iter / 1.5),
+                                   thin = 1,
+                                   seed = sample.int(.Machine$integer.max, 1),
+                                   init_T = NULL,
+                                   init_betas = NULL,
+                                   init_alpha = NULL,
+                                   print_params = TRUE,
+                                   verbose = TRUE) {
   
   set.seed(seed)
   
-  init_data <- init_hmm_mcmc_pois_(data, prior_T, prior_betas, prior_alpha,
-                                   init_T, init_betas, init_alpha,
-                                   verbose, iter, warmup, thin)
+  init_data <- init_hmm_mcmc_gamma_poisson_(data, prior_T, prior_betas, prior_alpha,
+                                            init_T, init_betas, init_alpha,
+                                            verbose, iter, warmup, thin)
   
   n_data <- length(data)
   n_states <- length(prior_betas)
@@ -628,11 +629,12 @@ hmm_mcmc_pois <- function(data,
     alpha <- m$alpha
     mat_T <- sample_T_(states, prior_mat = prior_T)
     pi <- get_pi_(mat_T)
-    mat_res <- posterior_probabilities_poisgamma(data = data,
-                                                 pi = pi,
-                                                 mat_T = mat_T,
-                                                 betas = betas,
-                                                 alpha = alpha)
+    mat_res <- posterior_prob_gamma_poisson(data = data,
+                                            pi = pi,
+                                            mat_T = mat_T,
+                                            betas = betas,
+                                            alpha = alpha)
+    
     states <- sample_states_pois_(mat_R = mat_res,
                                   pi = pi,
                                   mat_T = mat_T,
@@ -692,7 +694,7 @@ hmm_mcmc_pois <- function(data,
                     means = all_means[iter, ],
                     mat_T = all_mat_T[ , ,iter])
   
-  info <- list(model_name = "hmm_mcmc_pois",
+  info <- list(model_name = "hmm_mcmc_gamma_poisson",
                date = as.character(Sys.time()),
                seed = seed,
                iter = iter,
@@ -708,7 +710,7 @@ hmm_mcmc_pois <- function(data,
               last_iter = last_iter,
               info = info)
   
-  class(res) <- "hmm_mcmc_poisson"
+  class(res) <- "hmm_mcmc_gamma_poisson"
   res$info$object_size <- format(utils::object.size(res), "Mb")
   res
 }
@@ -717,9 +719,9 @@ hmm_mcmc_pois <- function(data,
 #' @keywords internal
 #' @export
 
-print.hmm_mcmc_poisson <- function(x, ...) {
+print.hmm_mcmc_gamma_poisson <- function(x, ...) {
   info <- x$info
-  cat("Model:", "HMM Poisson-Gamma", "\n")
+  cat("Model:", "HMM Gamma-Poisson", "\n")
   cat("Type:", "MCMC", "\n")
   cat("Iter:", info$iter, "\n")
   cat("Warmup:", info$warmup, "\n")
@@ -731,7 +733,7 @@ print.hmm_mcmc_poisson <- function(x, ...) {
 #' @keywords internal
 #' @export
 
-summary.hmm_mcmc_poisson <- function(object, ...) {
+summary.hmm_mcmc_gamma_poisson <- function(object, ...) {
   
   info <- object$info
   idx <- object$idx
@@ -849,12 +851,12 @@ summary.hmm_mcmc_poisson <- function(object, ...) {
 #' @describeIn coef.hmm_mcmc_normal
 #'
 #' @export
-#' @export coef.hmm_mcmc_poisson
+#' @export coef.hmm_mcmc_gamma_poisson
 #'
 #' @examples
-#' coef(example_hmm_mcmc_pois)
+#' coef(example_hmm_mcmc_gamma_poisson)
 
-coef.hmm_mcmc_poisson <- function(object, ...) {
+coef.hmm_mcmc_gamma_poisson <- function(object, ...) {
   est <- object$estimates
   list(betas = est$betas,
        alpha = est$alpha,
@@ -863,7 +865,7 @@ coef.hmm_mcmc_poisson <- function(object, ...) {
 }
 
 
-#' Plot method for \code{hmm_mcmc_poisson} objects
+#' Plot method for \code{hmm_mcmc_gamma_poisson} objects
 #'
 #' @param x (hmm_mcmc_\*) MCMC HMM object
 #'
@@ -886,18 +888,18 @@ coef.hmm_mcmc_poisson <- function(object, ...) {
 #' No return value
 #'
 #' @export
-#' @export plot.hmm_mcmc_poisson
+#' @export plot.hmm_mcmc_gamma_poisson
 #'
 #' @examples
-#' plot(example_hmm_mcmc_pois)
+#' plot(example_hmm_mcmc_gamma_poisson)
 
-plot.hmm_mcmc_poisson <- function(x,
-                                  simulation = FALSE,
-                                  true_betas = NULL,
-                                  true_alpha = NULL,
-                                  true_mat_T = NULL,
-                                  true_states = NULL,
-                                  ...) {
+plot.hmm_mcmc_gamma_poisson <- function(x,
+                                        simulation = FALSE,
+                                        true_betas = NULL,
+                                        true_alpha = NULL,
+                                        true_mat_T = NULL,
+                                        true_states = NULL,
+                                        ...) {
   
   info <- x$info
   data <- x$data
@@ -907,7 +909,7 @@ plot.hmm_mcmc_poisson <- function(x,
     cond <- any(c(is.null(true_betas), is.null(true_alpha), is.null(true_mat_T),
                   is.null(true_states)))
     if (cond) {
-      stop("plot.hmm_mcmc_poisson(): if `simulation=TRUE` then `true_betas` ",
+      stop("plot.hmm_mcmc_gamma_poisson(): if `simulation=TRUE` then `true_betas` ",
            "`true_alpha`, `true_mat_T` and `true_states` must be defined", call. = FALSE)
     }
   }
