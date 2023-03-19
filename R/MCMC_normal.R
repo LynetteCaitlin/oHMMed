@@ -508,7 +508,7 @@ eigen_system <- function(mat) {
 #' @param sigma (numeric) \code{sd} parameter in \code{\link{rnorm}} for emission probabilities
 #'
 #' @return
-#' returns a data vector "data", the "true" hidden states "states" used to generate the data vector
+#' Returns a data vector "data", the "true" hidden states "states" used to generate the data vector
 #' and prior probability of states "pi".
 #'
 #' @export
@@ -579,13 +579,13 @@ hmm_simulate_normal_data <- function(L, mat_T, means, sigma) {
 #' @param sdev (numeric) prior standard deviation
 #'
 #' @details
-#' Here details on how the calculation is made
+#' TODO: Here details on how the calculation is made
 #'
 #' @references
-#' Here some references
+#' TODO: Here some references
 #'
 #' @return
-#' List with posterior probabilities (TO BE CORRECTED)
+#' TODO: List with posterior probabilities (improve description)
 #'
 #' @export
 #'
@@ -613,6 +613,7 @@ hmm_simulate_normal_data <- function(L, mat_T, means, sigma) {
 #'                                     mat_T = prior_mat,
 #'                                     means = prior_means,
 #'                                     sdev = prior_sd)
+#' str(post_prob)
 
 posterior_prob_normal <- function(data, pi, mat_T, means, sdev) {
   
@@ -1277,7 +1278,7 @@ coef.hmm_mcmc_normal <- function(object, ...) {
 
 #' Plot method for \code{hmm_mcmc_normal} objects
 #'
-#' @param x (hmm_mcmc_\*) MCMC HMM object
+#' @param x (hmm_mcmc_normal) hmm_mcmc_normal object
 #'
 #' @param simulation (logical)
 #'
@@ -1292,7 +1293,7 @@ coef.hmm_mcmc_normal <- function(object, ...) {
 #' @param ... not used
 #'
 #' @details
-#' Here details
+#' TODO: Here details
 #'
 #' @return
 #' No return value
@@ -1303,7 +1304,9 @@ coef.hmm_mcmc_normal <- function(object, ...) {
 #' @importFrom stats qqplot
 #'
 #' @examples
+#' \donttest{
 #' plot(example_hmm_mcmc_normal)
+#' }
 
 plot.hmm_mcmc_normal <- function(x,
                                  simulation = FALSE,

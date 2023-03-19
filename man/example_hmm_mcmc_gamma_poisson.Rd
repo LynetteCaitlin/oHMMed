@@ -14,15 +14,16 @@ example_hmm_mcmc_gamma_poisson
 Example of a Simulated Gamma-Poisson Model
 }
 \examples{
-# Data
+# Data stored in the object
 hist(example_hmm_mcmc_gamma_poisson$data, 
      breaks = 50, xlab = "", main = "")
 
-# Priors
+# Priors used in simulation
 example_hmm_mcmc_gamma_poisson$priors
 
 # Model
 example_hmm_mcmc_gamma_poisson
+
 summary(example_hmm_mcmc_gamma_poisson)
 }
 \keyword{datasets}

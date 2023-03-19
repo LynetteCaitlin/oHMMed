@@ -18,13 +18,13 @@ posterior_prob_gamma_poisson(data, pi, mat_T, betas, alpha)
 \item{alpha}{(numeric) prior scale}
 }
 \value{
-List with posterior probabilities
+TODO: List with posterior probabilities (improve description)
 }
 \description{
 Forward-backward algorithm to calculate the posterior probabilities of hidden states in Poisson-Gamma model.
 }
 \details{
-Here details on how the calculation is made
+TODO: Here details on how the calculation is made
 }
 \examples{
 mat_T <- rbind(c(1-0.01,0.01,0),
@@ -48,7 +48,8 @@ post_prob <- posterior_prob_gamma_poisson(data = hmm_poison_data,
                                           mat_T = mat_T,
                                           betas = betas,
                                           alpha = alpha)
+str(post_prob)
 }
 \references{
-Here some references
+TODO: Here some references
 }

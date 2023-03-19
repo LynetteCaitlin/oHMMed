@@ -64,57 +64,58 @@
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># Data</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># Data stored in the object</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/density.html" class="external-link">density</a></span><span class="op">(</span><span class="va">example_hmm_mcmc_normal</span><span class="op">$</span><span class="va">data</span><span class="op">)</span>, main <span class="op">=</span> <span class="st">""</span><span class="op">)</span></span>
 <span class="r-plt img"><img src="example_hmm_mcmc_normal-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"></span>
-<span class="r-in"><span class="co"># Priors</span></span>
+<span class="r-in"><span class="co"># Priors used in simulation</span></span>
 <span class="r-in"><span class="va">example_hmm_mcmc_normal</span><span class="op">$</span><span class="va">priors</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $prior_means</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.60 0.95 1.95</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $prior_sd</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.1610192</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.1587495</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $prior_T</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           [,1]      [,2]      [,3]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.2604046 0.7395954 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.1717271 0.5461632 0.2821097</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.0000000 0.6586469 0.3413531</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            [,1]       [,2]      [,3]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.28487917 0.71512083 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.07365809 0.57202754 0.3543144</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.00000000 0.08493386 0.9150661</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Model</span></span>
 <span class="r-in"><span class="va">example_hmm_mcmc_normal</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Model: HMM Normal </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Type: MCMC </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Iter: 2000 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Warmup: 800 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Iter: 1500 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Warmup: 600 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Thin: 1 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> States: 3 </span>
+<span class="r-in"></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">example_hmm_mcmc_normal</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Estimated means:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   mean[1]   mean[2]   mean[3] </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.5460006 1.0030013 1.9069282 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.5369810 0.9979305 1.9027594 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Estimated sd:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.1927214</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.1965586</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Estimated transition rates:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           1         2         3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 0.6999717 0.3000283 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 0.2896876 0.6008994 0.1094130</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 0.0000000 0.3483934 0.6516066</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 0.6885175 0.3114825 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 0.3092334 0.5960992 0.0946674</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 0.0000000 0.3293142 0.6706858</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Assigned states:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    1    2    3 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3498 3569 1125 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3588 3572 1032 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Approximate Kullback-Leibler divergence:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> -0.003316765</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -0.002306895</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Log Likelihood:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         mean           sd       median </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> -2697.403997     1.629079 -2697.166978 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -2721.728702     1.667153 -2721.459216 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 </code></pre></div>
     </div>

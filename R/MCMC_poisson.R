@@ -81,7 +81,7 @@ kullback_leibler_disc <- function(p, q) {
 #' @param alpha (numeric) \code{shape} parameter in \code{\link{rgamma}} for emission probabilities
 #'
 #' @return
-#' returns a data vector "data", the "true" hidden states "states" used to generate the data vector
+#' Returns a data vector "data", the "true" hidden states "states" used to generate the data vector
 #' and prior probability of states "pi".
 #'
 #' @export
@@ -99,6 +99,7 @@ kullback_leibler_disc <- function(p, q) {
 #'                                             betas = betas,
 #'                                             alpha = alpha)
 #' hist(sim_data$data, breaks = 100, main = "Histogram")
+#' sim_data
 
 hmm_simulate_gamma_poisson_data = function(L, mat_T, betas, alpha) {
   
@@ -170,13 +171,13 @@ hmm_simulate_gamma_poisson_data = function(L, mat_T, betas, alpha) {
 #' @param alpha (numeric) prior scale
 #'
 #' @details
-#' Here details on how the calculation is made
+#' TODO: Here details on how the calculation is made
 #'
 #' @references
-#' Here some references
+#' TODO: Here some references
 #'
 #' @return
-#' List with posterior probabilities
+#' TODO: List with posterior probabilities (improve description)
 #'
 #' @export
 #'
@@ -202,6 +203,7 @@ hmm_simulate_gamma_poisson_data = function(L, mat_T, betas, alpha) {
 #'                                           mat_T = mat_T,
 #'                                           betas = betas,
 #'                                           alpha = alpha)
+#' str(post_prob)
 
 posterior_prob_gamma_poisson <- function(data, pi, mat_T, betas, alpha) {
   
@@ -848,7 +850,8 @@ summary.hmm_mcmc_gamma_poisson <- function(object, ...) {
 }
 
 
-#' @describeIn coef.hmm_mcmc_normal
+
+#' @rdname coef.hmm_mcmc_normal
 #'
 #' @export
 #' @export coef.hmm_mcmc_gamma_poisson
@@ -867,7 +870,7 @@ coef.hmm_mcmc_gamma_poisson <- function(object, ...) {
 
 #' Plot method for \code{hmm_mcmc_gamma_poisson} objects
 #'
-#' @param x (hmm_mcmc_\*) MCMC HMM object
+#' @param x (hmm_mcmc_gamma_poisson) hmm_mcmc_gamma_poisson object
 #'
 #' @param simulation (logical)
 #'
@@ -882,7 +885,7 @@ coef.hmm_mcmc_gamma_poisson <- function(object, ...) {
 #' @param ... not used
 #'
 #' @details
-#' Here details
+#' TODO: Here details
 #'
 #' @return
 #' No return value
@@ -891,7 +894,9 @@ coef.hmm_mcmc_gamma_poisson <- function(object, ...) {
 #' @export plot.hmm_mcmc_gamma_poisson
 #'
 #' @examples
+#' \donttest{
 #' plot(example_hmm_mcmc_gamma_poisson)
+#' }
 
 plot.hmm_mcmc_gamma_poisson <- function(x,
                                         simulation = FALSE,

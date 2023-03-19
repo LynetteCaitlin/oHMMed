@@ -16,7 +16,7 @@ hmm_simulate_normal_data(L, mat_T, means, sigma)
 \item{sigma}{(numeric) \code{sd} parameter in \code{\link{rnorm}} for emission probabilities}
 }
 \value{
-returns a data vector "data", the "true" hidden states "states" used to generate the data vector
+Returns a data vector "data", the "true" hidden states "states" used to generate the data vector
 and prior probability of states "pi".
 }
 \description{

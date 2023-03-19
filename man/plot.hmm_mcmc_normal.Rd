@@ -15,7 +15,7 @@
 )
 }
 \arguments{
-\item{x}{(hmm_mcmc_\*) MCMC HMM object}
+\item{x}{(hmm_mcmc_normal) hmm_mcmc_normal object}
 
 \item{simulation}{(logical)}
 
@@ -36,8 +36,10 @@ No return value
 Plot method for \code{hmm_mcmc_normal} objects
 }
 \details{
-Here details
+TODO: Here details
 }
 \examples{
+\donttest{
 plot(example_hmm_mcmc_normal)
+}
 }

@@ -2,7 +2,7 @@
 library(oHMMed)
 
 # 1) Normal model: -------------------------------------------------------------
-iter <- 2000          
+iter <- 1500          
 warmup <- floor(iter * 0.4)
 print_params <- FALSE     
 verbose <- TRUE
@@ -38,7 +38,7 @@ example_hmm_mcmc_normal <- hmm_mcmc_normal(data = simdata1,
 
 # 2) Gamma-Poisson model: ------------------------------------------------------
 
-iter <- 2000              
+iter <- 1500              
 warmup <- floor(iter * 0.4)
 print_params <- FALSE     
 verbose <- TRUE           

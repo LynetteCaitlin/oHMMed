@@ -64,60 +64,62 @@
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># Data</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">example_hmm_mcmc_gamma_poisson</span><span class="op">$</span><span class="va">data</span>, breaks <span class="op">=</span> <span class="fl">50</span>, xlab <span class="op">=</span> <span class="st">""</span>, main <span class="op">=</span> <span class="st">""</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># Data stored in the object</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">example_hmm_mcmc_gamma_poisson</span><span class="op">$</span><span class="va">data</span>, </span>
+<span class="r-in">     breaks <span class="op">=</span> <span class="fl">50</span>, xlab <span class="op">=</span> <span class="st">""</span>, main <span class="op">=</span> <span class="st">""</span><span class="op">)</span></span>
 <span class="r-plt img"><img src="example_hmm_mcmc_gamma_poisson-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"></span>
-<span class="r-in"><span class="co"># Priors</span></span>
+<span class="r-in"><span class="co"># Priors used in simulation</span></span>
 <span class="r-in"><span class="va">example_hmm_mcmc_gamma_poisson</span><span class="op">$</span><span class="va">priors</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $prior_betas</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 5 3 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $prior_alpha</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.114707</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.938733</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $prior_T</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           [,1]       [,2]      [,3]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.2482200 0.75177999 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.5530404 0.03030519 0.4166544</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.0000000 0.16273281 0.8372672</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           [,1]      [,2]      [,3]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.3224448 0.6775552 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.2511339 0.2289642 0.5199018</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.0000000 0.8103900 0.1896100</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Model</span></span>
 <span class="r-in"><span class="va">example_hmm_mcmc_gamma_poisson</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Model: HMM Gamma-Poisson </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Type: MCMC </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Iter: 2000 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Warmup: 800 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Iter: 1500 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Warmup: 600 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Thin: 1 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> States: 3 </span>
+<span class="r-in"></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">example_hmm_mcmc_gamma_poisson</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Estimated betas:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   beta[1]   beta[2]   beta[3] </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4.8322057 0.6474343 0.1054869 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5.2096058 0.6879512 0.1142097 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Estimated alpha:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1.258933</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1.330082</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Estimated means:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.2610781 1.945553 11.93811</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.255653 1.934803 11.64945</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Estimated transition rates:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             1           2           3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 0.989614832 0.010385168 0.000000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 0.009493541 0.981285338 0.009221121</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 0.000000000 0.008227298 0.991772702</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            1           2          3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 0.99218691 0.007813094 0.00000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 0.01321056 0.975000900 0.01178854</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 0.00000000 0.008698770 0.99130123</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Assigned states:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    1    2    3 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2491 2681 3020 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3438 2002 2752 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Approximate Kullback-Leibler divergence:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.03441531</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.03965256</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Log Likelihood:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          mean            sd        median </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> -17678.110174      1.636391 -17677.769625 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         mean           sd       median </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -15916.20821      1.66878 -15915.94677 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Significance of Difference between Rates (stepwise):</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0 0</span>

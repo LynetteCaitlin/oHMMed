@@ -18,13 +18,13 @@ posterior_prob_normal(data, pi, mat_T, means, sdev)
 \item{sdev}{(numeric) prior standard deviation}
 }
 \value{
-List with posterior probabilities (TO BE CORRECTED)
+TODO: List with posterior probabilities (improve description)
 }
 \description{
 Forward-backward algorithm to calculate the posterior probabilities of hidden states.
 }
 \details{
-Here details on how the calculation is made
+TODO: Here details on how the calculation is made
 }
 \examples{
 prior_mat <- rbind(c(1-0.05, 0.05, 0),
@@ -50,7 +50,8 @@ post_prob <-  posterior_prob_normal(data = hmm_norm_data,
                                     mat_T = prior_mat,
                                     means = prior_means,
                                     sdev = prior_sd)
+str(post_prob)
 }
 \references{
-Here some references
+TODO: Here some references
 }

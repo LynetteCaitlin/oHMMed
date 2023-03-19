@@ -20,11 +20,6 @@ Estimates extracted from MCMC HMM objects
 \description{
 \code{coef} is a generic function which extracts model estimates from \code{mcmc_hmm_*} objects
 }
-\section{Functions}{
-\itemize{
-\item \code{coef(hmm_mcmc_gamma_poisson)}: 
-
-}}
 \examples{
 coef(example_hmm_mcmc_normal)
 coef(example_hmm_mcmc_gamma_poisson)
