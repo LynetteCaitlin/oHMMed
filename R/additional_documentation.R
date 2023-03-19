@@ -45,7 +45,8 @@ NULL
 #' 
 #' @examples
 #' # Data
-#' hist(example_hmm_mcmc_gamma_poisson$data, breaks = 50, xlab = "", main = "")
+#' hist(example_hmm_mcmc_gamma_poisson$data, 
+#'      breaks = 50, xlab = "", main = "")
 #' 
 #' # Priors
 #' example_hmm_mcmc_gamma_poisson$priors
