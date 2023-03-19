@@ -70,16 +70,16 @@ rand_T <- generate_random_T(n3_states_inferred)
 
 # overall, the recommended procedure would lead us to run the following inference procedure for 3 states:
 res_opt_n3 <- hmm_mcmc_normal(data = simdata1,
-                           prior_T = rand_T,
-                           prior_means = pr_means,
-                           prior_sd = sd(simdata1) / 3,
-                           init_T = rand_T,
-                           init_means = pr_means,
-                           init_sd = sd(simdata1) / 3,
-                           iter = iter,
-                           warmup = warmup,
-                           print_params = print_params,
-                           verbose = verbose)
+                              prior_T = rand_T,
+                              prior_means = pr_means,
+                              prior_sd = sd(simdata1) / 3,
+                              init_T = rand_T,
+                              init_means = pr_means,
+                              init_sd = sd(simdata1) / 3,
+                              iter = iter,
+                              warmup = warmup,
+                              print_params = print_params,
+                              verbose = verbose)
 
 # note that this should be repeated with different numbers of states, for eg. 2,3,4,5 (see below)
 # here, we know that we have simulated 3 hidden states, but in general we would not know the optimal number
@@ -144,6 +144,7 @@ res1_n3 <- hmm_mcmc_normal(data = simdata1,
                            prior_T = prior3_T,
                            prior_means = prior3_means,
                            prior_sd = prior3_sd,
+                           iter = iter,
                            warmup = warmup,
                            print_params = print_params,
                            verbose = verbose)
@@ -152,6 +153,7 @@ res1_n4 <- hmm_mcmc_normal(data = simdata1,
                            prior_T = prior4_T,
                            prior_means = prior4_means,
                            prior_sd = prior4_sd,
+                           iter = iter,
                            warmup = warmup,
                            print_params = print_params,
                            verbose = verbose)
@@ -193,10 +195,10 @@ p1 <- ggplot(mat_liks1) +
 p1
 
 # looks like the optimal number of states is 3 (where the plateau starts), so examine the results:
-#   the summary contains all the estimates, and the approximate kullback-leibler divergence
-summary(res_n3)
+#   the summary contains all the estimates, and the approximate Kullback-Leibler divergence
+summary(res1_n3)
 #   graphical diagnostics and confusion matrix
-plot(res_n3, simulation = TRUE, true_means1, 
+plot(res1_n3, simulation = TRUE, true_means1, 
      true_sigma1, true_T1, simdata1full$states)
 
 
