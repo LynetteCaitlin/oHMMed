@@ -39,6 +39,5 @@ Plot method for \code{hmm_mcmc_normal} objects
 Here details
 }
 \examples{
-# TODO
-
+plot(example_hmm_mcmc_normal)
 }

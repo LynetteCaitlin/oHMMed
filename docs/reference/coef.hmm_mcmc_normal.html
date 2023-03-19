@@ -57,7 +57,7 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="co"># S3 method for hmm_mcmc_normal</span>
 <span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">object</span>, <span class="va">...</span><span class="op">)</span>
 
-<span class="co"># S3 method for hmm_mcmc_poisson</span>
+<span class="co"># S3 method for hmm_mcmc_gamma_poisson</span>
 <span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">object</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
     </div>
 
@@ -80,14 +80,43 @@
     <div class="section level2">
     <h2 id="functions">Functions<a class="anchor" aria-label="anchor" href="#functions"></a></h2>
     
-<ul><li><p><code>coef(hmm_mcmc_poisson)</code>:</p></li>
+<ul><li><p><code>coef(hmm_mcmc_gamma_poisson)</code>:</p></li>
 </ul></div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># TODO</span></span>
-<span class="r-in"><span class="co"># TODO</span></span>
-<span class="r-in"></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">example_hmm_mcmc_normal</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $means</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   mean[1]   mean[2]   mean[3] </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.5460006 1.0030013 1.9069282 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $sd</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.1927214</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $mat_T</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           [,1]      [,2]      [,3]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.6999717 0.3000283 0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.2896876 0.6008994 0.1094130</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.0000000 0.3483934 0.6516066</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">example_hmm_mcmc_gamma_poisson</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $betas</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   beta[1]   beta[2]   beta[3] </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4.8322057 0.6474343 0.1054869 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $alpha</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.258933</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $means</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   means[1]   means[2]   means[3] </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  0.2610781  1.9455528 11.9381139 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $mat_T</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             [,1]        [,2]        [,3]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.989614832 0.010385168 0.000000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.009493541 0.981285338 0.009221121</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.000000000 0.008227298 0.991772702</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

@@ -81,11 +81,60 @@
 
 <p>data.frame compatible with functions from the <code>ggmcmc</code> package</p>
     </div>
+    <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p>By default, for a given model, all parameters are converted into ggmcmc format.</p>
+<p>The parameter <code>pattern</code> can be used to extract specific parameters.
+For instance <code>pattern="mean"</code> extracts all mean parameters from 
+a hmm_mcmc_normal model.</p>
+<p>If a specific parameter is of interest it can be matched by an exact name:
+<code>pattern=c("mean[1]", "T[1,1]")</code>.</p>
+    </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># TODO</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># Convert all parameters (Normal model)</span></span>
+<span class="r-in"><span class="va">convert_normal_all</span> <span class="op">&lt;-</span> <span class="fu">convert_to_ggmcmc</span><span class="op">(</span><span class="va">example_hmm_mcmc_normal</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">convert_normal_all</span><span class="op">$</span><span class="va">Parameter</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "mean[1]"  "mean[2]"  "mean[3]"  "sigma[1]" "T[1,1]"   "T[2,1]"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [7] "T[3,1]"   "T[1,2]"   "T[2,2]"   "T[3,2]"   "T[1,3]"   "T[2,3]"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13] "T[3,3]"  </span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">convert_normal_all</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Iteration Chain Parameter     value</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1       801     1   mean[1] 0.5448143</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2       802     1   mean[1] 0.5512685</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3       803     1   mean[1] 0.5425334</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4       804     1   mean[1] 0.5469280</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5       805     1   mean[1] 0.5406991</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6       806     1   mean[1] 0.5442431</span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">tail</a></span><span class="op">(</span><span class="va">convert_normal_all</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       Iteration Chain Parameter     value</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15595      1995     1    T[3,3] 0.6422738</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15596      1996     1    T[3,3] 0.6636045</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15597      1997     1    T[3,3] 0.6447341</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15598      1998     1    T[3,3] 0.6448492</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15599      1999     1    T[3,3] 0.6238971</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15600      2000     1    T[3,3] 0.6391355</span>
 <span class="r-in"></span>
+<span class="r-in"><span class="co"># Convert only means (Normal model)</span></span>
+<span class="r-in"><span class="va">convert_normal_means</span> <span class="op">&lt;-</span> <span class="fu">convert_to_ggmcmc</span><span class="op">(</span><span class="va">example_hmm_mcmc_normal</span>, </span>
+<span class="r-in">                                          pattern <span class="op">=</span> <span class="st">"mean"</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">convert_normal_means</span><span class="op">$</span><span class="va">Parameter</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "mean[1]" "mean[2]" "mean[3]"</span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co"># Convert selected parameter (Normal model)</span></span>
+<span class="r-in"><span class="va">pattern_normal</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"mean[1]"</span>, <span class="st">"sigma[1]"</span>, <span class="st">"T[1,1]"</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">convert_normal_param</span> <span class="op">&lt;-</span> <span class="fu">convert_to_ggmcmc</span><span class="op">(</span><span class="va">example_hmm_mcmc_normal</span>, </span>
+<span class="r-in">                                          pattern <span class="op">=</span> <span class="va">pattern_normal</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">convert_normal_param</span><span class="op">$</span><span class="va">Parameter</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "mean[1]"  "sigma[1]" "T[1,1]"  </span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co"># Convert all parameters (Poisson-Gamma model)</span></span>
+<span class="r-in"><span class="va">convert_pois_gamma_all</span> <span class="op">&lt;-</span> <span class="fu">convert_to_ggmcmc</span><span class="op">(</span><span class="va">example_hmm_mcmc_gamma_poisson</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">convert_pois_gamma_all</span><span class="op">$</span><span class="va">Parameter</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "means[1]" "means[2]" "means[3]" "beta[1]"  "beta[2]"  "beta[3]" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [7] "alpha[1]" "T[1,1]"   "T[2,1]"   "T[3,1]"   "T[1,2]"   "T[2,2]"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13] "T[3,2]"   "T[1,3]"   "T[2,3]"   "T[3,3]"  </span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

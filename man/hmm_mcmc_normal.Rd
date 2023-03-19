@@ -51,6 +51,7 @@ hmm_mcmc_normal(
 List with following elements:
 \itemize{
   \item data: data used for simulation
+  \item samples: list with samples
   \item estimates: list with various estimates
   \item idx: indices with iterations after the warmup period
   \item priors: prior parameters
@@ -63,7 +64,7 @@ List with following elements:
 MCMC simulation of a Hidden Markov Normal Model
 }
 \details{
-Here details
+TODO: Here details
 }
 \examples{
 # Simulate normal data
@@ -119,5 +120,5 @@ coef(res) # extract model estimates
 # plot(res) # MCMC diagnostics
 }
 \references{
-Here references
+TODO: Here references
 }

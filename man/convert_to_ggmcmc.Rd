@@ -23,6 +23,35 @@ data.frame compatible with functions from the \code{ggmcmc} package
 \description{
 This helper function converts MCMC samples into \code{ggmcmc} format
 }
+\details{
+By default, for a given model, all parameters are converted into ggmcmc format.
+
+The parameter \code{pattern} can be used to extract specific parameters.
+For instance \code{pattern="mean"} extracts all mean parameters from 
+a hmm_mcmc_normal model.
+
+If a specific parameter is of interest it can be matched by an exact name:
+\code{pattern=c("mean[1]", "T[1,1]")}.
+}
 \examples{
-# TODO
+# Convert all parameters (Normal model)
+convert_normal_all <- convert_to_ggmcmc(example_hmm_mcmc_normal)
+unique(convert_normal_all$Parameter)
+head(convert_normal_all)
+tail(convert_normal_all)
+
+# Convert only means (Normal model)
+convert_normal_means <- convert_to_ggmcmc(example_hmm_mcmc_normal, 
+                                          pattern = "mean")
+unique(convert_normal_means$Parameter)
+
+# Convert selected parameter (Normal model)
+pattern_normal <- c("mean[1]", "sigma[1]", "T[1,1]")
+convert_normal_param <- convert_to_ggmcmc(example_hmm_mcmc_normal, 
+                                          pattern = pattern_normal)
+unique(convert_normal_param$Parameter)
+
+# Convert all parameters (Poisson-Gamma model)
+convert_pois_gamma_all <- convert_to_ggmcmc(example_hmm_mcmc_gamma_poisson)
+unique(convert_pois_gamma_all$Parameter)
 }

@@ -2,12 +2,12 @@
 % Please edit documentation in R/MCMC_normal.R, R/MCMC_poisson.R
 \name{coef.hmm_mcmc_normal}
 \alias{coef.hmm_mcmc_normal}
-\alias{coef.hmm_mcmc_poisson}
+\alias{coef.hmm_mcmc_gamma_poisson}
 \title{Extract model estimates}
 \usage{
 \method{coef}{hmm_mcmc_normal}(object, ...)
 
-\method{coef}{hmm_mcmc_poisson}(object, ...)
+\method{coef}{hmm_mcmc_gamma_poisson}(object, ...)
 }
 \arguments{
 \item{object}{an object of class inheriting from "\code{mcmc_hmm_*}"}
@@ -22,10 +22,10 @@ Estimates extracted from MCMC HMM objects
 }
 \section{Functions}{
 \itemize{
-\item \code{coef(hmm_mcmc_poisson)}: 
+\item \code{coef(hmm_mcmc_gamma_poisson)}: 
 
 }}
 \examples{
-# TODO
-# TODO
+coef(example_hmm_mcmc_normal)
+coef(example_hmm_mcmc_gamma_poisson)
 }

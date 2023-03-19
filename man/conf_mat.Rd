@@ -27,5 +27,6 @@ Finally, the inferred states and simulated states are compared via
 \code{\link[cvms]{confusion_matrix}} function.
 }
 \examples{
-# TODO
+res <- conf_mat(100, example_hmm_mcmc_normal, plot = TRUE)
+res
 }
