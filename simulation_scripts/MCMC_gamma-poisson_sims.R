@@ -93,44 +93,44 @@ prior_betas5 <- c(5, 4, 3, 2, 1)
 
 ##### Series of oHMMed inference runs for increasing numbers of states:
 
-res1_n2 <- hmm_mcmc_pois(data = simdata1,
-                         prior_T = prior2_T,
-                         prior_betas = prior_betas2,
-                         prior_alpha = prior_alpha2,
-                         iter = iter,
-                         warmup = warmup,
-                         print_params = print_params,
-                         verbose = verbose)
+res1_n2 <- hmm_mcmc_gamma_poisson(data = simdata1,
+                                  prior_T = prior2_T,
+                                  prior_betas = prior_betas2,
+                                  prior_alpha = prior_alpha2,
+                                  iter = iter,
+                                  warmup = warmup,
+                                  print_params = print_params,
+                                  verbose = verbose)
 
 # Recall: it is recommended to also set: init_betas = prior_betas2,init_alpha = prior_alpha2,init_T = prior2_T
 
 
-res1_n3 <- hmm_mcmc_pois(data = simdata1,
-                         prior_T = prior3_T,
-                         prior_betas = prior_betas3,
-                         prior_alpha = prior_alpha3,
-                         iter = iter,
-                         warmup = warmup,
-                         print_params = print_params,
-                         verbose = verbose)
+res1_n3 <- hmm_mcmc_gamma_poisson(data = simdata1,
+                                  prior_T = prior3_T,
+                                  prior_betas = prior_betas3,
+                                  prior_alpha = prior_alpha3,
+                                  iter = iter,
+                                  warmup = warmup,
+                                  print_params = print_params,
+                                  verbose = verbose)
 
-res1_n4 <- hmm_mcmc_pois(data = simdata1,
-                         prior_T = prior4_T,
-                         prior_betas = prior_betas4,
-                         prior_alpha = prior_alpha4,
-                         iter = iter,
-                         warmup = warmup,
-                         print_params = print_params,
-                         verbose = verbose)
+res1_n4 <- hmm_mcmc_gamma_poisson(data = simdata1,
+                                  prior_T = prior4_T,
+                                  prior_betas = prior_betas4,
+                                  prior_alpha = prior_alpha4,
+                                  iter = iter,
+                                  warmup = warmup,
+                                  print_params = print_params,
+                                  verbose = verbose)
 
-res1_n5 <- hmm_mcmc_pois(data = simdata1,
-                         prior_T = prior5_T,
-                         prior_betas = prior_betas5,
-                         prior_alpha = prior_alpha5,
-                         iter = iter,
-                         warmup = warmup,
-                         print_params = print_params,
-                         verbose = verbose)
+res1_n5 <- hmm_mcmc_gamma_poisson(data = simdata1,
+                                  prior_T = prior5_T,
+                                  prior_betas = prior_betas5,
+                                  prior_alpha = prior_alpha5,
+                                  iter = iter,
+                                  warmup = warmup,
+                                  print_params = print_params,
+                                  verbose = verbose)
 
 
 #### Check the results:
