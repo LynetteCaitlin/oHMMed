@@ -8,11 +8,18 @@ template:
   bslib:
     pkgdown-nav-height: 100px
 
+navbar:
+ components:
+   articles:
+    text: Articles
+    menu:
+    - text: Usage Recommendations
+      href: https://github.com/LynetteCaitlin/oHMMed/blob/main/UsageRecommendations.pdf
+
 home:
   links:
   - text: Usage Recommendations
     href: https://github.com/LynetteCaitlin/oHMMed/blob/main/UsageRecommendations.pdf
-
 
 reference:
 
