@@ -39,3 +39,8 @@ following line:
 ``` r
 devtools::install_github("LynetteCaitlin/oHMMed")
 ```
+
+## 3. Usage Recommendations
+
+Usage recommendations can be found in [this
+file](https://github.com/LynetteCaitlin/oHMMed/blob/main/UsageRecommendations.pdf).

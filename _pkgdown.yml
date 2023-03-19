@@ -8,6 +8,12 @@ template:
   bslib:
     pkgdown-nav-height: 100px
 
+home:
+  links:
+  - text: Usage Recommendations
+    href: https://github.com/LynetteCaitlin/oHMMed/blob/main/UsageRecommendations.pdf
+
+
 reference:
 
 - title: Simulate data
