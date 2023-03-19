@@ -1127,8 +1127,7 @@ hmm_mcmc_normal <- function(data,
 #' @export
 print.hmm_mcmc_normal <- function(x, ...) {
   info <- x$info
-  mod <- if (info$model_name == "hmm_mcmc_normal") "HMM Normal" else NA
-  cat("Model:", mod, "\n")
+  cat("Model:", "HMM Normal", "\n")
   cat("Type:", "MCMC", "\n")
   cat("Iter:", info$iter, "\n")
   cat("Warmup:", info$warmup, "\n")
