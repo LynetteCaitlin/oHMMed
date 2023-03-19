@@ -14,7 +14,7 @@
 #' 
 #' @name example_hmm_mcmc_normal
 #' 
-#' @usage data(example_hmm_mcmc_normal)
+#' @usage example_hmm_mcmc_normal
 #' 
 #' @format hmm_mcmc_normal object
 #' 
@@ -37,20 +37,20 @@ NULL
 #' 
 #' @keywords datasets
 #' 
-#' @name example_hmm_mcmc_pois
+#' @name example_hmm_mcmc_gamma_poisson
 #' 
-#' @usage data(example_hmm_mcmc_pois)
+#' @usage example_hmm_mcmc_gamma_poisson
 #' 
-#' @format hmm_mcmc_poisson object
+#' @format hmm_mcmc_gamma_poisson object
 #' 
 #' @examples
 #' # Data
-#' hist(example_hmm_mcmc_pois$data, breaks = 50, xlab = "", main = "")
+#' hist(example_hmm_mcmc_gamma_poisson$data, breaks = 50, xlab = "", main = "")
 #' 
 #' # Priors
-#' example_hmm_mcmc_pois$priors
+#' example_hmm_mcmc_gamma_poisson$priors
 #' 
 #' # Model
-#' example_hmm_mcmc_pois
-#' summary(example_hmm_mcmc_pois)
+#' example_hmm_mcmc_gamma_poisson
+#' summary(example_hmm_mcmc_gamma_poisson)
 NULL
