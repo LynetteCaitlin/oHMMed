@@ -2,7 +2,7 @@
 % Please edit documentation in R/MCMC_normal.R
 \name{posterior_prob_normal}
 \alias{posterior_prob_normal}
-\title{Forward-backward algorithm to calculate the posterior probabilities of hidden states.}
+\title{Forward-Backward Algorithm to Calculate the Posterior Probabilities of Hidden States in Normal Model}
 \usage{
 posterior_prob_normal(data, pi, mat_T, means, sdev)
 }
@@ -21,7 +21,7 @@ posterior_prob_normal(data, pi, mat_T, means, sdev)
 TODO: List with posterior probabilities (improve description)
 }
 \description{
-Forward-backward algorithm to calculate the posterior probabilities of hidden states.
+Forward-Backward Algorithm to Calculate the Posterior Probabilities of Hidden States in Normal Model
 }
 \details{
 TODO: Here details on how the calculation is made

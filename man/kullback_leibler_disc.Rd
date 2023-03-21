@@ -2,7 +2,7 @@
 % Please edit documentation in R/MCMC_poisson.R
 \name{kullback_leibler_disc}
 \alias{kullback_leibler_disc}
-\title{Calculate a Kullback-Leibler divergence for a discrete distribution}
+\title{Calculate a Kullback-Leibler Divergence for a Discrete Distribution}
 \usage{
 kullback_leibler_disc(p, q)
 }
@@ -15,7 +15,7 @@ kullback_leibler_disc(p, q)
 Numeric vector
 }
 \description{
-Calculate a Kullback-Leibler divergence for a discrete distribution
+Calculate a Kullback-Leibler Divergence for a Discrete Distribution
 }
 \details{
 The Kullback-Leibler divergence for a discrete distribution

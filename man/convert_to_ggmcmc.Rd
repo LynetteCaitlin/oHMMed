@@ -2,7 +2,7 @@
 % Please edit documentation in R/MCMC_normal.R
 \name{convert_to_ggmcmc}
 \alias{convert_to_ggmcmc}
-\title{Converts MCMC samples into \code{ggmcmc} format}
+\title{Converts MCMC Samples into \code{ggmcmc} Format}
 \usage{
 convert_to_ggmcmc(
   x,

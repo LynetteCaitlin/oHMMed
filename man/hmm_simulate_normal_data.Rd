@@ -2,7 +2,7 @@
 % Please edit documentation in R/MCMC_normal.R
 \name{hmm_simulate_normal_data}
 \alias{hmm_simulate_normal_data}
-\title{Simulate data based on a Normal model for a Hidden Markov Model simulation}
+\title{Simulate Data Based on a Normal Model for a Hidden Markov Model Simulation}
 \usage{
 hmm_simulate_normal_data(L, mat_T, means, sigma)
 }
@@ -20,7 +20,7 @@ Returns a data vector "data", the "true" hidden states "states" used to generate
 and prior probability of states "pi".
 }
 \description{
-Simulate data based on a Normal model for a Hidden Markov Model simulation
+Simulate Data Based on a Normal Model for a Hidden Markov Model Simulation
 }
 \examples{
 mat_T0 <- rbind(c(1-0.01,0.01,0),

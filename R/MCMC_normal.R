@@ -227,7 +227,7 @@ get_mat_T_ <- function(u, l) {
 # }
 
 
-#' Converts MCMC samples into \code{ggmcmc} format
+#' Converts MCMC Samples into \code{ggmcmc} Format
 #'
 #' This helper function converts MCMC samples into \code{ggmcmc} format
 #'
@@ -323,7 +323,7 @@ convert_to_ggmcmc <- function(x,
 }
 
 
-#' Generate a random transition matrix 
+#' Generate a Random Transition Matrix 
 #'
 #' This helper function generates a transition matrix at random for testing purposes
 #'
@@ -356,7 +356,7 @@ generate_random_T <- function(n = 3) {
 }
 
 
-#' Calculate a continuous approximation of the Kullback-Leibler divergence
+#' Calculate a Continuous Approximation of the Kullback-Leibler Divergence
 #'
 #' @param p (numeric) probabilities
 #'
@@ -415,7 +415,7 @@ kullback_leibler_cont_appr <- function(p, q) {
 }
 
 
-#' Get the prior probability of states
+#' Get the Prior Probability of States
 #'
 #' Calculate the prior probability of states that correspond to the stationary
 #' distribution of the transition matrix T
@@ -457,9 +457,9 @@ get_pi <- function(mat_T = NULL) {
 }
 
 
-#' Calculate eigenvalues and eigenvectors.
+#' Calculate Eigenvalues and Eigenvectors
 #'
-#' This helper function returns the eigenvalues in lambda and the left and right eigenvectors in forwards and backwards.
+#' This helper function returns the eigenvalues in lambda and the left and right eigenvectors in forwards and backwards
 #'
 #' @param mat (matrix) a square matrix
 #'
@@ -496,7 +496,7 @@ eigen_system <- function(mat) {
 }
 
 
-#' Simulate data based on a Normal model for a Hidden Markov Model simulation
+#' Simulate Data Based on a Normal Model for a Hidden Markov Model Simulation
 #'
 #'
 #' @param L (integer) number of simulations
@@ -564,9 +564,9 @@ hmm_simulate_normal_data <- function(L, mat_T, means, sigma) {
 }
 
 
-#' Forward-backward algorithm to calculate the posterior probabilities of hidden states.
+#' Forward-Backward Algorithm to Calculate the Posterior Probabilities of Hidden States in Normal Model
 #'
-#' Forward-backward algorithm to calculate the posterior probabilities of hidden states.
+#' Forward-Backward Algorithm to Calculate the Posterior Probabilities of Hidden States in Normal Model
 #'
 #' @param data (numeric) normal data
 #'
@@ -908,7 +908,7 @@ init_hmm_mcmc_normal_ <- function(data, prior_T, prior_means, prior_sd,
 }
 
 
-#' MCMC simulation of a Hidden Markov Normal Model
+#' MCMC Simulation of a Hidden Markov Normal Model
 #'
 #'
 #' @param data (numeric) normal data
@@ -1249,7 +1249,7 @@ summary.hmm_mcmc_normal <- function(object, ...) {
 }
 
 
-#' Extract model estimates
+#' Extract Model Estimates
 #'
 #' \code{coef} is a generic function which extracts model estimates from \code{mcmc_hmm_*} objects
 #'
@@ -1473,7 +1473,7 @@ plot.hmm_mcmc_normal <- function(x,
 }
 
 
-#' Calculate a confusion matrix...DESCRIPTION TO BE IMPROVED
+#' Calculate a Confusion Matrix...DESCRIPTION TO BE IMPROVED
 #'
 #' A diagnostic function that tests the reliability of estimation
 #' procedures given the inferred transition rates

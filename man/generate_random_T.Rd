@@ -2,7 +2,7 @@
 % Please edit documentation in R/MCMC_normal.R
 \name{generate_random_T}
 \alias{generate_random_T}
-\title{Generate a random transition matrix}
+\title{Generate a Random Transition Matrix}
 \usage{
 generate_random_T(n = 3)
 }

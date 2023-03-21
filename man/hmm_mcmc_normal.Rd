@@ -2,7 +2,7 @@
 % Please edit documentation in R/MCMC_normal.R
 \name{hmm_mcmc_normal}
 \alias{hmm_mcmc_normal}
-\title{MCMC simulation of a Hidden Markov Normal Model}
+\title{MCMC Simulation of a Hidden Markov Normal Model}
 \usage{
 hmm_mcmc_normal(
   data,
@@ -61,7 +61,7 @@ List with following elements:
 }
 }
 \description{
-MCMC simulation of a Hidden Markov Normal Model
+MCMC Simulation of a Hidden Markov Normal Model
 }
 \details{
 TODO: Here details

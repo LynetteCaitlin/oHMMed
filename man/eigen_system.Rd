@@ -2,7 +2,7 @@
 % Please edit documentation in R/MCMC_normal.R
 \name{eigen_system}
 \alias{eigen_system}
-\title{Calculate eigenvalues and eigenvectors.}
+\title{Calculate Eigenvalues and Eigenvectors}
 \usage{
 eigen_system(mat)
 }
@@ -18,7 +18,7 @@ a list with three elements:
 }
 }
 \description{
-This helper function returns the eigenvalues in lambda and the left and right eigenvectors in forwards and backwards.
+This helper function returns the eigenvalues in lambda and the left and right eigenvectors in forwards and backwards
 }
 \examples{
 mat_T0 <- rbind(c(1-0.01,0.01,0),

@@ -2,7 +2,7 @@
 % Please edit documentation in R/MCMC_poisson.R
 \name{posterior_prob_gamma_poisson}
 \alias{posterior_prob_gamma_poisson}
-\title{Forward-backward algorithm to calculate the posterior probabilities of hidden states in Poisson-Gamma model.}
+\title{Forward-Backward Algorithm to Calculate the Posterior Probabilities of Hhidden States in Poisson-Gamma Model}
 \usage{
 posterior_prob_gamma_poisson(data, pi, mat_T, betas, alpha)
 }
@@ -21,7 +21,7 @@ posterior_prob_gamma_poisson(data, pi, mat_T, betas, alpha)
 TODO: List with posterior probabilities (improve description)
 }
 \description{
-Forward-backward algorithm to calculate the posterior probabilities of hidden states in Poisson-Gamma model.
+Forward-Backward Algorithm to Calculate the Posterior Probabilities of Hhidden States in Poisson-Gamma Model
 }
 \details{
 TODO: Here details on how the calculation is made

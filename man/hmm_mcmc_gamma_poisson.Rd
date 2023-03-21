@@ -2,7 +2,7 @@
 % Please edit documentation in R/MCMC_poisson.R
 \name{hmm_mcmc_gamma_poisson}
 \alias{hmm_mcmc_gamma_poisson}
-\title{MCMC simulation of a Hidden Markov Normal Model for Gamma-Poisson model}
+\title{MCMC Simulation of a Hidden Markov Gamma-Poisson Model}
 \usage{
 hmm_mcmc_gamma_poisson(
   data,
@@ -61,7 +61,7 @@ List with following elements:
 }
 }
 \description{
-MCMC simulation of a Hidden Markov Normal Model for Gamma-Poisson model
+MCMC Simulation of a Hidden Markov Gamma-Poisson Model
 }
 \details{
 TODO: Here details

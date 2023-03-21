@@ -2,7 +2,7 @@
 % Please edit documentation in R/MCMC_normal.R
 \name{get_pi}
 \alias{get_pi}
-\title{Get the prior probability of states}
+\title{Get the Prior Probability of States}
 \usage{
 get_pi(mat_T = NULL)
 }

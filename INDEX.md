@@ -1,6 +1,8 @@
 
 <!-- INDEX.md is generated from INDEX.Rmd. Please edit that file -->
 
+<br>
+
 ## 1. Overview
 
 The `oHMMed` package contains an implementation of Hidden Markov Models
@@ -23,13 +25,15 @@ This is the general framework of `oHMMed` (ordered Hidden Markov Model
 with emission densities), and it can be applied to any system that
 fulfils these assumptions.
 
+------------------------------------------------------------------------
+
 ## 2. Installation
 
 <!-- Just like many other `R` packages, `oHMMed` can be installed from the `CRAN` repository by simply executing in the console the following line: -->
 <!-- ```{r, eval = FALSE} -->
 <!-- # install.packages("oHMMed") -->
 <!-- # Or the the development version from GitHub: -->
-<!-- devtools::install_github("majkamichal/oHMMed") -->
+<!-- devtools::install_github("LynetteCaitlin/oHMMed") -->
 <!-- ``` -->
 
 The `oHMMed` package is currently in development and it can be installed
@@ -40,7 +44,11 @@ following line:
 devtools::install_github("LynetteCaitlin/oHMMed")
 ```
 
+------------------------------------------------------------------------
+
 ## 3. Usage Recommendations
 
 Usage recommendations can be found in [this
 file](https://github.com/LynetteCaitlin/oHMMed/blob/main/UsageRecommendations.pdf).
+
+<br>

@@ -1,7 +1,7 @@
 # Hidden Markov Model simulation with Poisson-gamma data
 
 
-#' Calculate a Kullback-Leibler divergence for a discrete distribution
+#' Calculate a Kullback-Leibler Divergence for a Discrete Distribution
 #' 
 #' @param p (numeric) probabilities
 #'
@@ -70,7 +70,7 @@ kullback_leibler_disc <- function(p, q) {
 }
 
 
-#' Simulate data based on a Gamma-Poisson Model for a Hidden Markov Model simulation
+#' Simulate Data Based on a Gamma-Poisson Model for a Hidden Markov Model Simulation
 #'
 #' @param L (integer) number of simulations
 #'
@@ -156,9 +156,9 @@ hmm_simulate_gamma_poisson_data = function(L, mat_T, betas, alpha) {
 # dnbinom(x = y, prob = b / (1 + b), size = a)
 
 
-#' Forward-backward algorithm to calculate the posterior probabilities of hidden states in Poisson-Gamma model.
+#' Forward-Backward Algorithm to Calculate the Posterior Probabilities of Hhidden States in Poisson-Gamma Model
 #'
-#' Forward-backward algorithm to calculate the posterior probabilities of hidden states in Poisson-Gamma model.
+#' Forward-Backward Algorithm to Calculate the Posterior Probabilities of Hhidden States in Poisson-Gamma Model
 #'
 #' @param data (numeric) Poisson data
 #'
@@ -476,7 +476,7 @@ init_hmm_mcmc_gamma_poisson_ <- function(data, prior_T, prior_betas, prior_alpha
 }
 
 
-#' MCMC simulation of a Hidden Markov Normal Model for Gamma-Poisson model
+#' MCMC Simulation of a Hidden Markov Gamma-Poisson Model
 #'
 #' @param data (numeric) data
 #'
@@ -868,7 +868,7 @@ coef.hmm_mcmc_gamma_poisson <- function(object, ...) {
 }
 
 
-#' Plot method for \code{hmm_mcmc_gamma_poisson} objects
+#' Plot Method for \code{hmm_mcmc_gamma_poisson} Objects
 #'
 #' @param x (hmm_mcmc_gamma_poisson) hmm_mcmc_gamma_poisson object
 #'

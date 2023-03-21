@@ -2,7 +2,7 @@
 % Please edit documentation in R/MCMC_poisson.R
 \name{hmm_simulate_gamma_poisson_data}
 \alias{hmm_simulate_gamma_poisson_data}
-\title{Simulate data based on a Gamma-Poisson Model for a Hidden Markov Model simulation}
+\title{Simulate Data Based on a Gamma-Poisson Model for a Hidden Markov Model Simulation}
 \usage{
 hmm_simulate_gamma_poisson_data(L, mat_T, betas, alpha)
 }
@@ -20,7 +20,7 @@ Returns a data vector "data", the "true" hidden states "states" used to generate
 and prior probability of states "pi".
 }
 \description{
-Simulate data based on a Gamma-Poisson Model for a Hidden Markov Model simulation
+Simulate Data Based on a Gamma-Poisson Model for a Hidden Markov Model Simulation
 }
 \examples{
 mat_T <- rbind(c(1-0.01,0.01,0),

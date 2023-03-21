@@ -2,7 +2,7 @@
 % Please edit documentation in R/MCMC_normal.R
 \name{kullback_leibler_cont_appr}
 \alias{kullback_leibler_cont_appr}
-\title{Calculate a continuous approximation of the Kullback-Leibler divergence}
+\title{Calculate a Continuous Approximation of the Kullback-Leibler Divergence}
 \usage{
 kullback_leibler_cont_appr(p, q)
 }
@@ -15,7 +15,7 @@ kullback_leibler_cont_appr(p, q)
 Numeric vector
 }
 \description{
-Calculate a continuous approximation of the Kullback-Leibler divergence
+Calculate a Continuous Approximation of the Kullback-Leibler Divergence
 }
 \details{
 The continuous approximation of the Kullback-Leibler divergence

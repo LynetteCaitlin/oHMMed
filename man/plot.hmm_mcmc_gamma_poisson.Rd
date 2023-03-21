@@ -2,7 +2,7 @@
 % Please edit documentation in R/MCMC_poisson.R
 \name{plot.hmm_mcmc_gamma_poisson}
 \alias{plot.hmm_mcmc_gamma_poisson}
-\title{Plot method for \code{hmm_mcmc_gamma_poisson} objects}
+\title{Plot Method for \code{hmm_mcmc_gamma_poisson} Objects}
 \usage{
 \method{plot}{hmm_mcmc_gamma_poisson}(
   x,
@@ -33,7 +33,7 @@
 No return value
 }
 \description{
-Plot method for \code{hmm_mcmc_gamma_poisson} objects
+Plot Method for \code{hmm_mcmc_gamma_poisson} Objects
 }
 \details{
 TODO: Here details

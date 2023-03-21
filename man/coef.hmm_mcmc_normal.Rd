@@ -3,7 +3,7 @@
 \name{coef.hmm_mcmc_normal}
 \alias{coef.hmm_mcmc_normal}
 \alias{coef.hmm_mcmc_gamma_poisson}
-\title{Extract model estimates}
+\title{Extract Model Estimates}
 \usage{
 \method{coef}{hmm_mcmc_normal}(object, ...)
 
