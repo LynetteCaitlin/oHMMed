@@ -1136,7 +1136,8 @@ hmm_mcmc_normal <- function(data,
                seed = seed,
                iter = iter,
                warmup = warmup,
-               thin = thin)
+               thin = thin,
+               n_states = length(prior_means))
   
   res <- list(data = data,
               samples = samples,

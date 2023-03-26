@@ -701,7 +701,8 @@ hmm_mcmc_gamma_poisson <- function(data,
                seed = seed,
                iter = iter,
                warmup = warmup,
-               thin = thin)
+               thin = thin,
+               n_states = length(prior_betas))
   
   res <- list(data = data,
               samples = samples,
