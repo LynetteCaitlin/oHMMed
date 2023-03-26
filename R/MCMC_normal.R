@@ -1277,7 +1277,7 @@ coef.hmm_mcmc_normal <- function(object, ...) {
 ### NOTE: Can one suppress the counts this function spits out while running/plotting the list of plots?
 
 
-#' Plot method for \code{hmm_mcmc_normal} objects
+#' Plot Method for \code{hmm_mcmc_normal} Objects
 #'
 #' @param x (hmm_mcmc_normal) hmm_mcmc_normal object
 #'
