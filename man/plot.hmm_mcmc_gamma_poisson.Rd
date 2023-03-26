@@ -11,21 +11,24 @@
   true_alpha = NULL,
   true_mat_T = NULL,
   true_states = NULL,
+  show_titles = TRUE,
   ...
 )
 }
 \arguments{
 \item{x}{(hmm_mcmc_gamma_poisson) hmm_mcmc_gamma_poisson object}
 
-\item{simulation}{(logical)}
+\item{simulation}{(logical) TODO:}
 
-\item{true_betas}{(numeric)}
+\item{true_betas}{(numeric) TODO:}
 
-\item{true_alpha}{(numeric)}
+\item{true_alpha}{(numeric) TODO:}
 
-\item{true_mat_T}{(matrix)}
+\item{true_mat_T}{(matrix) TODO:}
 
-\item{true_states}{(integer)}
+\item{true_states}{(integer) TODO:}
+
+\item{show_titles}{(logical) if \code{TRUE} then titles are shown for all graphs}
 
 \item{...}{not used}
 }

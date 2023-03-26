@@ -852,7 +852,6 @@ summary.hmm_mcmc_gamma_poisson <- function(object, ...) {
 }
 
 
-
 #' @rdname coef.hmm_mcmc_normal
 #'
 #' @export
@@ -874,15 +873,17 @@ coef.hmm_mcmc_gamma_poisson <- function(object, ...) {
 #'
 #' @param x (hmm_mcmc_gamma_poisson) hmm_mcmc_gamma_poisson object
 #'
-#' @param simulation (logical)
+#' @param simulation (logical) TODO:
 #'
-#' @param true_betas (numeric)
+#' @param true_betas (numeric) TODO:
 #'
-#' @param true_alpha (numeric)
+#' @param true_alpha (numeric) TODO:
 #'
-#' @param true_mat_T (matrix)
+#' @param true_mat_T (matrix) TODO:
 #'
-#' @param true_states (integer)
+#' @param true_states (integer) TODO:
+#' 
+#' @param show_titles (logical) if \code{TRUE} then titles are shown for all graphs
 #'
 #' @param ... not used
 #'
@@ -906,6 +907,7 @@ plot.hmm_mcmc_gamma_poisson <- function(x,
                                         true_alpha = NULL,
                                         true_mat_T = NULL,
                                         true_states = NULL,
+                                        show_titles = TRUE,
                                         ...) {
   
   info <- x$info
@@ -925,39 +927,73 @@ plot.hmm_mcmc_gamma_poisson <- function(x,
   all_betas <- convert_to_ggmcmc(x, pattern = "beta")
   n_betas <- attributes(all_betas)$nParameters
   facet_means <- ggplot2::facet_wrap(~ Parameter, ncol = floor(n_betas / 2), scales = "free")
-  mdens <- ggmcmc::ggs_density(all_betas) + facet_means + ggplot2::labs(x = "Value", y = "Density")
-  mtrace <- ggmcmc::ggs_traceplot(all_betas) + facet_means + ggplot2::labs(x = "Iteration", y = "Value")
+  mdens <- ggmcmc::ggs_density(all_betas) + 
+    facet_means + 
+    ggplot2::labs(x = "Value", 
+                  y = "Density", 
+                  title = if (show_titles) "Densities of Betas" else NULL)
+  mtrace <- ggmcmc::ggs_traceplot(all_betas) + 
+    facet_means + 
+    ggplot2::labs(x = "Iteration", 
+                  y = "Value", 
+                  title = if (show_titles) "Traceplots of Betas" else NULL)
   
   # Diagnostics transitions
   all_T <- convert_to_ggmcmc(x, pattern = "T")
   n_t <- attributes(all_T)$nParameter
   facet_t <- ggplot2::facet_wrap(~ Parameter, ncol = sqrt(n_t), scales = "free")
   labels_t <- ggplot2::scale_y_continuous(labels = scales::number_format(accuracy = 0.01, decimal.mark = "."))
-  Ttrace <- ggmcmc::ggs_traceplot(all_T) + facet_t + labels_t + ggplot2::labs(x = "Iteration", y = "Value")
-  Tdens <- ggmcmc::ggs_density(all_T) + facet_t + labels_t + ggplot2::labs(x = "Value", y = "Density")
+  
+  Ttrace <- ggmcmc::ggs_traceplot(all_T) + 
+    facet_t + 
+    labels_t + 
+    ggplot2::labs(x = "Iteration", 
+                  y = "Value",
+                  title = if (show_titles) "Traceplots of Parameters in Transition Matrix" else NULL)
+  Tdens <- ggmcmc::ggs_density(all_T) + 
+    facet_t + 
+    labels_t + 
+    ggplot2::labs(x = "Value", 
+                  y = "Density",
+                  title = if (show_titles) "Densities of Parameters in Transition Matrix" else NULL)
   
   # Diagnostics alpha
-  #if (stats::sd(x$samples$alpha) > 0) {
-    df_alpha <- convert_to_ggmcmc(x, "alpha")
-    sdtrace <- ggmcmc::ggs_traceplot(df_alpha) + ggplot2::labs(x = "Iteration", y = "Value")
-    sddens <- ggmcmc::ggs_density(df_alpha) + ggplot2::labs(x = "Value", y = "Density")
-  #}
+  df_alpha <- convert_to_ggmcmc(x, "alpha")
+  sdtrace <- ggmcmc::ggs_traceplot(df_alpha) + 
+    ggplot2::labs(x = "Iteration", 
+                  y = "Value", 
+                  title = if (show_titles) "Traceplot of Alpha" else NULL)
+  sddens <- ggmcmc::ggs_density(df_alpha) +
+    ggplot2::labs(x = "Value", 
+                  y = "Density",
+                  title = if (show_titles) "Density of Alpha" else NULL)
   
   # Diagnostics mean
   all_means <- convert_to_ggmcmc(x, pattern = "means")
   n_means <- attributes(all_means)$nParameters
   facet_me <- ggplot2::facet_wrap(~ Parameter, ncol = floor(n_means / 2), scales = "free")
-  medens <- ggmcmc::ggs_density(all_means) + facet_me + ggplot2::labs(x = "Value", y = "Density")
-  metrace <- ggmcmc::ggs_traceplot(all_means) + facet_me + ggplot2::labs(x = "Iteration", y = "Value")
+  medens <- ggmcmc::ggs_density(all_means) + 
+    facet_me + 
+    ggplot2::labs(x = "Value", 
+                  y = "Density",
+                  title = if (show_titles) "Densities of Means" else NULL)
+  metrace <- ggmcmc::ggs_traceplot(all_means) + 
+    facet_me + 
+    ggplot2::labs(x = "Iteration", 
+                  y = "Value",
+                  title = if (show_titles) "Traceplots of Means" else NULL)
   
   # Likelihood trace
   lltrace <- x$estimates$log_likelihood
   lltrace_df <- as.data.frame(cbind(c((info$warmup + 1):info$iter), lltrace))
   names(lltrace_df) <- c("iteration", "log_likelihood")
   
-  llplot <- ggplot2::ggplot(lltrace_df, ggplot2::aes_string(x = "iteration", y = "log_likelihood")) +
+  llplot <- ggplot2::ggplot(lltrace_df, ggplot2::aes_string(x = "iteration", 
+                                                            y = "log_likelihood")) +
     ggplot2::geom_line() +
-    ggplot2::labs(x = "Iteration", y = "Log-likelihood")
+    ggplot2::labs(x = "Iteration", 
+                  y = "Log-likelihood",
+                  title = if (show_titles) "Traceplot of Log-Likelihood" else NULL)
   
   # Confusion matrix
   if (simulation) {
@@ -968,7 +1004,8 @@ plot.hmm_mcmc_gamma_poisson <- function(x,
     
     conf_mat_plot <- suppressWarnings(
       cvms::plot_confusion_matrix(conf_mat$`Confusion Matrix`[[1]],
-                                  add_sums = TRUE)
+                                  add_sums = TRUE) +
+        ggplot2:::labs(title = if (show_titles) "Confusion Matrix" else NULL)
     )
   }
   
@@ -989,7 +1026,9 @@ plot.hmm_mcmc_gamma_poisson <- function(x,
     ggplot2::geom_point(ggplot2::aes_string(colour = "posterior_states"), shape = 20, size = 1.5, alpha = 0.75) +
     ggplot2::geom_line(ggplot2::aes_string(x = "position", y = "posterior_means"), size = 0.15) +
     ggplot2::guides(colour = ggplot2::guide_legend(title = "Post States")) +
-    ggplot2::labs(x = "Position", y = "Data")
+    ggplot2::labs(x = "Position", 
+                  y = "Data",
+                  title = if (show_titles) "States Plot" else NULL)
   
   if (simulation) {
     states_df2 <- as.data.frame(cbind(1:length(data), data, true_states))
@@ -1019,7 +1058,7 @@ plot.hmm_mcmc_gamma_poisson <- function(x,
                      size = alpha_est,
                      prob = beta_est[i] / (1 + beta_est[i]))
     }))
-    sim_output1 <- c(sim_output1,sim_output)
+    sim_output1 <- c(sim_output1, sim_output)
   }
   sim_output1 <- sim_output1[2:length(sim_output1)]
   dens_data1 <- table(factor(data, levels = 0:max(c(data,sim_output1)))) / sum(table(factor(data, levels = 0:max(c(data, sim_output1))))) 
@@ -1027,56 +1066,52 @@ plot.hmm_mcmc_gamma_poisson <- function(x,
   
   kl_plot_f <- function() {
     vcd::rootogram(as.numeric(dens_data1), 
-              as.numeric(dens_sim1),
-              lines_gp = grid::gpar(col = "red", lwd = 1), 
-              main = "Model Fit",
-              points_gp = grid::gpar(col = "black"), 
-              pch = "",
-              ylab = "Frequency (sqrt)",
-              xlab = "Number of Occurrences")
-    }
+                   as.numeric(dens_sim1),
+                   lines_gp = grid::gpar(col = "red", lwd = 1), 
+                   main = if (show_titles) "Model Fit" else NULL,
+                   points_gp = grid::gpar(col = "black"), 
+                   pch = "",
+                   ylab = "Frequency (sqrt)",
+                   xlab = "Number of Occurrences")
+  }
   
-  dens_df <- as.data.frame(cbind(rep("observed", length(data)), c(data)))
+  dens_df <- as.data.frame(cbind(rep("observed", length(data)), data))
   
   names(dens_df) <- c("data_type", "value")
   dens_df$value <- as.numeric(dens_df$value)
   
   klplot <- ggplot2::ggplot(dens_df, ggplot2::aes_string(x = "value")) +
-    ggplot2::geom_histogram(bins = floor(dim(table(factor(data, levels = 0:max(data))))), fill = "grey", position = "identity") +
+    ggplot2::geom_histogram(bins = floor(dim(table(factor(data, levels = 0:max(data))))), 
+                            fill = "grey", position = "identity") +
     ggplot2::scale_color_manual(values = c("black")) +
     ggplot2::geom_vline(xintercept = x$estimates$means, color = "black", size = 0.2) +
-    ggplot2::labs(title = "Observed Counts and Inferred Means", x = "Number of Occurences", y = "Frequency") 
+    ggplot2::labs(x = "Number of Occurences", 
+                  y = "Frequency",
+                  title = if (show_titles) "Observed Counts and Inferred Means" else NULL) 
   
   if (simulation) {
     klplot <- ggplot2::ggplot(dens_df, ggplot2::aes_string(x = "value")) +
-      ggplot2::geom_histogram(bins = floor(dim(table(factor(data, levels = 0:max(data))))), fill = "grey", position = "identity") +
+      ggplot2::geom_histogram(bins = floor(dim(table(factor(data, levels = 0:max(data))))), 
+                              fill = "grey", position = "identity") +
       ggplot2::scale_color_manual(values = c("black")) +
       ggplot2::geom_vline(xintercept = x$estimates$means, color = "black", size = 0.6) +
-      ggplot2::labs(title = "Observed Counts and Inferred (and True) Means", x = "Number of Occurences", y = "Frequency") + 
-      ggplot2::geom_vline(xintercept = true_alpha /true_betas, color = "blue", size = 0.4, linetype = "dotted") 
+      ggplot2::geom_vline(xintercept = true_alpha /true_betas, color = "blue", 
+                          size = 0.4, linetype = "dotted") + 
+      ggplot2::labs(x = "Number of Occurences", 
+                    y = "Frequency",
+                    title = if (show_titles) "Observed Counts and Inferred (and True) Means" else NULL)
+    
   }
-  #}
-  
   
   if (simulation) {
     plotlist <- list(mtrace, mdens, Ttrace, Tdens, sdtrace, sddens, metrace, 
                      medens, llplot, conf_mat_plot, klplot)
   } 
   
-  #if (simulation & stats::sd(x$samples$alpha) == 0) {
-  #  plotlist <- list(mtrace, mdens, Ttrace, Tdens, metrace, medens,
-  #                   llplot, conf_mat_plot, klplot)
-  #} 
-  
   if (isFALSE(simulation)) {
     plotlist <- list(mtrace, mdens, Ttrace, Tdens, sdtrace, sddens, metrace, 
                      medens, llplot, statesplot, klplot)
   } 
-  
-  #if (isFALSE(simulation) & stats::sd(x$samples$alpha) == 0) {
-  #  plotlist <- list(mtrace, mdens, Ttrace, Tdens, metrace, medens, 
-  #                   llplot, statesplot, klplot)
-  #} 
   
   for (ii in 1:length(plotlist)) {
     
@@ -1087,3 +1122,4 @@ plot.hmm_mcmc_gamma_poisson <- function(x,
   }
   kl_plot_f()   
 }
+
