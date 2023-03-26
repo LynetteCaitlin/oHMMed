@@ -37,11 +37,11 @@ true_T1 <- rbind(c(0.7, 0.3, 0),
                  c(0.0, 0.35, 0.65))
 
 # simulation step:
-simdata1full <- hmm_simulate_normal_data(L1, true_T1, true_means1, true_sigma1)
+simdata_full <- hmm_simulate_normal_data(L1, true_T1, true_means1, true_sigma1)
 # then extract the simulated data/observed sequence...:
-simdata1 <- simdata1full$data 
+simdata <- simdata_full$data 
 # ... and have a quick peek at the overall emission density:
-plot(density(simdata1), main = "")
+plot(density(simdata), main = "")
 
 
 ##### Set up inference framework!:
@@ -52,7 +52,7 @@ plot(density(simdata1), main = "")
 #   initial values and prior values should be set to the same value
 
 # run:
-c(min(simdata1), max(simdata1))
+c(min(simdata), max(simdata))
 # then, set initial and prior means to either:
 #     (1) values near modes or saddle points seen in the previous density plot
 #  or (2) equally spaced values within the just calculated range of the data
@@ -60,7 +60,7 @@ c(min(simdata1), max(simdata1))
 pr_means <- c(0.6, 0.95, 1.95)
 
 # run:
-sd(simdata1)
+sd(simdata)
 # then, set the initial and prior standard deviation to the above value divided by the number of states
 
 # the prior/initial transition rate matrix can be randomly generated
@@ -69,13 +69,13 @@ n3_states_inferred <- 3
 rand_T <- generate_random_T(n3_states_inferred)
 
 # overall, the recommended procedure would lead us to run the following inference procedure for 3 states:
-res_opt_n3 <- hmm_mcmc_normal(data = simdata1,
+res_opt_n3 <- hmm_mcmc_normal(data = simdata,
                               prior_T = rand_T,
                               prior_means = pr_means,
-                              prior_sd = sd(simdata1) / 3,
+                              prior_sd = sd(simdata) / 3,
                               init_T = rand_T,
                               init_means = pr_means,
-                              init_sd = sd(simdata1) / 3,
+                              init_sd = sd(simdata) / 3,
                               iter = iter,
                               warmup = warmup,
                               print_params = print_params,
@@ -89,7 +89,7 @@ res_opt_n3 <- hmm_mcmc_normal(data = simdata1,
 summary(res_opt_n3)
 #   graphical diagnostics and confusion matrix
 plot(res_opt_n3, simulation = TRUE, true_means1,
-     true_sigma1, true_T1, simdata1full$states)
+     true_sigma1, true_T1, simdata_full$states)
 
 # Note:
 # if this were not a simulation, but a real example, the graphical diagnostics are: 
@@ -131,7 +131,7 @@ prior5_sd <- 2.5 / 5
 
 ##### Series of oHMMed inference runs for increasing numbers of states:
 
-res1_n2 <- hmm_mcmc_normal(data = simdata1,
+res_n2 <- hmm_mcmc_normal(data = simdata,
                            prior_T = prior2_T,
                            prior_means = prior2_means,
                            prior_sd = prior2_sd,
@@ -140,7 +140,7 @@ res1_n2 <- hmm_mcmc_normal(data = simdata1,
                            print_params = print_params,
                            verbose = verbose)
 
-res1_n3 <- hmm_mcmc_normal(data = simdata1,
+res_n3 <- hmm_mcmc_normal(data = simdata,
                            prior_T = prior3_T,
                            prior_means = prior3_means,
                            prior_sd = prior3_sd,
@@ -149,7 +149,7 @@ res1_n3 <- hmm_mcmc_normal(data = simdata1,
                            print_params = print_params,
                            verbose = verbose)
 
-res1_n4 <- hmm_mcmc_normal(data = simdata1,
+res_n4 <- hmm_mcmc_normal(data = simdata,
                            prior_T = prior4_T,
                            prior_means = prior4_means,
                            prior_sd = prior4_sd,
@@ -158,7 +158,7 @@ res1_n4 <- hmm_mcmc_normal(data = simdata1,
                            print_params = print_params,
                            verbose = verbose)
 
-res1_n5 <- hmm_mcmc_normal(data = simdata1,
+res_n5 <- hmm_mcmc_normal(data = simdata,
                            prior_T = prior5_T,
                            prior_means = prior5_means,
                            prior_sd = prior5_sd,
@@ -172,22 +172,22 @@ res1_n5 <- hmm_mcmc_normal(data = simdata1,
 
 # first compare the log.likelihoods for different numbers of states
 #   and find the plateau
-vll1 <- c(mean(res1_n2$estimates$log_likelihood),
-          mean(res1_n3$estimates$log_likelihood),
-          mean(res1_n4$estimates$log_likelihood),
-          mean(res1_n5$estimates$log_likelihood))
+vll1 <- c(mean(res_n2$estimates$log_likelihood),
+          mean(res_n3$estimates$log_likelihood),
+          mean(res_n4$estimates$log_likelihood),
+          mean(res_n5$estimates$log_likelihood))
 
-vll2 <- c(median(res1_n2$estimates$log_likelihood),
-          median(res1_n3$estimates$log_likelihood),
-          median(res1_n4$estimates$log_likelihood),
-          median(res1_n5$estimates$log_likelihood))
+vll2 <- c(median(res_n2$estimates$log_likelihood),
+          median(res_n3$estimates$log_likelihood),
+          median(res_n4$estimates$log_likelihood),
+          median(res_n5$estimates$log_likelihood))
 
-ind <- c(2, 3, 4, 5)
-mat_liks1 <- data.frame(cbind(ind, vll1, vll2))
+ind_state <- c(2, 3, 4, 5)
+mat_liks1 <- data.frame(cbind(ind_state, vll1, vll2))
 
 p1 <- ggplot(mat_liks1) + 
-  geom_point(aes(ind, vll1), size = 3) +
-  geom_point(aes(ind, vll2), size = 1.5, col = "grey") + 
+  geom_point(aes(ind_state, vll1), size = 3) +
+  geom_point(aes(ind_state, vll2), size = 1.5, col = "grey") + 
   geom_hline(yintercept = -2675, linetype = "dashed", colour = "grey") + 
   ylim(-5500, -2500) + 
   xlab("Number of States") + 
@@ -196,9 +196,9 @@ p1
 
 # looks like the optimal number of states is 3 (where the plateau starts), so examine the results:
 #   the summary contains all the estimates, and the approximate Kullback-Leibler divergence
-summary(res1_n3)
+summary(res_n3)
 #   graphical diagnostics and confusion matrix
-plot(res1_n3, simulation = TRUE, true_means1, 
-     true_sigma1, true_T1, simdata1full$states)
+plot(res_n3, simulation = TRUE, true_means1, 
+     true_sigma1, true_T1, simdata_full$states)
 
 

@@ -41,14 +41,14 @@ true_betas1 <- 1 / (c(0.2, 1.5, 9))  # state specific rate parameters for gamma-
 true_alpha1 <- 1.3                   # shared shape parameters across states for gamma-poisson emission densities
 
 # simulation step:
-simdata1full <- hmm_simulate_gamma_poisson_data(L = L1,
+simdata_full <- hmm_simulate_gamma_poisson_data(L = L1,
                                                 mat_T = true_T1,
                                                 betas = true_betas1,
                                                 alpha = true_alpha1)
 # then extract the simulated data/observed sequence...:
-simdata1 <- simdata1full$data
+simdata <- simdata_full$data
 # ... and have a quick peek at the overall emission density:
-hist(simdata1, breaks = 50, main = "")
+hist(simdata, breaks = 50, main = "")
 
 
 ##### Set up inference framework!:
@@ -63,9 +63,9 @@ hist(simdata1, breaks = 50, main = "")
 #         and user discretion is advised for overall emission densities that already resemble mixtures of bell curves
 
 #  all prior betas will likely lie below the 'empirical overall beta', which is:
-(sum(simdata1) / length(simdata1)) / ((mean(simdata1)^2) / ((var(simdata1) - mean(simdata1))))
+(sum(simdata) / length(simdata)) / ((mean(simdata)^2) / ((var(simdata) - mean(simdata))))
 #  but note that setting them near or lower than the overall mean may be a good idea because of the long tails of the overall distribution:
-mean(simdata1)
+mean(simdata)
 
 # As per recommendation, we set up a series of inference runs for between 2 and 5 states
 #     Remember: We do not know the true number of states!
@@ -73,27 +73,27 @@ mean(simdata1)
 
 n2_states_inferred <- 2                           # number of states to be inferred
 prior2_T <- generate_random_T(n2_states_inferred) # prior transition matrix, randomly generated
-prior_alpha2 <- (mean(simdata1)^2) / ((var(simdata1) - mean(simdata1)) / 2) # recommended prior alpha! changes with number of inferred states!
+prior_alpha2 <- (mean(simdata)^2) / ((var(simdata) - mean(simdata)) / 2) # recommended prior alpha! changes with number of inferred states!
 prior_betas2 <- c(5, 1)
 
 n3_states_inferred <- 3
 prior3_T <- generate_random_T(n3_states_inferred)
-prior_alpha3 <- (mean(simdata1)^2) / ((var(simdata1) - mean(simdata1)) / 3) # recommended prior alpha! changes with number of inferred states!
+prior_alpha3 <- (mean(simdata)^2) / ((var(simdata) - mean(simdata)) / 3) # recommended prior alpha! changes with number of inferred states!
 prior_betas3 <- c(5,3,1)
 
 n4_states_inferred <- 4
 prior4_T <- generate_random_T(n4_states_inferred)
-prior_alpha4 <- (mean(simdata1)^2) / ((var(simdata1) - mean(simdata1)) / 4) # recommended prior alpha! changes with number of inferred states!
+prior_alpha4 <- (mean(simdata)^2) / ((var(simdata) - mean(simdata)) / 4) # recommended prior alpha! changes with number of inferred states!
 prior_betas4 <- c(5, 4, 3, 1)
 
 n5_states_inferred <- 5
 prior5_T <- generate_random_T(n5_states_inferred)
-prior_alpha5 <- (mean(simdata1)^2) / ((var(simdata1) - mean(simdata1)) / 5) # recommended prior alpha! changes with number of inferred states!
+prior_alpha5 <- (mean(simdata)^2) / ((var(simdata) - mean(simdata)) / 5) # recommended prior alpha! changes with number of inferred states!
 prior_betas5 <- c(5, 4, 3, 2, 1)
 
 ##### Series of oHMMed inference runs for increasing numbers of states:
 
-res1_n2 <- hmm_mcmc_gamma_poisson(data = simdata1,
+res1_n2 <- hmm_mcmc_gamma_poisson(data = simdata,
                                   prior_T = prior2_T,
                                   prior_betas = prior_betas2,
                                   prior_alpha = prior_alpha2,
@@ -105,7 +105,7 @@ res1_n2 <- hmm_mcmc_gamma_poisson(data = simdata1,
 # Recall: it is recommended to also set: init_betas = prior_betas2; init_alpha = prior_alpha2; init_T = prior2_T
 
 
-res1_n3 <- hmm_mcmc_gamma_poisson(data = simdata1,
+res1_n3 <- hmm_mcmc_gamma_poisson(data = simdata,
                                   prior_T = prior3_T,
                                   prior_betas = prior_betas3,
                                   prior_alpha = prior_alpha3,
@@ -114,7 +114,7 @@ res1_n3 <- hmm_mcmc_gamma_poisson(data = simdata1,
                                   print_params = print_params,
                                   verbose = verbose)
 
-res1_n4 <- hmm_mcmc_gamma_poisson(data = simdata1,
+res1_n4 <- hmm_mcmc_gamma_poisson(data = simdata,
                                   prior_T = prior4_T,
                                   prior_betas = prior_betas4,
                                   prior_alpha = prior_alpha4,
@@ -123,7 +123,7 @@ res1_n4 <- hmm_mcmc_gamma_poisson(data = simdata1,
                                   print_params = print_params,
                                   verbose = verbose)
 
-res1_n5 <- hmm_mcmc_gamma_poisson(data = simdata1,
+res1_n5 <- hmm_mcmc_gamma_poisson(data = simdata,
                                   prior_T = prior5_T,
                                   prior_betas = prior_betas5,
                                   prior_alpha = prior_alpha5,
@@ -147,12 +147,12 @@ vll2 <- c(median(res1_n2$estimates$log_likelihood),
           median(res1_n4$estimates$log_likelihood),
           median(res1_n5$estimates$log_likelihood))
 
-ind <- c(2, 3, 4, 5)
-mat_liks1 <- data.frame(cbind(ind, vll1, vll2))
+ind_state <- c(2, 3, 4, 5)
+mat_liks1 <- data.frame(cbind(ind_state, vll1, vll2))
 
 p1 <- ggplot(mat_liks1) + 
-  geom_point(aes(ind, vll1), size = 3) +
-  geom_point(aes(ind, vll2), size = 1.5, col = "grey") + 
+  geom_point(aes(ind_state, vll1), size = 3) +
+  geom_point(aes(ind_state, vll2), size = 1.5, col = "grey") + 
   geom_hline(yintercept = -15670.33, linetype = "dashed", colour = "grey") + 
   xlab("Number of States") + 
   ylab("Mean (Median) Log-Likelihood")
@@ -165,5 +165,5 @@ p1
 summary(res1_n3)
 #   graphical diagnostics and confusion matrix
 plot(res1_n3, simulation = TRUE, true_alpha1, 
-     true_betas1, true_T1, simdata1full$states)
+     true_betas1, true_T1, simdata_full$states)
 
