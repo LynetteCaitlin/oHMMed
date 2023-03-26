@@ -883,7 +883,7 @@ coef.hmm_mcmc_gamma_poisson <- function(object, ...) {
 #'
 #' @param true_states (integer) TODO:
 #' 
-#' @param show_titles (logical) if \code{TRUE} then titles are shown for all graphs
+#' @param show_titles (logical) if \code{TRUE} then titles are shown for all graphs. By default, \code{TRUE}
 #'
 #' @param ... not used
 #'
