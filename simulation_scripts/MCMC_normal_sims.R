@@ -37,11 +37,11 @@ true_T1 <- rbind(c(0.7, 0.3, 0),
                  c(0.0, 0.35, 0.65))
 
 # simulation step:
-simdata_full <- hmm_simulate_normal_data(L1, true_T1, true_means1, true_sigma1)
+simdata_full_normal <- hmm_simulate_normal_data(L1, true_T1, true_means1, true_sigma1)
 # then extract the simulated data/observed sequence...:
-simdata <- simdata_full$data 
+simdata_normal <- simdata_full_normal$data 
 # ... and have a quick peek at the overall emission density:
-plot(density(simdata), main = "")
+plot(density(simdata_normal), main = "")
 
 
 ##### Set up inference framework!:
@@ -52,7 +52,7 @@ plot(density(simdata), main = "")
 #   initial values and prior values should be set to the same value
 
 # run:
-c(min(simdata), max(simdata))
+c(min(simdata_normal), max(simdata_normal))
 # then, set initial and prior means to either:
 #     (1) values near modes or saddle points seen in the previous density plot
 #  or (2) equally spaced values within the just calculated range of the data
@@ -60,7 +60,7 @@ c(min(simdata), max(simdata))
 pr_means <- c(0.6, 0.95, 1.95)
 
 # run:
-sd(simdata)
+sd(simdata_normal)
 # then, set the initial and prior standard deviation to the above value divided by the number of states
 
 # the prior/initial transition rate matrix can be randomly generated
@@ -69,13 +69,13 @@ n3_states_inferred <- 3
 rand_T <- generate_random_T(n3_states_inferred)
 
 # overall, the recommended procedure would lead us to run the following inference procedure for 3 states:
-res_opt_n3 <- hmm_mcmc_normal(data = simdata,
+res_opt_n3 <- hmm_mcmc_normal(data = simdata_normal,
                               prior_T = rand_T,
                               prior_means = pr_means,
-                              prior_sd = sd(simdata) / 3,
+                              prior_sd = sd(simdata_normal) / 3,
                               init_T = rand_T,
                               init_means = pr_means,
-                              init_sd = sd(simdata) / 3,
+                              init_sd = sd(simdata_normal) / 3,
                               iter = iter,
                               warmup = warmup,
                               print_params = print_params,
@@ -89,13 +89,13 @@ res_opt_n3 <- hmm_mcmc_normal(data = simdata,
 summary(res_opt_n3)
 #   graphical diagnostics and confusion matrix
 plot(res_opt_n3, simulation = TRUE, true_means1,
-     true_sigma1, true_T1, simdata_full$states)
+     true_sigma1, true_T1, simdata_full_normal$states)
 
 # Note:
 # if this were not a simulation, but a real example, the graphical diagnostics are: 
 #     plot(res_opt_n3)
 # and use the following confusion matrix to assess stability of parameter ranges:
-#    x <- conf_mat(N = L1, res = opt_n3)
+#    x <- conf_mat(N = L1, res = res_opt_n3)
 #    plot_confusion_matrix(x$`Confusion Matrix`[[1]], add_sums = TRUE)
 
 
@@ -131,7 +131,7 @@ prior5_sd <- 2.5 / 5
 
 ##### Series of oHMMed inference runs for increasing numbers of states:
 
-res_n2 <- hmm_mcmc_normal(data = simdata,
+res_n2 <- hmm_mcmc_normal(data = simdata_normal,
                            prior_T = prior2_T,
                            prior_means = prior2_means,
                            prior_sd = prior2_sd,
@@ -140,7 +140,7 @@ res_n2 <- hmm_mcmc_normal(data = simdata,
                            print_params = print_params,
                            verbose = verbose)
 
-res_n3 <- hmm_mcmc_normal(data = simdata,
+res_n3 <- hmm_mcmc_normal(data = simdata_normal,
                            prior_T = prior3_T,
                            prior_means = prior3_means,
                            prior_sd = prior3_sd,
@@ -149,7 +149,7 @@ res_n3 <- hmm_mcmc_normal(data = simdata,
                            print_params = print_params,
                            verbose = verbose)
 
-res_n4 <- hmm_mcmc_normal(data = simdata,
+res_n4 <- hmm_mcmc_normal(data = simdata_normal,
                            prior_T = prior4_T,
                            prior_means = prior4_means,
                            prior_sd = prior4_sd,
@@ -158,7 +158,7 @@ res_n4 <- hmm_mcmc_normal(data = simdata,
                            print_params = print_params,
                            verbose = verbose)
 
-res_n5 <- hmm_mcmc_normal(data = simdata,
+res_n5 <- hmm_mcmc_normal(data = simdata_normal,
                            prior_T = prior5_T,
                            prior_means = prior5_means,
                            prior_sd = prior5_sd,
@@ -199,6 +199,6 @@ p1
 summary(res_n3)
 #   graphical diagnostics and confusion matrix
 plot(res_n3, simulation = TRUE, true_means1, 
-     true_sigma1, true_T1, simdata_full$states)
+     true_sigma1, true_T1, simdata_full_normal$states)
 
 
