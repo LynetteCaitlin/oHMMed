@@ -752,7 +752,6 @@ summary.hmm_mcmc_gamma_poisson <- function(object, ...) {
   post_states <- object$estimates$posterior_states
   state_tab <- table(post_states, dnn = "")
   
-  
   kl_list <- rep(NA, 500)
   for (j in 1:500) {
     sim_output <- unlist(lapply(1:length(state_tab), function(i) {
@@ -869,29 +868,31 @@ coef.hmm_mcmc_gamma_poisson <- function(object, ...) {
 }
 
 
-#' Plot Method for \code{hmm_mcmc_gamma_poisson} Objects
+#' Plot Diagnostics for \code{hmm_mcmc_gamma_poisson} Objects
+#' 
+#' This function creates a variety of diagnostic plots that can be useful when 
+#' conducting Markov Chain Monte Carlo (MCMC) simulation of a gamma-poisson hidden Markov model (HMM). 
+#' These plots will help to assess convergence, fit, and performance of the MCMC simulation
 #'
-#' @param x (hmm_mcmc_gamma_poisson) hmm_mcmc_gamma_poisson object
+#' @param x (hmm_mcmc_gamma_poisson) HMM MCMC gamma-poisson object
 #'
 #' @param simulation (logical) TODO:
 #'
-#' @param true_betas (numeric) TODO:
+#' @param true_betas (numeric) true betas. To be used if \code{simulation=TRUE}
 #'
-#' @param true_alpha (numeric) TODO:
+#' @param true_alpha (numeric) true alpha. To be used if \code{simulation=TRUE}
 #'
-#' @param true_mat_T (matrix) TODO:
+#' @param true_mat_T (matrix) \code{optional parameter}; true transition matrix. To be used if \code{simulation=TRUE}
 #'
-#' @param true_states (integer) TODO:
+#' @param true_states (integer) \code{optional parameter}; true states. To be used if \code{simulation=TRUE}
 #' 
 #' @param show_titles (logical) if \code{TRUE} then titles are shown for all graphs. By default, \code{TRUE}
 #'
 #' @param ... not used
 #'
-#' @details
-#' TODO: Here details
-#'
 #' @return
-#' No return value
+#' Several diagnostic plots that can be used to evaluate the MCMC simulation
+#' of the gamma-poisson HMM
 #'
 #' @export
 #' @export plot.hmm_mcmc_gamma_poisson
@@ -927,11 +928,13 @@ plot.hmm_mcmc_gamma_poisson <- function(x,
   all_betas <- convert_to_ggmcmc(x, pattern = "beta")
   n_betas <- attributes(all_betas)$nParameters
   facet_means <- ggplot2::facet_wrap(~ Parameter, ncol = floor(n_betas / 2), scales = "free")
+  
   mdens <- ggmcmc::ggs_density(all_betas) + 
     facet_means + 
     ggplot2::labs(x = "Value", 
                   y = "Density", 
                   title = if (show_titles) "Densities of Betas" else NULL)
+  
   mtrace <- ggmcmc::ggs_traceplot(all_betas) + 
     facet_means + 
     ggplot2::labs(x = "Iteration", 
@@ -950,6 +953,7 @@ plot.hmm_mcmc_gamma_poisson <- function(x,
     ggplot2::labs(x = "Iteration", 
                   y = "Value",
                   title = if (show_titles) "Traceplots of Parameters in Transition Matrix" else NULL)
+  
   Tdens <- ggmcmc::ggs_density(all_T) + 
     facet_t + 
     labels_t + 
@@ -963,6 +967,7 @@ plot.hmm_mcmc_gamma_poisson <- function(x,
     ggplot2::labs(x = "Iteration", 
                   y = "Value", 
                   title = if (show_titles) "Traceplot of Alpha" else NULL)
+  
   sddens <- ggmcmc::ggs_density(df_alpha) +
     ggplot2::labs(x = "Value", 
                   y = "Density",
@@ -972,11 +977,13 @@ plot.hmm_mcmc_gamma_poisson <- function(x,
   all_means <- convert_to_ggmcmc(x, pattern = "means")
   n_means <- attributes(all_means)$nParameters
   facet_me <- ggplot2::facet_wrap(~ Parameter, ncol = floor(n_means / 2), scales = "free")
+  
   medens <- ggmcmc::ggs_density(all_means) + 
     facet_me + 
     ggplot2::labs(x = "Value", 
                   y = "Density",
                   title = if (show_titles) "Densities of Means" else NULL)
+  
   metrace <- ggmcmc::ggs_traceplot(all_means) + 
     facet_me + 
     ggplot2::labs(x = "Iteration", 
@@ -1122,4 +1129,3 @@ plot.hmm_mcmc_gamma_poisson <- function(x,
   }
   kl_plot_f()   
 }
-

@@ -2,7 +2,7 @@
 % Please edit documentation in R/MCMC_normal.R
 \name{plot.hmm_mcmc_normal}
 \alias{plot.hmm_mcmc_normal}
-\title{Plot Method for \code{hmm_mcmc_normal} Objects}
+\title{Plot Diagnostics for \code{hmm_mcmc_normal} Objects}
 \usage{
 \method{plot}{hmm_mcmc_normal}(
   x,
@@ -16,30 +16,30 @@
 )
 }
 \arguments{
-\item{x}{(hmm_mcmc_normal) hmm_mcmc_normal object}
+\item{x}{(hmm_mcmc_normal) HMM MCMC normal object}
 
-\item{simulation}{(logical) TODO:}
+\item{simulation}{(logical) \code{optional parameter}; TODO:}
 
-\item{true_means}{(numeric) TODO:}
+\item{true_means}{(numeric) \code{optional parameter}; true means. To be used if \code{simulation=TRUE}}
 
-\item{true_sd}{(numeric) TODO:}
+\item{true_sd}{(numeric) \code{optional parameter}; true standard deviation. To be used if \code{simulation=TRUE}}
 
-\item{true_mat_T}{(matrix) TODO:}
+\item{true_mat_T}{(matrix) \code{optional parameter}; true transition matrix. To be used if \code{simulation=TRUE}}
 
-\item{true_states}{(integer) TODO:}
+\item{true_states}{(integer) \code{optional parameter}; true states. To be used if \code{simulation=TRUE}}
 
-\item{show_titles}{(logical) if \code{TRUE} then titles are shown for all graphs. By default, \code{TRUE}}
+\item{show_titles}{(logical) \code{optional parameter}; if \code{TRUE} then titles are shown for all graphs. By default, \code{TRUE}}
 
 \item{...}{not used}
 }
 \value{
-No return value
+Several diagnostic plots that can be used to evaluate the MCMC simulation
+of the normal HMM
 }
 \description{
-Plot Method for \code{hmm_mcmc_normal} Objects
-}
-\details{
-TODO: Here details
+This function creates a variety of diagnostic plots that can be useful when 
+conducting Markov Chain Monte Carlo (MCMC) simulation of a normal hidden Markov model (HMM). 
+These plots will help to assess convergence, fit, and performance of the MCMC simulation
 }
 \examples{
 \donttest{

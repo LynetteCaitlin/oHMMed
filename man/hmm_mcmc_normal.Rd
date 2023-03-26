@@ -35,7 +35,7 @@ hmm_mcmc_normal(
 
 \item{thin}{(integer) thinning parameter. By default, \code{1}}
 
-\item{seed}{(integer) seed parameter}
+\item{seed}{(integer) \code{optional parameter}; seed parameter}
 
 \item{init_T}{(matrix) \code{optional parameter}; initial transition matrix}
 

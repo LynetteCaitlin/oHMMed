@@ -1,13 +1,16 @@
 ---
 output: github_document
 ---
-  
 
-The `oHMMed` package contains an implementation of Hidden Markov Models with ordered hidden states and emission densities. More precisely: We assume a sequence of un-observable (’hidden’) variables with discrete categories known as states. Moving along this sequence, the probability of a specific state occurring at any step depends only on the state preceding it. Each hidden variable along the sequence produces/’emits’ an observable data point. We assume that these emitted data points are distributed according to some continuous distribution (currently: normal or gamma-poisson compound) with state-specific parameters. Further, we assume that the continuous emission distributions per state are parametrised so that they can be ordered by increasing mean. In fact, transitions between states in the hidden sequence can only occur between states that emit densities that are neighbours in the ordering by mean. Given the observed data sequence, our models assign each part of the hidden sequence to a state, and infer the transition rates between them as well as the parameters of the state-specific emission distributions. This is the general framework of `oHMMed` (ordered Hidden Markov Model with emission densities), and it can be applied to any system that fulfils these assumptions.
+The basic usage of this package is demonstrated below.
 
-## Normal model
+## 1) Normal model
 
-### Example data
+```{r data, warning=FALSE, cache=TRUE, include=FALSE}
+library(oHMMed)
+```
+
+### 1.1) Example data
 
 ```{r, echo = FALSE}
 knitr::opts_chunk$set(
@@ -16,11 +19,7 @@ knitr::opts_chunk$set(
     fig.path = "vignettes"
 )
 ```
-  
-```{r data, warning=FALSE, cache=TRUE, include=FALSE}
-library(oHMMed)
-```
-  
+
 ```{r data_normal, cache=TRUE}
 N <- 2^10
 true_T <- rbind(c(0.95, 0.05, 0),
@@ -38,8 +37,7 @@ simdata <- simdata_full$data
 plot(density(simdata), main = "")
 ```
 
-
-### Simulation
+### 1.2) MCMC Simulation
 
 ```{r simulation_normal, cache=TRUE}
 # Set priors
@@ -61,7 +59,7 @@ res_normal
 summary_res_normal <- summary(res_normal)
 ```
 
-### Diagnostics
+### 1.3) Diagnostics
 
 ```{r diagnostics_normal, cache=TRUE, message=FALSE}
 plot(res_normal)

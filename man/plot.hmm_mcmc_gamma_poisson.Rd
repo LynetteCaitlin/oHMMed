@@ -2,7 +2,7 @@
 % Please edit documentation in R/MCMC_poisson.R
 \name{plot.hmm_mcmc_gamma_poisson}
 \alias{plot.hmm_mcmc_gamma_poisson}
-\title{Plot Method for \code{hmm_mcmc_gamma_poisson} Objects}
+\title{Plot Diagnostics for \code{hmm_mcmc_gamma_poisson} Objects}
 \usage{
 \method{plot}{hmm_mcmc_gamma_poisson}(
   x,
@@ -16,30 +16,30 @@
 )
 }
 \arguments{
-\item{x}{(hmm_mcmc_gamma_poisson) hmm_mcmc_gamma_poisson object}
+\item{x}{(hmm_mcmc_gamma_poisson) HMM MCMC gamma-poisson object}
 
 \item{simulation}{(logical) TODO:}
 
-\item{true_betas}{(numeric) TODO:}
+\item{true_betas}{(numeric) true betas. To be used if \code{simulation=TRUE}}
 
-\item{true_alpha}{(numeric) TODO:}
+\item{true_alpha}{(numeric) true alpha. To be used if \code{simulation=TRUE}}
 
-\item{true_mat_T}{(matrix) TODO:}
+\item{true_mat_T}{(matrix) \code{optional parameter}; true transition matrix. To be used if \code{simulation=TRUE}}
 
-\item{true_states}{(integer) TODO:}
+\item{true_states}{(integer) \code{optional parameter}; true states. To be used if \code{simulation=TRUE}}
 
 \item{show_titles}{(logical) if \code{TRUE} then titles are shown for all graphs. By default, \code{TRUE}}
 
 \item{...}{not used}
 }
 \value{
-No return value
+Several diagnostic plots that can be used to evaluate the MCMC simulation
+of the gamma-poisson HMM
 }
 \description{
-Plot Method for \code{hmm_mcmc_gamma_poisson} Objects
-}
-\details{
-TODO: Here details
+This function creates a variety of diagnostic plots that can be useful when 
+conducting Markov Chain Monte Carlo (MCMC) simulation of a gamma-poisson hidden Markov model (HMM). 
+These plots will help to assess convergence, fit, and performance of the MCMC simulation
 }
 \examples{
 \donttest{

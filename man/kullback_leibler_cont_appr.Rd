@@ -21,7 +21,7 @@ Calculate a Continuous Approximation of the Kullback-Leibler Divergence
 The continuous approximation of the Kullback-Leibler divergence
 is calculated as follows:
 \deqn{
-  \frac{1}{n}\sum_{i=1}^n\big[\log(p_i) p_i - log(q_i) p_i \big]
+  \frac{1}{n}\sum_{i=1}^n\big[\log(p_i) p_i - \log(q_i) p_i \big]
 }
 }
 \examples{

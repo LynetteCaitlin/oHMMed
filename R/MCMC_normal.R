@@ -366,7 +366,7 @@ generate_random_T <- function(n = 3) {
 #' The continuous approximation of the Kullback-Leibler divergence
 #' is calculated as follows:
 #' \deqn{
-#'   \frac{1}{n}\sum_{i=1}^n\big[\log(p_i) p_i - log(q_i) p_i \big]
+#'   \frac{1}{n}\sum_{i=1}^n\big[\log(p_i) p_i - \log(q_i) p_i \big]
 #' }
 #'
 #' @return
@@ -925,7 +925,7 @@ init_hmm_mcmc_normal_ <- function(data, prior_T, prior_means, prior_sd,
 #'
 #' @param thin (integer) thinning parameter. By default, \code{1}
 #'
-#' @param seed (integer) seed parameter
+#' @param seed (integer) \code{optional parameter}; seed parameter
 #'
 #' @param init_T (matrix) \code{optional parameter}; initial transition matrix
 #'
@@ -1277,29 +1277,31 @@ coef.hmm_mcmc_normal <- function(object, ...) {
 ### NOTE: Can one suppress the counts this function spits out while running/plotting the list of plots?
 
 
-#' Plot Method for \code{hmm_mcmc_normal} Objects
-#'
-#' @param x (hmm_mcmc_normal) hmm_mcmc_normal object
-#'
-#' @param simulation (logical) TODO:
-#'
-#' @param true_means (numeric) TODO:
-#'
-#' @param true_sd (numeric) TODO:
-#'
-#' @param true_mat_T (matrix) TODO:
-#'
-#' @param true_states (integer) TODO:
+#' Plot Diagnostics for \code{hmm_mcmc_normal} Objects
 #' 
-#' @param show_titles (logical) if \code{TRUE} then titles are shown for all graphs. By default, \code{TRUE}
+#' This function creates a variety of diagnostic plots that can be useful when 
+#' conducting Markov Chain Monte Carlo (MCMC) simulation of a normal hidden Markov model (HMM). 
+#' These plots will help to assess convergence, fit, and performance of the MCMC simulation
+#'
+#' @param x (hmm_mcmc_normal) HMM MCMC normal object
+#'
+#' @param simulation (logical) \code{optional parameter}; TODO:
+#'
+#' @param true_means (numeric) \code{optional parameter}; true means. To be used if \code{simulation=TRUE}
+#'
+#' @param true_sd (numeric) \code{optional parameter}; true standard deviation. To be used if \code{simulation=TRUE}
+#'
+#' @param true_mat_T (matrix) \code{optional parameter}; true transition matrix. To be used if \code{simulation=TRUE}
+#'
+#' @param true_states (integer) \code{optional parameter}; true states. To be used if \code{simulation=TRUE}
+#' 
+#' @param show_titles (logical) \code{optional parameter}; if \code{TRUE} then titles are shown for all graphs. By default, \code{TRUE}
 #'
 #' @param ... not used
 #'
-#' @details
-#' TODO: Here details
-#'
 #' @return
-#' No return value
+#' Several diagnostic plots that can be used to evaluate the MCMC simulation
+#' of the normal HMM
 #'
 #' @export
 #' @export plot.hmm_mcmc_normal
@@ -1337,11 +1339,13 @@ plot.hmm_mcmc_normal <- function(x,
   all_means <- convert_to_ggmcmc(x, pattern = "mean")
   n_means <- attributes(all_means)$nParameters
   facet_means <- ggplot2::facet_wrap(~ Parameter, ncol = floor(n_means / 2), scales = "free")
+  
   mtrace <- ggmcmc::ggs_traceplot(all_means) + 
     facet_means + 
     ggplot2::labs(x = "Iteration", 
                   y = "Value",
                   title = if (show_titles) "Traceplots of Means" else NULL)
+  
   mdens <- ggmcmc::ggs_density(all_means) + 
     facet_means + 
     ggplot2::labs(x = "Value", 
@@ -1353,12 +1357,14 @@ plot.hmm_mcmc_normal <- function(x,
   n_t <- attributes(all_T)$nParameter
   facet_t <- ggplot2::facet_wrap(~ Parameter, ncol = sqrt(n_t), scales = "free")
   labels_t <- ggplot2::scale_y_continuous(labels = scales::number_format(accuracy = 0.01, decimal.mark = "."))
+  
   Ttrace <- ggmcmc::ggs_traceplot(all_T) + 
     facet_t + 
     labels_t + 
     ggplot2::labs(x = "Iteration", 
                   y = "Value",
                   title = if (show_titles) "Traceplots of Parameters in Transition Matrix" else NULL)
+  
   Tdens <- ggmcmc::ggs_density(all_T) + 
     facet_t + 
     labels_t + 
@@ -1368,10 +1374,12 @@ plot.hmm_mcmc_normal <- function(x,
   
   # Diagnostics sd
   df_sigma <- convert_to_ggmcmc(x, "sigma")
+  
   sdtrace <- ggmcmc::ggs_traceplot(df_sigma) + 
     ggplot2::labs(x = "Iteration", 
                   y = "Value",
                   title = if (show_titles) "Traceplot of Sigma" else NULL)
+  
   sddens <- ggmcmc::ggs_density(df_sigma) +
     ggplot2::labs(x = "Value", 
                   y = "Density",
