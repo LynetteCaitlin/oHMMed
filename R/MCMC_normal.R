@@ -1511,7 +1511,7 @@ plot.hmm_mcmc_normal <- function(x,
 }
 
 
-#' Calculate a Confusion Matrix
+#' Calculate and Visualise a Confusion Matrix
 #'
 #' A diagnostic function that tests the reliability of estimation
 #' procedures given the inferred transition rates

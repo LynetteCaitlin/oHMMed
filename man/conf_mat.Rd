@@ -2,7 +2,7 @@
 % Please edit documentation in R/MCMC_normal.R
 \name{conf_mat}
 \alias{conf_mat}
-\title{Calculate a Confusion Matrix}
+\title{Calculate and Visualise a Confusion Matrix}
 \usage{
 conf_mat(N, res, plot = TRUE)
 }
