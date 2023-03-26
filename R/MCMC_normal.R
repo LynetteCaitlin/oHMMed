@@ -1474,14 +1474,14 @@ plot.hmm_mcmc_normal <- function(x,
 }
 
 
-#' Calculate a Confusion Matrix...DESCRIPTION TO BE IMPROVED
+#' Calculate a Confusion Matrix
 #'
 #' A diagnostic function that tests the reliability of estimation
 #' procedures given the inferred transition rates
 #'
 #' @param N (numeric) number of simulations
 #'
-#' @param res (mcmc_hmm_\*) simulated MCMC HMM model
+#' @param res (mcmc_hmm_*) simulated MCMC HMM model
 #'
 #' @param plot (logical) plot confusion matrix. By default \code{TRUE}
 #'
@@ -1492,14 +1492,12 @@ plot.hmm_mcmc_normal <- function(x,
 #' \code{\link[cvms]{confusion_matrix}} function.
 #'
 #' @return
-#' Confusion matrix: \code{\link[cvms]{confusion_matrix}}
+#' \code{\link[cvms]{confusion_matrix}}
 #'
 #' @export
 #'
-#'
 #' @examples
-#' res <- conf_mat(100, example_hmm_mcmc_normal, plot = TRUE)
-#' res
+#' res <- conf_mat(100, example_hmm_mcmc_normal, plot = TRUE) 
 
 conf_mat <- function(N, res, plot = TRUE) {
   
@@ -1559,10 +1557,11 @@ conf_mat <- function(N, res, plot = TRUE) {
   conf_mat <- cvms::confusion_matrix(targets = m_multi$target,
                                      predictions = m_multi$prediction)
   
+  
   if (plot) {
-    suppressWarnings(
-      cvms::plot_confusion_matrix(conf_mat$`Confusion Matrix`[[1]],
-                                  add_sums = TRUE)
+    print(suppressWarnings(
+          cvms::plot_confusion_matrix(conf_mat$`Confusion Matrix`[[1]],
+                                      add_sums = TRUE))
     )
   }
   conf_mat

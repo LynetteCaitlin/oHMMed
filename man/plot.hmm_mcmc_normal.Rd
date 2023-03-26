@@ -2,7 +2,7 @@
 % Please edit documentation in R/MCMC_normal.R
 \name{plot.hmm_mcmc_normal}
 \alias{plot.hmm_mcmc_normal}
-\title{Plot method for \code{hmm_mcmc_normal} objects}
+\title{Plot Method for \code{hmm_mcmc_normal} Objects}
 \usage{
 \method{plot}{hmm_mcmc_normal}(
   x,
@@ -33,7 +33,7 @@
 No return value
 }
 \description{
-Plot method for \code{hmm_mcmc_normal} objects
+Plot Method for \code{hmm_mcmc_normal} Objects
 }
 \details{
 TODO: Here details

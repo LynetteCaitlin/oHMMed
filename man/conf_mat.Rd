@@ -2,19 +2,19 @@
 % Please edit documentation in R/MCMC_normal.R
 \name{conf_mat}
 \alias{conf_mat}
-\title{Calculate a Confusion Matrix...DESCRIPTION TO BE IMPROVED}
+\title{Calculate a Confusion Matrix}
 \usage{
 conf_mat(N, res, plot = TRUE)
 }
 \arguments{
 \item{N}{(numeric) number of simulations}
 
-\item{res}{(mcmc_hmm_\*) simulated MCMC HMM model}
+\item{res}{(mcmc_hmm_*) simulated MCMC HMM model}
 
 \item{plot}{(logical) plot confusion matrix. By default \code{TRUE}}
 }
 \value{
-Confusion matrix: \code{\link[cvms]{confusion_matrix}}
+\code{\link[cvms]{confusion_matrix}}
 }
 \description{
 A diagnostic function that tests the reliability of estimation
@@ -27,6 +27,5 @@ Finally, the inferred states and simulated states are compared via
 \code{\link[cvms]{confusion_matrix}} function.
 }
 \examples{
-res <- conf_mat(100, example_hmm_mcmc_normal, plot = TRUE)
-res
+res <- conf_mat(100, example_hmm_mcmc_normal, plot = TRUE) 
 }
