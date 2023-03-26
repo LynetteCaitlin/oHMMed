@@ -17,5 +17,5 @@
 ^vignettes/
 ^usageRecommendations.pdf$
 ^authors.R$
-^examples.R$
+^saving_example_data.R$
 ^sequences.zip$
