@@ -23,14 +23,14 @@ and prior probability of states "pi".
 Simulate Data Based on a Normal Model for a Hidden Markov Model Simulation
 }
 \examples{
-mat_T0 <- rbind(c(1-0.01,0.01,0),
-               c(0.01,1-0.02,0.01),
-               c(0,0.01,1-0.01))
-L <- 2^5
+mat_T0 <- rbind(c(1-0.01, 0.01, 0),
+                c(0.01, 1-0.02, 0.01),
+                c(0, 0.01, 1-0.01))
+L <- 2^7
 means0 <- c(-1,0,1)
 sigma0 <- 1
 
 sim_data <- hmm_simulate_normal_data(L = L, mat_T = mat_T0, means = means0, sigma = sigma0)
-plot(density(sim_data$data), main = "Density")
+plot(density(sim_data$data), main = "Density of Simulated Normal Data")
 sim_data
 }

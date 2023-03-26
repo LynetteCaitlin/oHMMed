@@ -23,10 +23,10 @@ and prior probability of states "pi".
 Simulate Data Based on a Gamma-Poisson Model for a Hidden Markov Model Simulation
 }
 \examples{
-mat_T <- rbind(c(1-0.01,0.01,0),
-               c(0.01,1-0.02,0.01),
-               c(0,0.01,1-0.01))
-L <- 2^10
+mat_T <- rbind(c(1-0.01, 0.01, 0),
+               c(0.01, 1-0.02, 0.01),
+               c(0, 0.01, 1-0.01))
+L <- 2^7
 betas <- c(0.1, 0.3, 0.5)
 alpha <- 1
 
@@ -34,6 +34,7 @@ sim_data <- hmm_simulate_gamma_poisson_data(L = L,
                                             mat_T = mat_T,
                                             betas = betas,
                                             alpha = alpha)
-hist(sim_data$data, breaks = 100, main = "Histogram")
+hist(sim_data$data, breaks = 40,
+     main = "Histogram of Simulated Gamma-Poisson Data", xlab = "")
 sim_data
 }
