@@ -11,21 +11,24 @@
   true_sd = NULL,
   true_mat_T = NULL,
   true_states = NULL,
+  show_titles = TRUE,
   ...
 )
 }
 \arguments{
 \item{x}{(hmm_mcmc_normal) hmm_mcmc_normal object}
 
-\item{simulation}{(logical)}
+\item{simulation}{(logical) TODO:}
 
-\item{true_means}{(numeric)}
+\item{true_means}{(numeric) TODO:}
 
-\item{true_sd}{(numeric)}
+\item{true_sd}{(numeric) TODO:}
 
-\item{true_mat_T}{(matrix)}
+\item{true_mat_T}{(matrix) TODO:}
 
-\item{true_states}{(integer)}
+\item{true_states}{(integer) TODO:}
+
+\item{show_titles}{(logical) if \code{TRUE} then titles are shown for all graphs. By default, \code{TRUE}}
 
 \item{...}{not used}
 }

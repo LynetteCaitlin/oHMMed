@@ -1281,15 +1281,17 @@ coef.hmm_mcmc_normal <- function(object, ...) {
 #'
 #' @param x (hmm_mcmc_normal) hmm_mcmc_normal object
 #'
-#' @param simulation (logical)
+#' @param simulation (logical) TODO:
 #'
-#' @param true_means (numeric)
+#' @param true_means (numeric) TODO:
 #'
-#' @param true_sd (numeric)
+#' @param true_sd (numeric) TODO:
 #'
-#' @param true_mat_T (matrix)
+#' @param true_mat_T (matrix) TODO:
 #'
-#' @param true_states (integer)
+#' @param true_states (integer) TODO:
+#' 
+#' @param show_titles (logical) if \code{TRUE} then titles are shown for all graphs. By default, \code{TRUE}
 #'
 #' @param ... not used
 #'
@@ -1315,6 +1317,7 @@ plot.hmm_mcmc_normal <- function(x,
                                  true_sd = NULL,
                                  true_mat_T = NULL,
                                  true_states = NULL,
+                                 show_titles = TRUE,
                                  ...) {
   
   info <- x$info
@@ -1334,30 +1337,57 @@ plot.hmm_mcmc_normal <- function(x,
   all_means <- convert_to_ggmcmc(x, pattern = "mean")
   n_means <- attributes(all_means)$nParameters
   facet_means <- ggplot2::facet_wrap(~ Parameter, ncol = floor(n_means / 2), scales = "free")
-  mtrace <- ggmcmc::ggs_traceplot(all_means) + facet_means + ggplot2::labs(x = "Iteration", y = "Value")
-  mdens <- ggmcmc::ggs_density(all_means) + facet_means + ggplot2::labs(x = "Value", y = "Density")
+  mtrace <- ggmcmc::ggs_traceplot(all_means) + 
+    facet_means + 
+    ggplot2::labs(x = "Iteration", 
+                  y = "Value",
+                  title = if (show_titles) "Traceplots of Means" else NULL)
+  mdens <- ggmcmc::ggs_density(all_means) + 
+    facet_means + 
+    ggplot2::labs(x = "Value", 
+                  y = "Density",
+                  title = if (show_titles) "Densities of Means" else NULL)
   
   # Diagnostics transitions
   all_T <- convert_to_ggmcmc(x, pattern = "T")
   n_t <- attributes(all_T)$nParameter
   facet_t <- ggplot2::facet_wrap(~ Parameter, ncol = sqrt(n_t), scales = "free")
   labels_t <- ggplot2::scale_y_continuous(labels = scales::number_format(accuracy = 0.01, decimal.mark = "."))
-  Ttrace <- ggmcmc::ggs_traceplot(all_T) + facet_t + labels_t + ggplot2::labs(x = "Iteration", y = "Value")
-  Tdens <- ggmcmc::ggs_density(all_T) + facet_t + labels_t + ggplot2::labs(x = "Value", y = "Density")
+  Ttrace <- ggmcmc::ggs_traceplot(all_T) + 
+    facet_t + 
+    labels_t + 
+    ggplot2::labs(x = "Iteration", 
+                  y = "Value",
+                  title = if (show_titles) "Traceplots of Parameters in Transition Matrix" else NULL)
+  Tdens <- ggmcmc::ggs_density(all_T) + 
+    facet_t + 
+    labels_t + 
+    ggplot2::labs(x = "Value", 
+                  y = "Density",
+                  title = if (show_titles) "Densities of Parameters in Transition Matrix" else NULL)
   
   # Diagnostics sd
   df_sigma <- convert_to_ggmcmc(x, "sigma")
-  sdtrace <- ggmcmc::ggs_traceplot(df_sigma) + ggplot2::labs(x = "Iteration", y = "Value")
-  sddens <- ggmcmc::ggs_density(df_sigma) + ggplot2::labs(x = "Value", y = "Density")
+  sdtrace <- ggmcmc::ggs_traceplot(df_sigma) + 
+    ggplot2::labs(x = "Iteration", 
+                  y = "Value",
+                  title = if (show_titles) "Traceplot of Sigma" else NULL)
+  sddens <- ggmcmc::ggs_density(df_sigma) +
+    ggplot2::labs(x = "Value", 
+                  y = "Density",
+                  title = if (show_titles) "Density of Sigma" else NULL)
   
   # Likelihood trace
   lltrace <- x$estimates$log_likelihood
   lltrace_df <- as.data.frame(cbind(c((info$warmup+1):info$iter),lltrace))
   names(lltrace_df) <- c("iteration", "log_likelihood")
   
-  llplot <- ggplot2::ggplot(lltrace_df, ggplot2::aes_string(x = "iteration", y = "log_likelihood")) +
+  llplot <- ggplot2::ggplot(lltrace_df, ggplot2::aes_string(x = "iteration", 
+                                                            y = "log_likelihood")) +
     ggplot2::geom_line() +
-    ggplot2::labs(x = "Iteration", y = "Log-likelihood")
+    ggplot2::labs(x = "Iteration", 
+                  y = "Log-likelihood",
+                  title = if (show_titles) "Traceplot of Log-Likelihood" else NULL)
   
   # Confusion matrix
   if (simulation) {
@@ -1368,7 +1398,8 @@ plot.hmm_mcmc_normal <- function(x,
     
     conf_mat_plot <- suppressWarnings(
       cvms::plot_confusion_matrix(conf_mat$`Confusion Matrix`[[1]],
-                                  add_sums = TRUE)
+                                  add_sums = TRUE) +
+        ggplot2:::labs(title = if (show_titles) "Confusion Matrix" else NULL)
     )
   }
   
@@ -1389,7 +1420,9 @@ plot.hmm_mcmc_normal <- function(x,
     ggplot2::geom_point(ggplot2::aes_string(colour = "posterior_states"), shape = 20, size = 1.5, alpha = 0.75) +
     ggplot2::geom_line(ggplot2::aes_string(x = "position", y = "posterior_means"), size = 0.15) +
     ggplot2::guides(colour = ggplot2::guide_legend(title = "Post States")) +
-    ggplot2::labs(x = "Position", y = "Data")
+    ggplot2::labs(x = "Position", 
+                  y = "Data",
+                  title = if (show_titles) "States Plot" else NULL)
   
   if (simulation) {
     states_df2 <- as.data.frame(cbind(1:length(data), data, true_states))
@@ -1418,7 +1451,9 @@ plot.hmm_mcmc_normal <- function(x,
   resulting_mixture_of_normals <- mistr::mixdist(dist, params, weights = weight)
   
   qqplot <- mistr::QQplotgg(data, resulting_mixture_of_normals, col = "black", line_col = "blue") +
-    ggplot2::labs(x = "Resulting mixture of normals", y = "Data") +
+    ggplot2::labs(x = "Resulting mixture of normals", 
+                  y = "Data",
+                  title = if (show_titles) "Q-Q Plot" else NULL) +
     ggplot2::theme_get()
   
   # Compare densities
@@ -1439,7 +1474,9 @@ plot.hmm_mcmc_normal <- function(x,
   
   kl_plot <- ggplot2::ggplot(dens_df, ggplot2::aes_string(x = "value", fill = "data_type")) +
     ggplot2::geom_density(alpha = 0.4) +
-    ggplot2::labs(title = "Model Fit", x = "Values", y = "Density") +
+    ggplot2::labs(x = "Values", 
+                  y = "Density",
+                  title = if (show_titles) "Model Fit" else NULL) +
     ggplot2::geom_vline(xintercept = x$estimates$means, color = "red", size = 1) +
     ggplot2::geom_vline(xintercept = c(x$estimates$means) + x$estimates$sd,
                         linetype = "dotted", color = "red", size = 1) +

@@ -28,7 +28,7 @@
 
 \item{true_states}{(integer) TODO:}
 
-\item{show_titles}{(logical) if \code{TRUE} then titles are shown for all graphs}
+\item{show_titles}{(logical) if \code{TRUE} then titles are shown for all graphs. By default, \code{TRUE}}
 
 \item{...}{not used}
 }
