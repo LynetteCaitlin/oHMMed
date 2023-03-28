@@ -1,4 +1,4 @@
-# oHMMED 0.9.0
+# oHMMED 1.0.0
 
 * Initial release 
 	

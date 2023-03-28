@@ -2,7 +2,7 @@ Package: oHMMed
 Type: Package
 Title: Hidden Markov Models with ordered hidden states 
     and emission densities with applications in population genetics
-Version: 0.9.0
+Version: 1.0.0
 Imports: stats, ggplot2, gridExtra, ggmcmc, scales, mistr, cvms, vcd
 Authors@R: c(
     person(given = c("Lynette", "Caitlin"), 
