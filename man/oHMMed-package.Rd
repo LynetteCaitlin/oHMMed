@@ -25,8 +25,8 @@ Useful links:
 
 Authors:
 \itemize{
-  \item Lynette Caitlin Mikula (\href{https://orcid.org/0000-0002-0252-4014}{ORCID})
-  \item Claus Vogl
+  \item Lynette Caitlin Mikula \email{lynettecaitlin@gmail.com} (\href{https://orcid.org/0000-0002-0252-4014}{ORCID})
+  \item Claus Vogl \email{claus.vogl@vetmeduni.ac.at} (\href{https://orcid.org/0000-0002-3996-7863}{ORCID})
 }
 
 }
