@@ -1407,7 +1407,7 @@ plot.hmm_mcmc_normal <- function(x,
     conf_mat_plot <- suppressWarnings(
       cvms::plot_confusion_matrix(conf_mat$`Confusion Matrix`[[1]],
                                   add_sums = TRUE) +
-        ggplot2:::labs(title = if (show_titles) "Confusion Matrix" else NULL)
+        ggplot2::labs(title = if (show_titles) "Confusion Matrix" else NULL)
     )
   }
   
