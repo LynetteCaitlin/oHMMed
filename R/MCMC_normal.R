@@ -1,4 +1,4 @@
-# Hidden Markov Model simulation with Gamma-Poisson data
+# Hidden Markov Model simulation with Normal data
 
 
 # ******************************************************************************************************-----

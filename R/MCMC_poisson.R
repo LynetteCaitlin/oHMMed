@@ -285,15 +285,8 @@ sample_betas_alpha_ <- function(cur_betas, cur_alpha, prior_betas, prior_alpha, 
   betas <- NULL
   alpha <- NULL
   n_states <- length(cur_betas)
-  loglambda_p <- 0 
+  loglambda_p <- prior_alpha 
   
-  #### NOTE: below if statement may be redundant
-  if (is.null(states) & is.null(data)) {
-    betas <- stats::rgamma(length(prior_betas), shape = 1, rate = 1 / prior_betas)
-    alpha <- stats::rgamma(1, shape = prior_alpha, rate = 1)
-    
-  } else {
-    
     lvl <- list()
     for (i in 1:n_states) {
       vl <- data[states == i]
@@ -313,7 +306,7 @@ sample_betas_alpha_ <- function(cur_betas, cur_alpha, prior_betas, prior_alpha, 
       }
     }  
     
-    HM <- exp(loglambda_p / (N + prior_alpha))
+    HM <- exp(loglambda_p / (N + 1))
     shape_param <- (N + prior_alpha) * cur_alpha
     
     alpha_star <- stats::rgamma(1, shape = shape_param, rate = N)
@@ -332,7 +325,6 @@ sample_betas_alpha_ <- function(cur_betas, cur_alpha, prior_betas, prior_alpha, 
     if (stats::runif(1) <= exp(lr)) {
       alpha <- alpha_star
     }
-  }
 
   list(betas = betas, alpha = alpha)
 }
@@ -376,11 +368,11 @@ init_hmm_mcmc_gamma_poisson_ <- function(data, prior_T, prior_betas, prior_alpha
   out <- sample_betas_alpha_(cur_betas = init_betas, cur_alpha = init_alpha,  
                              prior_betas = prior_betas, prior_alpha = prior_alpha) 
   if (is.null(init_betas)) {
-    init_betas <- out$betas
+    init_betas <- stats::rgamma(length(prior_betas), shape = 1, rate = 1 / prior_betas)
   }
   
   if (is.null(init_alpha)) {
-    init_alpha <- out$alpha
+    init_alpha <- stats::rgamma(1, shape = prior_alpha, rate = 1)
   }
   
   if (is.null(init_T)) {
@@ -415,12 +407,6 @@ init_hmm_mcmc_gamma_poisson_ <- function(data, prior_T, prior_betas, prior_alpha
      if( (init_alpha > (set_alpha + 3)) | (init_alpha < (set_alpha - 3)) ){
        message("hmm_mcmc_gamma_poisson(): ", chain_char, "initial alpha is not close to the recommended value")
      }
-    # NOTE: The below message is not helpful
-    #range1 <- lambda1 < lambda2
-    #range2 <- lambda1 > lambda2
-    #if ((sum(range1) == length(lambda2)) | (sum(range2) == length(lambda2))) {
-    #  message("hmm_mcmc_gamma_poisson(): ", chain_char, "rate parameter of observed distribution is either above or below all of the initial rate parameters")
-    #}
     if (any(lambda2 > stats::var(data))) {
       message("hmm_mcmc_gamma_poisson(): ", chain_char, "at least one initial rate parameter is greater than the overall variance")
     }
@@ -554,7 +540,7 @@ hmm_mcmc_gamma_poisson <- function(data,
                                    prior_T,
                                    prior_betas,
                                    prior_alpha = 1,
-                                   iter = 1500,
+                                   iter = 5000,
                                    warmup = floor(iter / 1.5),
                                    thin = 1,
                                    seed = sample.int(.Machine$integer.max, 1),
@@ -745,12 +731,6 @@ summary.hmm_mcmc_gamma_poisson <- function(object, ...) {
                stats::median(object$estimates$log_likelihood))
   names(ll_info) <- c("mean", "sd", "median")
   
-  #### NEW LCM: remove below????
-  #post_info <- c(mean(object$estimates$log_posterior),
-  #               stats::sd(object$estimates$log_posterior),
-  #               stats::median(object$estimates$log_posterior))
-  #names(post_info) <- c("mean", "sd", "median")
-  
   group_comparison <- rep(NA, length(beta_est) - 1)
   for (k in 1:(length(beta_est) - 1)) {
     gr1 <- object$data[object$estimates$posterior_states == k]
@@ -768,9 +748,6 @@ summary.hmm_mcmc_gamma_poisson <- function(object, ...) {
                       "approximate_kullback_leibler_divergence" = kl_div,
                       "log_likelihood" = ll_info,
                       "state_differences_significance" = group_comparison)
-  
-  #### NEW LCM: remove below????
-  #"log_posterior" = post_info)
   
   cat("Estimated betas:\n")
   print(summary_res$estimated_betas)
@@ -812,10 +789,6 @@ summary.hmm_mcmc_gamma_poisson <- function(object, ...) {
   cat("P-Values of Difference between Rates of States (stepwise):\n")
   print(summary_res$state_differences_significance)
   cat("\n")
-  
-  #### NEW LCM: remove below????
-  #cat("Log Posterior:\n")
-  #print(summary_res$log_posterior)
   
   invisible(summary_res)
 }
@@ -879,6 +852,7 @@ plot.hmm_mcmc_gamma_poisson <- function(x,
                                         true_mat_T = NULL,
                                         true_states = NULL,
                                         show_titles = TRUE,
+                                        no_log_statesplot = TRUE,
                                         ...) {
   
   info <- x$info
@@ -911,7 +885,7 @@ plot.hmm_mcmc_gamma_poisson <- function(x,
                   y = "Value", 
                   title = if (show_titles) "Traceplots of Betas" else NULL)
   
-  # Diagnostics transitions
+  # Diagnostics transition rates
   all_T <- convert_to_ggmcmc(x, pattern = "T")
   n_t <- attributes(all_T)$nParameter
   facet_t <- ggplot2::facet_wrap(~ Parameter, ncol = sqrt(n_t), scales = "free")
@@ -986,14 +960,24 @@ plot.hmm_mcmc_gamma_poisson <- function(x,
     )
   }
   
-  # # Check assignment of states along chromosome
-  states_df <- as.data.frame(cbind(1:length(data), data, x$estimates$posterior_states))
-  post_means <- numeric(length(data))
-  
-  for (l in 1:length(data)) {
-    post_means[l] <- sum(x$estimates$alpha / x$estimates$betas * x$estimates$posterior_states_prob[l, ])
+  # Check assignment of states along chromosome
+  if(no_log_statesplot) {
+    states_df <- as.data.frame(cbind(1:length(data), data, x$estimates$posterior_states))
+    post_means <- numeric(length(data))
+    
+    for (l in 1:length(data)) {
+      post_means[l] <- sum(x$estimates$alpha / x$estimates$betas * x$estimates$posterior_states_prob[l, ])
+    }
   }
-  
+  else {
+    states_df <- as.data.frame(cbind(1:length(data), log(data), x$estimates$posterior_states))
+    post_means <- numeric(length(data))
+    
+    for (l in 1:length(data)) {
+      post_means[l] <- log(sum(x$estimates$alpha / x$estimates$betas * x$estimates$posterior_states_prob[l, ]))
+    }
+  }
+ 
   states_df$post_means <- post_means
   names(states_df) <- c("position", "data", "posterior_states", "posterior_means")
   states_df$posterior_states <- as.factor(states_df$posterior_states)
@@ -1008,6 +992,16 @@ plot.hmm_mcmc_gamma_poisson <- function(x,
                   title = if (show_titles) "States Plot" else NULL)
   
   if (simulation) {
+    if(no_log_statesplot) {
+      states_df2 <- as.data.frame(cbind(1:length(data), data, true_states))
+      post_means <- (true_alpha / true_betas)[true_states]
+      states_df2$post_means <- post_means
+    }
+    else {
+      states_df2 <- as.data.frame(cbind(1:length(data), log(data), true_states))
+      post_means <- (true_alpha / true_betas)[true_states]
+      states_df2$post_means <- log(post_means)
+    }
     states_df2 <- as.data.frame(cbind(1:length(data), data, true_states))
     post_means <- (true_alpha / true_betas)[true_states]
     states_df2$post_means <- post_means
@@ -1072,7 +1066,7 @@ plot.hmm_mcmc_gamma_poisson <- function(x,
                               fill = "grey", position = "identity") +
       ggplot2::scale_color_manual(values = c("black")) +
       ggplot2::geom_vline(xintercept = x$estimates$means, color = "black", size = 0.6) +
-      ggplot2::geom_vline(xintercept = true_alpha /true_betas, color = "blue", 
+      ggplot2::geom_vline(xintercept = true_alpha/true_betas, color = "blue", 
                           size = 0.4, linetype = "dotted") + 
       ggplot2::labs(x = "Number of Occurences", 
                     y = "Frequency",
