@@ -1,149 +1,8 @@
-### CHANGES v6:
-# gtools replaces MCMCprecision
-#  - 2x faster for random number generations)
-#  - only one dependency for Dirichlet distribution
-# main hmm_mcmc_normal function returns original dataset. It is then used
-# in summary and plot functions.
-
-
-
-### CHANGES prior v6:
-# Function names:
-#   - eigenSystem --> eigen_system
-#   - KullbackLeibler --> kullback_leibler
-#   - sampleMeansSD --> sample_means_sd_
-#   - sampleStates_normal_ --> sample_states_normal_
-#   - sampleT --> sample_T_
-#
-# New helpers:
-#   - get_pi
-#   - get_pi_
-#   - cap_floor_
-#   - init_hmm_mcmc_normal (initializes the mcmc normal algorithm and checks inputs)
-#
-# Changes in style
-#   - changed order of inputs in functions: optional parameters that have NULL
-#     go to the end of the function call
-#   - all internal functions end with "_"
-#   - all functions that are available to a user
-#     don't end with "_"
-#   - what functions should be exported (available to the user) and which not
-#     will be decided in later stage of the project (easy to adapt code).
-#   - Example: "get_pi" should be available to users
-#     and should be "safe" to use (sanity checks).
-#     However, those checks are not necessary for internal use.
-#     Therefore internally "get_pi_" is used without checks
-#     and users use "get_pi" which uses "get_pi_" internally and adds sanity checks.
-#
-# Changes in names of inputs/outputs and variables
-#   - "vmeans" and "vMeans" changed to "means" everywhere.
-#   - "matT" changed to "mat_T" everywhere
-#
-# Other changes:
-#   - changed order and names of inputs to "hmm_mcmc_normal"
-#     all follow "underscore_case"
-#   - new inputs in "hmm_mcmc_normal": chains, iter, warmup, thin, init, ...
-#
-#
-## DETAILED CHANGES:
-# "posterior_prob_normal": -------------------------------------------------------------------------
-# MM: few adjustments have been made to make the function robust.
-#
-# Main story: if the prior values (also initial values) for means and the variance
-#    are far, far away from the actual sample (central) moments then
-#    the probabilities calculated as:
-#        dnorm(x = data[i], mean = means, sd = sdev)
-#    are going to be 0 due to floating point precision.
-#    This causes a chain of adverse events leading to NAs, NaNs, etc, which
-#    cause issues.
-#
-# More details:
-#    The smallest possible number is about 5e-324 (see ?.Machine)
-#    and if one subtracts a tiny bit from that then the result is going to be 0.
-#    Check:
-#        1 * 5e-324 # = 4.940656e-324
-#        1 * 2e-324 # = 0
-#        1 * 5e-325 # = 0
-#    The probability density is non-zero for all real numbers, however,
-#    it is common that the R function returns zero due to the precision
-#    problem described above. Example:
-#        dnorm(1000, mean = -1e7, sd = 0.1)
-#
-# Remedy:
-#    To overcome this issue a floor is implemented
-#    defined at 2.225074e-308 == .Machine$double.xmin.
-#    The density value is then as close as possible to its "true value",
-#    which is obviously lower than 2.225074e-308 but not 0.
-#
-#    2.225074e-308 still allows performing all arithmetic operations.
-#    1 / 2.225074e-308
-#
-# Another potential issue: 0 * Inf = NaN
-#    This problem can arise when the vector pi contains 0 values
-#    and dnorm produces Inf. Example:
-#       dnorm(5, mean = 5, sd = 0)
-#    In order to avoid the issue dnorm is capped at .Machine$double.xmax
-#    which is 1.797693e+308.
-#    0 * Inf --> NaN
-#    0 * 1.797693e+308 --> 0
-#
-# Capping and flooring probabilities/densities at values close
-# to limits is a reasonable technical tricks that assures stability,
-# robustness (or makes calculation possible at all)
-# without influencing results too much.
-
-
-
-# "sample_T_": ------------------------------------------------------------------------------------------------
-# MM: frequently a row sum is equal to 0.9999999999999998889777,
-# which is not precisely 1 and therefore 0.9999999999999998889777 == 1 --> FALSE.
-# This is caused by floating point precision. See typical example:
-# sqrt(2)^2 == 2 # --> FALSE
-# A new helper "is_row_sum_one_" tolerates a discrepancy of
-# at most tol=.Machine$double.eps^(1/2) by default and is therefore robust.
-# It is used throughout the main MCMC function for sanity checks.
-# --> "sample_T_()" doesn't need to be repeated
-# https://stackoverflow.com/questions/9508518/why-are-these-numbers-not-equal
-
-# "sample_states_normal_": -----------------------------------------------------------------------------------
-# Improvements:
-# 1) states are returned as factors (factor(states, levels = 1:n_states))
-#    table(states) always includes all states, even if they are not found in
-#    the vector (levels are stored as meta-attributes). Example below:
-#      x <- factor(1:10)
-#      attributes(x)
-#      table(x[1:2])
-# 2) dnorm is used in a vectorized way - probabilities are calculated only once
-# 3) sample() is replaced with two-three fold more efficient alternative
-
-
-# TODO:
-# - I believe, sample_T_ and sample_means_sd should be available to the user
-
-
-
-# Check convergence: https://www.rdocumentation.org/packages/ConvergenceConcepts/versions/1.2.2/topics/check.convergence
-# Convergence after x step
-# https://stackoverflow.com/questions/38143932/how-to-find-when-a-matrix-converges-with-a-loop
-#
-# Convergent matrix: https://en.wikipedia.org/wiki/Convergent_matrix
-
-
-
-###############
-###############
-# NEW:
-# How do we check that the users have the all the dependencies
-# (i.e. dependent libraries for all our functions) installed?
-# Can one check for it when our library is loaded ?
-###############
-###############
-
-
+# Hidden Markov Model simulation with Gamma-Poisson data
 
 
 # ******************************************************************************************************-----
-# GENERAL HELPERS: ------------------------------------------------------------------------------------------
+# General Helpers: ------------------------------------------------------------------------------------------
 # ******************************************************************************************************-----
 
 
@@ -158,7 +17,6 @@ rdirichlet_ <- function (n, alpha) {
 #' @keywords internal
 get_pi_ <- function(mat_T) {
   ev <- eigen_system(mat_T)
-  # Re(ev$forwards[1, ]) / sum(Re(ev$forwards[1, ]))
   x <- Re(ev$forwards[1, ])
   x / sum(x)
 }
@@ -217,14 +75,6 @@ get_mat_T_ <- function(u, l) {
   }
   mat_T
 }
-
-
-# #' @keywords internal
-# sample_integers_ <- function(mat) {
-#     u <- stats::runif(nrow(mat))
-#     mat <- matrixStats::rowCumsums(mat)
-#     max.col(mat - u > 0, ties.method = "first")
-# }
 
 
 #' Converts MCMC Samples into \code{ggmcmc} Format
@@ -291,8 +141,7 @@ convert_to_ggmcmc <- function(x,
   
   nIterations <- iter
   nBurnin <- 0
-  
-  # res <- reshape2::melt(res)
+
   n_row <- nrow(res)
   res <- data.frame(Var1 = rep(seq_len(n_row), ncol(res)),
                     Var2 = rep(colnames(res), each = n_row),
@@ -415,6 +264,8 @@ kullback_leibler_cont_appr <- function(p, q) {
 }
 
 
+
+
 #' Get the Prior Probability of States
 #'
 #' Calculate the prior probability of states that correspond to the stationary
@@ -494,6 +345,10 @@ eigen_system <- function(mat) {
   lambda <- es$values
   list("lambda" = lambda, "forwards" = forwards, "backwards" = backwards)
 }
+
+# ******************************************************************************************************-----
+# Normal Algorithm Specific Functions : ------------------------------------------------------------------------------------------
+# ******************************************************************************************************-----
 
 
 #' Simulate Data Based on a Normal Model for a Hidden Markov Model Simulation
@@ -651,31 +506,6 @@ posterior_prob_normal <- function(data, pi, mat_T, means, sdev) {
 }
 
 
-# sample_states_normal_ - changes:
-# - the function returns states as factor (helps to calculate means and variances for missing states as well as calculating table with state transitions)
-# - is made more robust (no zero probabilities are produced)
-
-##!!! LCM: Should warnings be given in the function below when probabilities are padded?
-
-# MM:
-# 1) states are returned as factors (factor(states, levels = 1:DIM))
-#    table(states) always includes all states, even if they are not found in
-#    the vector (levels are stored as meta-attributes). Example below:
-#      x <- factor(1:10)
-#      attributes(x)
-#      table(x[1:2])
-# 2) dnorm is used in a vectorized way - probabilities are calculated only once
-# 3) sample() is replaced with two-three fold more efficient alternative
-#
-# 4) ad.3) the alternative is further improved in terms of efficiency:
-#     - instead of generating L uniforms, all uniforms are generated at once,
-#       stored in a variable, which is then subsetted in each for-loop iteration.
-#       --> almost two-fold speed improvement (~1.7x faster for L=1024 and L=32768)
-#
-#    all_runif <- runif(L)
-#    states[1] <- which.max(cumsum(p) - all_runif[1] > 0)
-#    for (...)
-#    states[l] <- which.max(cumsum(p) - stats::runif(1) > 0)
 
 
 #' @keywords internal
@@ -690,10 +520,9 @@ sample_states_normal_ <- function(mat_R, mat_T, pi, means, sdev, data) {
   p <- cap_floor_(mat_R$F[1, ] * mat_R$F[1, ] * mat_R$s[1], cap_, floor_)
   p <- p / sum(p)
   p[is.na(p)] <- floor_
-  all_runif <- stats::runif(L) # generating L unifs at once is faster than generating L times 1 unif
+  all_runif <- stats::runif(L) 
   states[1] <- which.max(cumsum(p) - all_runif[1] > 0)
-  # states[1] <- which.max(cumsum(p) - stats::runif(1) > 0)
-  
+   
   mat_means <- matrix(means, nrow = L, ncol = length(means), byrow = TRUE)
   probs <- cap_floor_(stats::dnorm(data, mat_means, sdev), cap_, floor_)
   
@@ -702,15 +531,10 @@ sample_states_normal_ <- function(mat_R, mat_T, pi, means, sdev, data) {
     p <- p / sum(p)
     p[is.na(p)] <- floor_
     states[l] <- which.max(cumsum(p) - all_runif[l] > 0)
-    # states[l] <- which.max(cumsum(p) - stats::runif(1) > 0)
   }
   factor(states, levels = 1:n_states)
 }
 
-# sample_T_ - changes:
-# - shorter code but not necessarily faster
-# CV: function should return a sample from the prior if states==NULL
-# !!! LCM: Should warnings be given in the function below when probabilities are padded?
 
 #' @keywords internal
 sample_T_ <- function(prior_mat, states = NULL) {
@@ -749,15 +573,9 @@ sample_T_ <- function(prior_mat, states = NULL) {
   mat_T
 }
 
-# sample_means_sd_ - changes:
-# - recovering sums of squares out of variance with correct multiplicative factor (n-1)
-# - when some state is not represented (count=0) then the prior parameters are used only
-# - function is 2x-3x faster than the original one
-# CV: this function needs to work also without data and then return a sample from the prior
 
 #' @keywords internal
 
-# LCM: BELOW IS THE NEW SAMPLING FUNCTION FOR VERSION 9
 sample_means_sd_ <- function(prior_means, prior_var, states = NULL, data = NULL) {
   
   L <- length(states)
@@ -768,18 +586,15 @@ sample_means_sd_ <- function(prior_means, prior_var, states = NULL, data = NULL)
   if (!is.null(states) & !is.null(data)) {
     n <- tapply(data, states, length, default = 0)
     ybar <- tapply(data, states, mean, default = 0)
-    vars <- tapply(data, states, stats::var, default = 0) # Denominator n-1
+    vars <- tapply(data, states, stats::var, default = 0) 
     vars[n == 1] <- 0 
-    ss <- sum(vars * (n - 1)) ## NEW V9: since the denominator is n-1 should not the factor here be n-1????
+    ss <- sum(vars * (n - 1)) 
   }      
-  # Inverse gamma with shape=(L+1)/2, scale=(prior_var+ss)/2   
-  # CV: I cannot see where the variable "L" is defined; (FIXED) 
-  # Note: sigma2 is the variance!
+  
   sigma2 <- 1 / stats::rgamma(n = 1, shape = (L + 1) * 0.5,
                               rate = (prior_var + ss + sum((ybar - prior_means)^2 * n / (n + 1))) * 0.5) 
   means <- stats::rnorm(n = n_states, 
                         mean = (n * ybar + prior_means) / (n + 1),
-                        ## sd = sigma2 / (L + 1)) ## BUGBUG: this is the variance and not the sdev!
                         sd = sqrt(sigma2 / (n + 1))) 
   list(means = sort(means), sdev = sqrt(sigma2))
 }
@@ -787,32 +602,12 @@ sample_means_sd_ <- function(prior_means, prior_var, states = NULL, data = NULL)
 
 
 
-#' @keywords internal
-#### NEW LCM: remove below????
-#get_parms_log_prob_ <- function(means, sd, mat_T, prior_means, prior_var, prior_T) {
-
-#    lp <- stats::dgamma(1 / sd^2, shape = 1 * 0.5, rate = prior_var * 0.5)
-#    lp <- lp + sum(stats::dnorm(x = (means - prior_means) / sd, sd = sd, log = TRUE))
-#    lp <- lp + gtools::ddirichlet(x = mat_T[1,1:2], alpha = prior_T[1,1:2])
-#    K <- length(prior_means)
-
-#    if (K > 2) {
-#        for (i in 2:(K-1)) {
-#            lp <- lp + gtools::ddirichlet(x = mat_T[i,(i-1):(i+1)], alpha = prior_T[i,(i-1):(i+1)])
-#        }
-#    }
-#    lp <- lp + gtools::ddirichlet(x = mat_T[K,(K-1):K], alpha = prior_T[K,(K-1):K])
-#    lp
-#}
 
 
 #' @keywords internal
 init_hmm_mcmc_normal_ <- function(data, prior_T, prior_means, prior_sd,
                                   init_T = NULL, init_means = NULL, init_sd = NULL, 
                                   verbose, iter, warmup, thin, chain_id = NULL) {
-  ## CV: init_T, init_means and init_sd may be set to NULL, 
-  ## in this case the initial values are sampled from the prior 
-  
   if (iter < 2) {
     stop("hmm_mcmc_normal(): `iter` needs to be bigger than 1", call. = FALSE)
   }
@@ -820,11 +615,9 @@ init_hmm_mcmc_normal_ <- function(data, prior_T, prior_means, prior_sd,
   if (!is.numeric(data)) {
     stop("hmm_mcmc_normal(): `data` needs to be a numeric vector", call. = FALSE)
   }
-  ## new LCM
   if (sum(is.na(data))>0){
     stop("hmm_mcmc_normal(): `data` contains missing values", call. = FALSE)
   }
-  ##end  new LCM
   if (any(is_row_sum_one_(prior_T) == FALSE)) {
     stop("hmm_mcmc_normal(): rows in the transition matrix `prior_T` must sum up to 1", call. = FALSE)
   }
@@ -842,7 +635,6 @@ init_hmm_mcmc_normal_ <- function(data, prior_T, prior_means, prior_sd,
   }
   
   # Initialization
-  # CV: function returns a sample from the prior
   out <- sample_means_sd_(prior_means = prior_means, prior_var = prior_sd^2)
   
   if (is.null(init_means)) {
@@ -852,7 +644,7 @@ init_hmm_mcmc_normal_ <- function(data, prior_T, prior_means, prior_sd,
     init_sd <- out$sdev
   }
   if (is.null(init_T)) {
-    init_T <- sample_T_(prior_mat = prior_T) ## CV: function returns a sample from the prior
+    init_T <- sample_T_(prior_mat = prior_T) 
   }
   if (length(init_means) != nrow(init_T) | length(init_means) != ncol(init_T)) {
     stop("hmm_mcmc_normal(): number of states is not the same between input variables", call. = FALSE)
@@ -863,9 +655,7 @@ init_hmm_mcmc_normal_ <- function(data, prior_T, prior_means, prior_sd,
   if (any(is_row_sum_one_(init_T) == FALSE)) {
     stop("hmm_mcmc_normal(): rows in the transition matrix `init_T` must sum up to 1", call. = FALSE)
   }
-  
-  # TODO: estimate more or less how far can prior mean be
-  # from the sample mean such that the density is still > 0
+
   sample_mean <- mean(data)
   sample_sd <- stats::sd(data)
   abs_mean_ratios <- abs(init_means) / abs(sample_mean)
@@ -876,12 +666,7 @@ init_hmm_mcmc_normal_ <- function(data, prior_T, prior_means, prior_sd,
     chain_char <- paste0("(chain ", chain_id, ") ")
   }
   if (verbose) {
-    # MM:
-    # CHANGED: warnings --> message
-    # Reason: message is outputted to the console immediately
-    #         warnings are given after the function finishes all calculations
-    
-    if (any(abs_mean_ratios > 5)) {
+     if (any(abs_mean_ratios > 5)) {
       message("hmm_mcmc_normal(): ", chain_char, "at least one element in `init_means` is at least 5x bigger than the sample mean.")
     }
     if (sd_ratio > 5) {
@@ -1045,8 +830,8 @@ hmm_mcmc_normal <- function(data,
   all_mat_T[, ,1] <- init_data$init_T
   vlh[1] <- sum(log(init_data$init_mat_res$s))
   states <- init_data$init_states
-  prior_pi=get_pi_(prior_T) ## New V9
-  prior_P=diag(prior_pi)%*%prior_T ## New V9
+  prior_pi=get_pi_(prior_T) 
+  prior_P=diag(prior_pi)%*%prior_T 
   
   # Run sampler
   for (it in 2:iter) {
@@ -1091,17 +876,6 @@ hmm_mcmc_normal <- function(data,
   # Prepare outputs
   idx <- seq.int(warmup + 1, by = thin, to = iter)
   
-  #### NEW LCM: remove below????
-  #vlparms <- numeric(length(idx))
-  #for(i in 1:length(idx)) {
-  #    vlparms[i] <- get_parms_log_prob_(means = all_means[warmup + i],
-  #                                      sd = all_sd[warmup + i],
-  #                                      mat_T = all_mat_T[, , warmup + i],
-  #                                      prior_means = prior_means,
-  #                                      prior_var = (prior_sd)^2,
-  #                                      prior_T = prior_T)
-  #}
-  
   colnames(all_means) <- paste0("mean[", 1:n_states,"]")
   samples <- list(means = all_means,
                   sd = all_sd,
@@ -1115,7 +889,6 @@ hmm_mcmc_normal <- function(data,
                     mat_T = apply(all_mat_T[ , ,idx], c(1,2), mean),
                     posterior_states = posterior_states,
                     posterior_states_prob = mean_states / iter,
-                    #log_posterior = vlparms, # NEW LCM: REMOVED AGAIN _FOR BAYES INTERPRETATION
                     log_likelihood = vlh[idx])    
   
   priors <- list(prior_means = prior_means,
@@ -1197,21 +970,23 @@ summary.hmm_mcmc_normal <- function(object, ...) {
                stats::median(object$estimates$log_likelihood))
   names(ll_info) <- c("mean", "sd", "median")
   
-  #### NEW LCM: remove below????
-  #post_info <- c(mean(object$estimates$log_posterior),
-  #               stats::sd(object$estimates$log_posterior),
-  #               stats::median(object$estimates$log_posterior))
-  # names(post_info) <- c("mean", "sd", "median")
+  group_comparison <- rep(NA, length(state_tab) - 1)
+  for (k in 1:(length(state_tab) - 1)) {
+    gr1 <- object$data[object$estimates$posterior_states == k]
+    gr2 <- object$data[object$estimates$posterior_states == (k + 1)]
+    group_comparison[k] <- stats::t.test(x = gr1, y=gr2, 
+                                         var.equal = TRUE,
+                                         alternative = "greater")$p.value
+  }
   
   summary_res <- list("estimated_means" = m_est,
                       "estimated_sd" = sd_est,
                       "estimated_transition_rates" = T_est,
                       "assigned_states" = state_tab,
                       "approximate_kullback_leibler_divergence" = kl_div,
-                      "log_likelihood" = ll_info)
-  #### NEW LCM: remove below????
-  #"log_posterior" = post_info)
-  
+                      "log_likelihood" = ll_info,
+                      "state_differences_significance" = group_comparison)
+ 
   cat("Estimated means:\n")
   print(summary_res$estimated_means)
   cat("\n")
@@ -1242,10 +1017,10 @@ summary.hmm_mcmc_normal <- function(object, ...) {
   print(summary_res$log_likelihood)
   cat("\n")
   
-  #### NEW LCM: remove below????
-  #cat("Log Posterior:\n")
-  #print(summary_res$log_posterior)
-  
+  cat("P-value of Difference between Means of States (stepwise):\n")
+  print(summary_res$state_differences_significance)
+  cat("\n")
+
   invisible(summary_res)
 }
 
@@ -1272,9 +1047,6 @@ coef.hmm_mcmc_normal <- function(object, ...) {
        sd = est$sd,
        mat_T = est$mat_T)
 }
-
-
-### NOTE: Can one suppress the counts this function spits out while running/plotting the list of plots?
 
 
 #' Plot Diagnostics for \code{hmm_mcmc_normal} Objects
@@ -1352,7 +1124,7 @@ plot.hmm_mcmc_normal <- function(x,
                   y = "Density",
                   title = if (show_titles) "Densities of Means" else NULL)
   
-  # Diagnostics transitions
+  # Diagnostics transition rates
   all_T <- convert_to_ggmcmc(x, pattern = "T")
   n_t <- attributes(all_T)$nParameter
   facet_t <- ggplot2::facet_wrap(~ Parameter, ncol = sqrt(n_t), scales = "free")
@@ -1372,7 +1144,7 @@ plot.hmm_mcmc_normal <- function(x,
                   y = "Density",
                   title = if (show_titles) "Densities of Parameters in Transition Matrix" else NULL)
   
-  # Diagnostics sd
+  # Diagnostics standard deviation
   df_sigma <- convert_to_ggmcmc(x, "sigma")
   
   sdtrace <- ggmcmc::ggs_traceplot(df_sigma) + 
@@ -1385,7 +1157,7 @@ plot.hmm_mcmc_normal <- function(x,
                   y = "Density",
                   title = if (show_titles) "Density of Sigma" else NULL)
   
-  # Likelihood trace
+  # Log-Likelihood trace
   lltrace <- x$estimates$log_likelihood
   lltrace_df <- as.data.frame(cbind(c((info$warmup+1):info$iter),lltrace))
   names(lltrace_df) <- c("iteration", "log_likelihood")
@@ -1407,7 +1179,7 @@ plot.hmm_mcmc_normal <- function(x,
     conf_mat_plot <- suppressWarnings(
       cvms::plot_confusion_matrix(conf_mat$`Confusion Matrix`[[1]],
                                   add_sums = TRUE) +
-        ggplot2:::labs(title = if (show_titles) "Confusion Matrix" else NULL)
+        ggplot2::labs(title = if (show_titles) "Confusion Matrix" else NULL)
     )
   }
   
@@ -1464,7 +1236,7 @@ plot.hmm_mcmc_normal <- function(x,
                   title = if (show_titles) "Q-Q Plot" else NULL) +
     ggplot2::theme_get()
   
-  # Compare densities
+  # Compare observed and empirical densities
   post_states <- x$estimates$posterior_states
   state_tab <- table(post_states)
   estim_means <- x$estimates$means
@@ -1517,6 +1289,11 @@ plot.hmm_mcmc_normal <- function(x,
     invisible(utils::capture.output(print(plotlist[[ii]])))
   }
 }
+
+
+# ******************************************************************************************************-----
+# General Diagnostic Function : ------------------------------------------------------------------------------------------
+# ******************************************************************************************************-----
 
 
 #' Calculate and Visualise a Confusion Matrix

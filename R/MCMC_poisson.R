@@ -1,5 +1,9 @@
-# Hidden Markov Model simulation with Poisson-gamma data
+# Hidden Markov Model simulation with Gamma-Poisson data
 
+
+# ******************************************************************************************************-----
+# General Helpers: ------------------------------------------------------------------------------------------
+# ******************************************************************************************************-----
 
 #' Calculate a Kullback-Leibler Divergence for a Discrete Distribution
 #' 
@@ -68,6 +72,10 @@ kullback_leibler_disc <- function(p, q) {
   
   sum(p * log(p / q))
 }
+
+# ******************************************************************************************************-----
+# Gamma-Poisson Specific Functions : ------------------------------------------------------------------------------------------
+# ******************************************************************************************************-----
 
 
 #' Simulate Data Based on a Gamma-Poisson Model for a Hidden Markov Model Simulation
@@ -149,17 +157,10 @@ hmm_simulate_gamma_poisson_data = function(L, mat_T, betas, alpha) {
 }
 
 
-# dNegBinom=function(y,b,a){
-#     retval=-lfactorial(y)+lgamma(y+a)-lgamma(a)+a*log(b/(1+b))-y*log(1+b)
-#     return(exp(retval))
-# }
-# <==>
-# dnbinom(x = y, prob = b / (1 + b), size = a)
 
-
-#' Forward-Backward Algorithm to Calculate the Posterior Probabilities of Hhidden States in Poisson-Gamma Model
+#' Forward-Backward Algorithm to Calculate the Posterior Probabilities of Hidden States in Poisson-Gamma Model
 #'
-#' Forward-Backward Algorithm to Calculate the Posterior Probabilities of Hhidden States in Poisson-Gamma Model
+#' Forward-Backward Algorithm to Calculate the Posterior Probabilities of Hidden States in Poisson-Gamma Model
 #'
 #' @param data (numeric) Poisson data
 #'
@@ -256,10 +257,8 @@ sample_states_pois_ <- function(mat_R, mat_T, pi, betas, alpha, data) {
   p <- cap_floor_(mat_R$F[1, ] * mat_R$F[1, ] * mat_R$s[1], cap_, floor_)
   p <- p / sum(p)
   p[is.na(p)] <- floor_
-  # states[1] <- sample(1:n_states, size = 1, prob = p) # will exactly reproduce old function, 3 lines below must be commented out.
-  all_runif <- stats::runif(L) # generating L unifs at once is faster than generating L times 1 unif
-  states[1] <- which.max(cumsum(p) - all_runif[1] > 0) # new faster version
-  # states[1] <- which.max(cumsum(p) - stats::runif(1) > 0) # old version
+  all_runif <- stats::runif(L) 
+  states[1] <- which.max(cumsum(p) - all_runif[1] > 0) 
   
   
   nb_prob <- betas / (1 + betas)
@@ -273,9 +272,7 @@ sample_states_pois_ <- function(mat_R, mat_T, pi, betas, alpha, data) {
     p <- mat_T[states[l - 1], ] * probs[l, ] * mat_R$B[l, ]
     p <- p / sum(p)
     p[is.na(p)] <- floor_
-    # states[l] <- sample(1:n_states, size = 1, prob = p) # will exactly reproduce old function
-    states[l] <- which.max(cumsum(p) - all_runif[l] > 0) # new faster version
-    # states[l] <- which.max(cumsum(p) - stats::runif(1) > 0) # old version
+    states[l] <- which.max(cumsum(p) - all_runif[l] > 0) 
   }
   factor(states, levels = 1:n_states)
 }
@@ -288,18 +285,12 @@ sample_betas_alpha_ <- function(cur_betas, cur_alpha, prior_betas, prior_alpha, 
   betas <- NULL
   alpha <- NULL
   n_states <- length(cur_betas)
-  loglambda_p <- 0 # note: loglambda_p = log(lambda_p) in script
+  loglambda_p <- 0 
   
-  #### begin NEW LCM & CV: no data -> sample betas from priors and alphas from close to prior
+  #### NOTE: below if statement may be redundant
   if (is.null(states) & is.null(data)) {
-    
-    # betas <- sort(cur_betas, decreasing = TRUE) # MM: BUG (when applying "init_hmm_mcmc_gamma_poisson_" the cur_betas=NULL --> sorts(NULL) --> NULL. No need for sorting)
-    # betas[i] <- stats::rgamma(1, shape = 1, rate = 1 / prior_betas) # MM: BUG (in addition to the above: missing for-loop. 3 betas with different rate parameters can be simulated in a vectorized way though)
     betas <- stats::rgamma(length(prior_betas), shape = 1, rate = 1 / prior_betas)
-    
-    # shape_param <- prior_alpha
     alpha <- stats::rgamma(1, shape = prior_alpha, rate = 1)
-    #### end NEW LCM & CV
     
   } else {
     
@@ -312,7 +303,6 @@ sample_betas_alpha_ <- function(cur_betas, cur_alpha, prior_betas, prior_alpha, 
       rate_gamma <- 1
       post_shape <- cur_alpha * N_i + 1
       post_rate <- sum(lvl[[i]]) + 1 / prior_betas[i]
-      ##print(c(post_shape, post_rate, post_shape / post_rate))
       betas[i] <- stats::rgamma(1, shape = post_shape, rate = post_rate)
     }
     
@@ -338,14 +328,12 @@ sample_betas_alpha_ <- function(cur_betas, cur_alpha, prior_betas, prior_alpha, 
     d2 <- stats::dgamma(cur_alpha, shape = shape_param, rate = N, log = TRUE)
     lr <- lh_star - d1 - (lh_old - d2)
     alpha <- cur_alpha
-    
-    ## print(c(HM, N, alpha_star, cur_alpha, d1, d2, lh_star, lh_old, lr))
-    
+
     if (stats::runif(1) <= exp(lr)) {
       alpha <- alpha_star
     }
   }
-  ##print(c(betas, alpha))
+
   list(betas = betas, alpha = alpha)
 }
 
@@ -374,12 +362,6 @@ init_hmm_mcmc_gamma_poisson_ <- function(data, prior_T, prior_betas, prior_alpha
     stop("hmm_mcmc_gamma_poisson(): number of states is not the same between input variables", call. = FALSE)
   }
   
-  # the algorithm takes care of it anyway....
-  #is_prior_beta_decreasing <- all(sort(prior_betas, decreasing = TRUE) == prior_betas)
-  #if (!is_prior_beta_decreasing) {
-  #  warning("hmm_mcmc_gamma_poisson(): `prior_betas` should be sorted in decreasing order", call. = FALSE)
-  #}
-  
   if (length(prior_alpha) != 1) {
     stop("hmm_mcmc_gamma_poisson(): `prior_alpha` must be of length 1", call. = FALSE)
   }
@@ -392,7 +374,7 @@ init_hmm_mcmc_gamma_poisson_ <- function(data, prior_T, prior_betas, prior_alpha
   
   # Initialization
   out <- sample_betas_alpha_(cur_betas = init_betas, cur_alpha = init_alpha,  
-                             prior_betas = prior_betas, prior_alpha = prior_alpha) ## CV: currently, pior_alpha and prior_betas useless
+                             prior_betas = prior_betas, prior_alpha = prior_alpha) 
   if (is.null(init_betas)) {
     init_betas <- out$betas
   }
@@ -416,27 +398,13 @@ init_hmm_mcmc_gamma_poisson_ <- function(data, prior_T, prior_betas, prior_alpha
   if (any(is_row_sum_one_(init_T) == FALSE)) {
     stop("hmm_mcmc_gamma_poisson(): rows in the transition matrix `init_T` must sum up to 1", call. = FALSE)
   }
-  # the algorithm takes care of it anyway....
-  #is_init_betas_decreasing <- all(sort(init_betas, decreasing = TRUE) == init_betas)
-  #if (!is_init_betas_decreasing) {
-  #  warning("hmm_mcmc_gamma_poisson(): `init_betas` should be sorted in decreasing order", call. = FALSE)
-  #}
   
-  #NEW LCM
   lambda1 <- sum(data) / length(data)
-  lambda2 <- numeric(length(init_betas)) # rep(NA, length(init_betas))
+  lambda2 <- numeric(length(init_betas)) 
   for (i in 1:length(init_betas)) { 
     lambda2[i] <- mean(stats::rgamma(1000, init_alpha, init_betas[i]))
   }
-  range1 <- lambda1 < lambda2
-  range2 <- lambda1 > lambda2
-  # END NEW LCM
-  # TODO: estimate more or less optimal range for prior betas
-  # sample_mean <- mean(data)
-  # sample_sd <- stats::sd(data)
-  # abs_mean_ratios <- abs(init_means) / abs(sample_mean)
-  # sd_ratio <- init_sd / sample_sd
-
+  
   chain_char <- NULL
   if (!is.null(chain_id)) {
     chain_char <- paste0("(chain ", chain_id, ") ")
@@ -447,10 +415,12 @@ init_hmm_mcmc_gamma_poisson_ <- function(data, prior_T, prior_betas, prior_alpha
      if( (init_alpha > (set_alpha + 3)) | (init_alpha < (set_alpha - 3)) ){
        message("hmm_mcmc_gamma_poisson(): ", chain_char, "initial alpha is not close to the recommended value")
      }
-     
-    if ((sum(range1) == length(lambda2)) | (sum(range2) == length(lambda2))) {
-      message("hmm_mcmc_gamma_poisson(): ", chain_char, "rate parameter of observed distribution is either above or below all of the initial rate parameters")
-    }
+    # NOTE: The below message is not helpful
+    #range1 <- lambda1 < lambda2
+    #range2 <- lambda1 > lambda2
+    #if ((sum(range1) == length(lambda2)) | (sum(range2) == length(lambda2))) {
+    #  message("hmm_mcmc_gamma_poisson(): ", chain_char, "rate parameter of observed distribution is either above or below all of the initial rate parameters")
+    #}
     if (any(lambda2 > stats::var(data))) {
       message("hmm_mcmc_gamma_poisson(): ", chain_char, "at least one initial rate parameter is greater than the overall variance")
     }
@@ -839,7 +809,7 @@ summary.hmm_mcmc_gamma_poisson <- function(object, ...) {
   print(summary_res$log_likelihood)
   cat("\n")
   
-  cat("Significance of Difference between Rates (stepwise):\n")
+  cat("P-Values of Difference between Rates of States (stepwise):\n")
   print(summary_res$state_differences_significance)
   cat("\n")
   
@@ -1012,7 +982,7 @@ plot.hmm_mcmc_gamma_poisson <- function(x,
     conf_mat_plot <- suppressWarnings(
       cvms::plot_confusion_matrix(conf_mat$`Confusion Matrix`[[1]],
                                   add_sums = TRUE) +
-        ggplot2:::labs(title = if (show_titles) "Confusion Matrix" else NULL)
+        ggplot2::labs(title = if (show_titles) "Confusion Matrix" else NULL)
     )
   }
   
