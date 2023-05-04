@@ -1,3 +1,7 @@
+#################### Option 1: loading oHMMed library (must be installed with dependencies)
+library(oHMMed)
+
+#################### Option 2: loading from source code:
 ## load dependencies:
 library(ggmcmc)
 library(ggplot2)
@@ -84,29 +88,31 @@ res_opt_n3 <- hmm_mcmc_normal(data = simdata_normal,
 # note that this should be repeated with different numbers of states, for eg. 2,3,4,5 (see below)
 # here, we know that we have simulated 3 hidden states, but in general we would not know the optimal number
 
-# check the results:
-#   the summary contains all the estimates, and the approximate kullback-leibler divergence
+# check the results (and see the usage recommendations for explanations!):
+#   the summary contains all the estimates, and some diagnostics:
 summary(res_opt_n3)
 #   graphical diagnostics and confusion matrix
 plot(res_opt_n3, simulation = TRUE, true_means1,
      true_sigma1, true_T1, simdata_full_normal$states)
 
 # Note:
-# if this were not a simulation, but a real example, the graphical diagnostics are: 
+# if this were not a simulation, but a real example, the corresponding graphical diagnostics are obtained via: 
 #     plot(res_opt_n3)
 # and use the following confusion matrix to assess stability of parameter ranges:
 #    x <- conf_mat(N = L1, res = res_opt_n3)
 #    plot_confusion_matrix(x$`Confusion Matrix`[[1]], add_sums = TRUE)
 
 
-
-# DEMONSTRATION:
-# For demonstration purposes, we use different priors:
-# As per recommendation, we set up a series of inference runs for between 2 and 5 states
+###########################################################################
+# DEMONSTRATION OF FULL INFERENCE RUN WITHOUT KNOWING CORRECT NR OF STATES:
+###########################################################################
+# For demonstration purposes, we use different priors to our recommended ones:
+#     We will not set the initial values -> so by default, they will be sampled from the prior distribution
+# Per recommendation, we set up a series of inference runs for between 2 and 5 states
 #     Remember: We do not know the true number of states!
-# But we will not set the initial values; so by default, they will be sampled from the prior distribution
-# Further, we will set a higher prior standard deviation than recommended and more poorly placed means
-# So, the prior parameters are set as the following per number of states:
+# However, we will set a higher prior standard deviation than recommended and more poorly placed means
+
+# So: the prior parameters are set as the following per number of hidden states:
 
 n2_states_inferred <- 2                           # number of states to be inferred
 prior2_T <- generate_random_T(n2_states_inferred) # prior transition matrix, randomly generated
@@ -169,8 +175,7 @@ res_n5 <- hmm_mcmc_normal(data = simdata_normal,
 
 
 ##### Check the results:
-
-# first compare the log.likelihoods for different numbers of states
+# first compare the log-likelihoods for different numbers of states...
 #   and find the plateau
 vll1 <- c(mean(res_n2$estimates$log_likelihood),
           mean(res_n3$estimates$log_likelihood),
@@ -194,8 +199,7 @@ p1 <- ggplot(mat_liks1) +
   ylab("Mean (Median) Log-Likelihood")
 p1
 
-# looks like the optimal number of states is 3 (where the plateau starts), so examine the results:
-#   the summary contains all the estimates, and the approximate Kullback-Leibler divergence
+# success!... it looks like the optimal number of states is 3 (where the plateau starts), so examine the results:
 summary(res_n3)
 #   graphical diagnostics and confusion matrix
 plot(res_n3, simulation = TRUE, true_means1, 

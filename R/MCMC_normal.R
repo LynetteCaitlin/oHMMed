@@ -976,7 +976,7 @@ summary.hmm_mcmc_normal <- function(object, ...) {
     gr2 <- object$data[object$estimates$posterior_states == (k + 1)]
     group_comparison[k] <- stats::t.test(x = gr1, y=gr2, 
                                          var.equal = TRUE,
-                                         alternative = "greater")$p.value
+                                         alternative = "less")$p.value
   }
   
   summary_res <- list("estimated_means" = m_est,
@@ -991,7 +991,7 @@ summary.hmm_mcmc_normal <- function(object, ...) {
   print(summary_res$estimated_means)
   cat("\n")
   
-  cat("Estimated sd:\n")
+  cat("Estimated standard deviation:\n")
   cat(summary_res$estimated_sd)
   cat("\n")
   cat("\n")
@@ -1002,13 +1002,13 @@ summary.hmm_mcmc_normal <- function(object, ...) {
   print(etr)
   cat("\n")
   
-  cat("Assigned states:\n")
+  cat("Number of windows assigned to hidden states:\n")
   as <- summary_res$assigned_states
   as_names <- attributes(as)$dimnames[[1]]
   print(stats::setNames(as.numeric(as), as_names))
   cat("\n")
   
-  cat("Approximate Kullback-Leibler divergence:\n")
+  cat("Approximate Kullback-Leibler divergence between observed and estimated distributions:\n")
   cat(stats::setNames(summary_res$approximate_kullback_leibler_divergence, ""))
   cat("\n")
   cat("\n")
@@ -1017,7 +1017,7 @@ summary.hmm_mcmc_normal <- function(object, ...) {
   print(summary_res$log_likelihood)
   cat("\n")
   
-  cat("P-value of Difference between Means of States (stepwise):\n")
+  cat("P-value of t-test for difference between means of states (stepwise):\n")
   print(summary_res$state_differences_significance)
   cat("\n")
 

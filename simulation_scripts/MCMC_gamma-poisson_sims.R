@@ -1,3 +1,7 @@
+#################### Option 1: loading oHMMed library (must be installed with dependencies)
+library(oHMMed)
+
+#################### Option 2: loading from source code:
 ## load dependencies:
 library(ggmcmc)
 library(ggplot2)
@@ -23,8 +27,8 @@ source("MCMC_poisson.R")
 ####################################################################
 
 ##### Set general MCMC parameters:
-iter <- 2000                # set number of iterations; note that the default is 1000
-warmup <- floor(iter * 0.4) # length of burnin is 40% of iter; note that the default is 20%
+iter <- 2000                # set number of iterations; note that the default is 5000
+warmup <- floor(iter * 0.4) # length of burnin is 40% of iter; note that the default is 75%
 print_params <- FALSE       # parameters after each iteration will NOT be printed on the screen
 verbose <- TRUE             # progress bar will be shown, as well as messages
 
@@ -57,19 +61,19 @@ hist(simdata_gp, breaks = 50, main = "")
 
 # RECOMMENDED PROCEDURE:
 #   Initial values and prior values should be set to the same value
-#     however, for demonstration purposes we will not set initial values here, so by default, these are then drawn from the priors
-#   We here set all the priors according to our recommendations
+#     However, for demonstration purposes, we will not set initial values here, so by default, these are then drawn from the prior distributions
+#   We here set all the priors according to our usage recommendations
 #   Note that these recommendations regarding priors apply to overall emission densities that resemble overdispersed poisson densities
-#         and user discretion is advised for overall emission densities that already resemble mixtures of bell curves
+#         and user discretion is advised for overall emission densities that resemble mixtures of bell curves
 
 #  all prior betas will likely lie below the 'empirical overall beta', which is:
 (sum(simdata_gp) / length(simdata_gp)) / ((mean(simdata_gp)^2) / ((var(simdata_gp) - mean(simdata_gp))))
-#  but note that setting them near or lower than the overall mean may be a good idea because of the long tails of the overall distribution:
+#  but note that setting them near or lower than the overall mean may be a good idea because of the long tail of the overall emission density:
 mean(simdata_gp)
 
 # As per recommendation, we set up a series of inference runs for between 2 and 5 states
 #     Remember: We do not know the true number of states!
-# The recommendations for the betas are heeded below. 
+# Our recommendations for setting the prior betas and alphas are heeded below. 
 
 n2_states_inferred <- 2                           # number of states to be inferred
 prior2_T <- generate_random_T(n2_states_inferred) # prior transition matrix, randomly generated
@@ -102,8 +106,8 @@ res_gp_n2 <- hmm_mcmc_gamma_poisson(data = simdata_gp,
                                   print_params = print_params,
                                   verbose = verbose)
 
-# Recall: it is recommended to also set: init_betas = prior_betas2; init_alpha = prior_alpha2; init_T = prior2_T
-
+# Recall: it is recommended to also set: init_betas = prior_betas2; init_alpha = prior_alpha2; init_T = prior2_T...
+#      ... but we do not for demonstration purposes   
 
 res_gp_n3 <- hmm_mcmc_gamma_poisson(data = simdata_gp,
                                   prior_T = prior3_T,
@@ -114,6 +118,10 @@ res_gp_n3 <- hmm_mcmc_gamma_poisson(data = simdata_gp,
                                   print_params = print_params,
                                   verbose = verbose)
 
+# Recall: it is recommended to also set: init_betas = prior_betas3; init_alpha = prior_alpha3; init_T = prior3_T...
+#      ... but we do not for demonstration purposes   
+
+
 res_gp_n4 <- hmm_mcmc_gamma_poisson(data = simdata_gp,
                                   prior_T = prior4_T,
                                   prior_betas = prior_betas4,
@@ -122,6 +130,10 @@ res_gp_n4 <- hmm_mcmc_gamma_poisson(data = simdata_gp,
                                   warmup = warmup,
                                   print_params = print_params,
                                   verbose = verbose)
+
+# Recall: it is recommended to also set: init_betas = prior_betas4; init_alpha = prior_alpha4; init_T = prior4_T...
+#      ... but we do not for demonstration purposes   
+
 
 res_gp_n5 <- hmm_mcmc_gamma_poisson(data = simdata_gp,
                                   prior_T = prior5_T,
@@ -132,10 +144,14 @@ res_gp_n5 <- hmm_mcmc_gamma_poisson(data = simdata_gp,
                                   print_params = print_params,
                                   verbose = verbose)
 
+# Recall: it is recommended to also set: init_betas = prior_betas5; init_alpha = prior_alpha5; init_T = prior5_T...
+#      ... but we do not for demonstration purposes   
+
+
 
 #### Check the results:
 
-# first compare the log.likelihoods for different numbers of states
+# first compare the log-likelihoods for different numbers of states...
 #   and find the plateau
 vll1_gp <- c(mean(res_gp_n2$estimates$log_likelihood),
              mean(res_gp_n3$estimates$log_likelihood),
@@ -160,8 +176,8 @@ p1
 
 
 
-# looks like the optimal number of states is 3 (where the plateau starts), so examine the results:
-#   the summary contains all the estimates, and the approximate Kullback-Leibler divergence
+# success!... looks like the optimal number of states is 3 (where the plateau starts), so examine the results:
+#             and see the usage recommendations for explanations!
 summary(res_gp_n3)
 #   graphical diagnostics and confusion matrix
 plot(res_gp_n3, simulation = TRUE, true_alpha1, 

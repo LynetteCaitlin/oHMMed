@@ -365,9 +365,7 @@ init_hmm_mcmc_gamma_poisson_ <- function(data, prior_T, prior_betas, prior_alpha
   }
   
   # Initialization
-  out <- sample_betas_alpha_(cur_betas = init_betas, cur_alpha = init_alpha,  
-                             prior_betas = prior_betas, prior_alpha = prior_alpha) 
-  if (is.null(init_betas)) {
+    if (is.null(init_betas)) {
     init_betas <- stats::rgamma(length(prior_betas), shape = 1, rate = 1 / prior_betas)
   }
   
@@ -771,13 +769,13 @@ summary.hmm_mcmc_gamma_poisson <- function(object, ...) {
   print(etr)
   cat("\n")
   
-  cat("Assigned states:\n")
+  cat("Number of windows assigned to hidden states:\n")
   as <- summary_res$assigned_states
   as_names <- attributes(as)$dimnames[[1]]
   print(stats::setNames(as.numeric(as), as_names))
   cat("\n")
   
-  cat("Approximate Kullback-Leibler divergence:\n")
+  cat("Kullback-Leibler divergence between observed and estimated distributions:\n")
   cat(stats::setNames(summary_res$approximate_kullback_leibler_divergence, ""))
   cat("\n")
   cat("\n")
@@ -786,7 +784,7 @@ summary.hmm_mcmc_gamma_poisson <- function(object, ...) {
   print(summary_res$log_likelihood)
   cat("\n")
   
-  cat("P-Values of Difference between Rates of States (stepwise):\n")
+  cat("P-value of poisson test for difference between rates of states (stepwise):\n")
   print(summary_res$state_differences_significance)
   cat("\n")
   
@@ -970,11 +968,11 @@ plot.hmm_mcmc_gamma_poisson <- function(x,
     }
   }
   else {
-    states_df <- as.data.frame(cbind(1:length(data), log(data), x$estimates$posterior_states))
+    states_df <- as.data.frame(cbind(1:length(data), log(data+1), x$estimates$posterior_states))
     post_means <- numeric(length(data))
     
     for (l in 1:length(data)) {
-      post_means[l] <- log(sum(x$estimates$alpha / x$estimates$betas * x$estimates$posterior_states_prob[l, ]))
+      post_means[l] <- log((sum(x$estimates$alpha / x$estimates$betas * x$estimates$posterior_states_prob[l, ]))+1)
     }
   }
  
@@ -998,9 +996,9 @@ plot.hmm_mcmc_gamma_poisson <- function(x,
       states_df2$post_means <- post_means
     }
     else {
-      states_df2 <- as.data.frame(cbind(1:length(data), log(data), true_states))
+      states_df2 <- as.data.frame(cbind(1:length(data), log(data+1), true_states))
       post_means <- (true_alpha / true_betas)[true_states]
-      states_df2$post_means <- log(post_means)
+      states_df2$post_means <- log(post_means+1)
     }
     states_df2 <- as.data.frame(cbind(1:length(data), data, true_states))
     post_means <- (true_alpha / true_betas)[true_states]

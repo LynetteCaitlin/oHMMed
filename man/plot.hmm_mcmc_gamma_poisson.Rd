@@ -12,6 +12,7 @@
   true_mat_T = NULL,
   true_states = NULL,
   show_titles = TRUE,
+  no_log_statesplot = TRUE,
   ...
 )
 }

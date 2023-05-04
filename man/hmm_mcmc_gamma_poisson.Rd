@@ -9,7 +9,7 @@ hmm_mcmc_gamma_poisson(
   prior_T,
   prior_betas,
   prior_alpha = 1,
-  iter = 1500,
+  iter = 5000,
   warmup = floor(iter/1.5),
   thin = 1,
   seed = sample.int(.Machine$integer.max, 1),
