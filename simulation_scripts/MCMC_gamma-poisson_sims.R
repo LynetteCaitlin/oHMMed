@@ -1,7 +1,7 @@
 #################### Option 1: loading oHMMed library (must be installed with dependencies)
 library(oHMMed)
 
-#################### Option 2: loading from source code:
+#################### Option 2: loading oHMMed from source code:
 ## load dependencies:
 library(ggmcmc)
 library(ggplot2)
@@ -178,8 +178,9 @@ p1
 
 # success!... looks like the optimal number of states is 3 (where the plateau starts), so examine the results:
 #             and see the usage recommendations for explanations!
+#    inference results and analytical diagnostics:
 summary(res_gp_n3)
-#   graphical diagnostics and confusion matrix
+#   graphical diagnostics and confusion matrix, which should appear in the plot window:
 plot(res_gp_n3, simulation = TRUE, true_alpha1, 
      true_betas1, true_T1, simdata_full_gamma_poisson$states)
 

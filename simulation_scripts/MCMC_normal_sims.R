@@ -1,7 +1,7 @@
 #################### Option 1: loading oHMMed library (must be installed with dependencies)
 library(oHMMed)
 
-#################### Option 2: loading from source code:
+#################### Option 2: loading oHMMed from source code:
 ## load dependencies:
 library(ggmcmc)
 library(ggplot2)
@@ -89,9 +89,9 @@ res_opt_n3 <- hmm_mcmc_normal(data = simdata_normal,
 # here, we know that we have simulated 3 hidden states, but in general we would not know the optimal number
 
 # check the results (and see the usage recommendations for explanations!):
-#   the summary contains all the estimates, and some diagnostics:
+#   the summary contains all the inferred estimates, and some diagnostics:
 summary(res_opt_n3)
-#   graphical diagnostics and confusion matrix
+#   graphical diagnostics and confusion matrix should appear in the plot window:
 plot(res_opt_n3, simulation = TRUE, true_means1,
      true_sigma1, true_T1, simdata_full_normal$states)
 
@@ -200,6 +200,7 @@ p1 <- ggplot(mat_liks1) +
 p1
 
 # success!... it looks like the optimal number of states is 3 (where the plateau starts), so examine the results:
+#   inference results and analytical diagnostics
 summary(res_n3)
 #   graphical diagnostics and confusion matrix
 plot(res_n3, simulation = TRUE, true_means1, 
