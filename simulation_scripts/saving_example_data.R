@@ -1,3 +1,5 @@
+#### THIS FILE CONTAINS EXAMPLE DATA FOR THE WEBSITE 
+
 # Saving example data
 library(oHMMed)
 
