@@ -264,8 +264,6 @@ kullback_leibler_cont_appr <- function(p, q) {
 }
 
 
-
-
 #' Get the Prior Probability of States
 #'
 #' Calculate the prior probability of states that correspond to the stationary
@@ -346,13 +344,13 @@ eigen_system <- function(mat) {
   list("lambda" = lambda, "forwards" = forwards, "backwards" = backwards)
 }
 
+
 # ******************************************************************************************************-----
 # Normal Algorithm Specific Functions : ------------------------------------------------------------------------------------------
 # ******************************************************************************************************-----
 
 
 #' Simulate Data Based on a Normal Model for a Hidden Markov Model Simulation
-#'
 #'
 #' @param L (integer) number of simulations
 #'
@@ -506,8 +504,6 @@ posterior_prob_normal <- function(data, pi, mat_T, means, sdev) {
 }
 
 
-
-
 #' @keywords internal
 sample_states_normal_ <- function(mat_R, mat_T, pi, means, sdev, data) {
   
@@ -575,7 +571,6 @@ sample_T_ <- function(prior_mat, states = NULL) {
 
 
 #' @keywords internal
-
 sample_means_sd_ <- function(prior_means, prior_var, states = NULL, data = NULL) {
   
   L <- length(states)
@@ -598,10 +593,6 @@ sample_means_sd_ <- function(prior_means, prior_var, states = NULL, data = NULL)
                         sd = sqrt(sigma2 / (n + 1))) 
   list(means = sort(means), sdev = sqrt(sigma2))
 }
-
-
-
-
 
 
 #' @keywords internal
@@ -830,8 +821,8 @@ hmm_mcmc_normal <- function(data,
   all_mat_T[, ,1] <- init_data$init_T
   vlh[1] <- sum(log(init_data$init_mat_res$s))
   states <- init_data$init_states
-  prior_pi=get_pi_(prior_T) 
-  prior_P=diag(prior_pi)%*%prior_T 
+  prior_pi <- get_pi_(prior_T) 
+  prior_P <- diag(prior_pi) %*% prior_T 
   
   # Run sampler
   for (it in 2:iter) {

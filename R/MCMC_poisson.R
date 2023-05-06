@@ -157,7 +157,6 @@ hmm_simulate_gamma_poisson_data = function(L, mat_T, betas, alpha) {
 }
 
 
-
 #' Forward-Backward Algorithm to Calculate the Posterior Probabilities of Hidden States in Poisson-Gamma Model
 #'
 #' Forward-Backward Algorithm to Calculate the Posterior Probabilities of Hidden States in Poisson-Gamma Model
@@ -828,6 +827,8 @@ coef.hmm_mcmc_gamma_poisson <- function(object, ...) {
 #' @param true_states (integer) \code{optional parameter}; true states. To be used if \code{simulation=TRUE}
 #' 
 #' @param show_titles (logical) if \code{TRUE} then titles are shown for all graphs. By default, \code{TRUE}
+#' 
+#' @param no_log_statesplot (logical) if \code{TRUE} then no log-statesplots are shown. By default, \code{TRUE}
 #'
 #' @param ... not used
 #'
@@ -959,20 +960,17 @@ plot.hmm_mcmc_gamma_poisson <- function(x,
   }
   
   # Check assignment of states along chromosome
-  if(no_log_statesplot) {
-    states_df <- as.data.frame(cbind(1:length(data), data, x$estimates$posterior_states))
-    post_means <- numeric(length(data))
-    
+  n_data <- length(data)
+  post_means <- numeric(n_data)
+  if (no_log_statesplot) {
+    states_df <- as.data.frame(cbind(1:n_data, data, x$estimates$posterior_states))
     for (l in 1:length(data)) {
       post_means[l] <- sum(x$estimates$alpha / x$estimates$betas * x$estimates$posterior_states_prob[l, ])
     }
-  }
-  else {
-    states_df <- as.data.frame(cbind(1:length(data), log(data+1), x$estimates$posterior_states))
-    post_means <- numeric(length(data))
-    
-    for (l in 1:length(data)) {
-      post_means[l] <- log((sum(x$estimates$alpha / x$estimates$betas * x$estimates$posterior_states_prob[l, ]))+1)
+  } else {
+    states_df <- as.data.frame(cbind(1:n_data, log(data + 1), x$estimates$posterior_states))
+    for (l in 1:n_data) {
+      post_means[l] <- log((sum(x$estimates$alpha / x$estimates$betas * x$estimates$posterior_states_prob[l, ])) + 1)
     }
   }
  
@@ -990,17 +988,17 @@ plot.hmm_mcmc_gamma_poisson <- function(x,
                   title = if (show_titles) "States Plot" else NULL)
   
   if (simulation) {
-    if(no_log_statesplot) {
-      states_df2 <- as.data.frame(cbind(1:length(data), data, true_states))
+    if (no_log_statesplot) {
+      states_df2 <- as.data.frame(cbind(1:n_data, data, true_states))
       post_means <- (true_alpha / true_betas)[true_states]
       states_df2$post_means <- post_means
     }
     else {
-      states_df2 <- as.data.frame(cbind(1:length(data), log(data+1), true_states))
+      states_df2 <- as.data.frame(cbind(1:n_data, log(data + 1), true_states))
       post_means <- (true_alpha / true_betas)[true_states]
-      states_df2$post_means <- log(post_means+1)
+      states_df2$post_means <- log(post_means + 1)
     }
-    states_df2 <- as.data.frame(cbind(1:length(data), data, true_states))
+    states_df2 <- as.data.frame(cbind(1:n_data, data, true_states))
     post_means <- (true_alpha / true_betas)[true_states]
     states_df2$post_means <- post_means
     names(states_df2) <- c("position", "data", "true_states", "true_means")
@@ -1030,7 +1028,7 @@ plot.hmm_mcmc_gamma_poisson <- function(x,
     sim_output1 <- c(sim_output1, sim_output)
   }
   sim_output1 <- sim_output1[2:length(sim_output1)]
-  dens_data1 <- table(factor(data, levels = 0:max(c(data,sim_output1)))) / sum(table(factor(data, levels = 0:max(c(data, sim_output1))))) 
+  dens_data1 <- table(factor(data, levels = 0:max(c(data, sim_output1)))) / sum(table(factor(data, levels = 0:max(c(data, sim_output1))))) 
   dens_sim1 <- table(factor(sim_output1, levels = 0:max(c(data, sim_output1)))) / sum(table(factor(sim_output1, levels = 0:max(c(data, sim_output1)))))
   
   kl_plot_f <- function() {
@@ -1064,7 +1062,7 @@ plot.hmm_mcmc_gamma_poisson <- function(x,
                               fill = "grey", position = "identity") +
       ggplot2::scale_color_manual(values = c("black")) +
       ggplot2::geom_vline(xintercept = x$estimates$means, color = "black", size = 0.6) +
-      ggplot2::geom_vline(xintercept = true_alpha/true_betas, color = "blue", 
+      ggplot2::geom_vline(xintercept = true_alpha / true_betas, color = "blue", 
                           size = 0.4, linetype = "dotted") + 
       ggplot2::labs(x = "Number of Occurences", 
                     y = "Frequency",
