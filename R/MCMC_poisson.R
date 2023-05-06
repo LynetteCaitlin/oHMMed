@@ -828,7 +828,7 @@ coef.hmm_mcmc_gamma_poisson <- function(object, ...) {
 #' 
 #' @param show_titles (logical) if \code{TRUE} then titles are shown for all graphs. By default, \code{TRUE}
 #' 
-#' @param no_log_statesplot (logical) if \code{TRUE} then no log-statesplots are shown. By default, \code{TRUE}
+#' @param log_statesplot (logical) if \code{TRUE} then log-statesplots are shown. By default, \code{FALSE}
 #'
 #' @param ... not used
 #'
@@ -851,7 +851,7 @@ plot.hmm_mcmc_gamma_poisson <- function(x,
                                         true_mat_T = NULL,
                                         true_states = NULL,
                                         show_titles = TRUE,
-                                        no_log_statesplot = TRUE,
+                                        log_statesplot = FALSE,
                                         ...) {
   
   info <- x$info
@@ -962,7 +962,7 @@ plot.hmm_mcmc_gamma_poisson <- function(x,
   # Check assignment of states along chromosome
   n_data <- length(data)
   post_means <- numeric(n_data)
-  if (no_log_statesplot) {
+  if (!log_statesplot) {
     states_df <- as.data.frame(cbind(1:n_data, data, x$estimates$posterior_states))
     for (l in 1:length(data)) {
       post_means[l] <- sum(x$estimates$alpha / x$estimates$betas * x$estimates$posterior_states_prob[l, ])
@@ -988,7 +988,7 @@ plot.hmm_mcmc_gamma_poisson <- function(x,
                   title = if (show_titles) "States Plot" else NULL)
   
   if (simulation) {
-    if (no_log_statesplot) {
+    if (!log_statesplot) {
       states_df2 <- as.data.frame(cbind(1:n_data, data, true_states))
       post_means <- (true_alpha / true_betas)[true_states]
       states_df2$post_means <- post_means

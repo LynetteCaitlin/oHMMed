@@ -12,7 +12,7 @@
   true_mat_T = NULL,
   true_states = NULL,
   show_titles = TRUE,
-  no_log_statesplot = TRUE,
+  log_statesplot = FALSE,
   ...
 )
 }
@@ -31,7 +31,7 @@
 
 \item{show_titles}{(logical) if \code{TRUE} then titles are shown for all graphs. By default, \code{TRUE}}
 
-\item{no_log_statesplot}{(logical) if \code{TRUE} then no log-statesplots are shown. By default, \code{TRUE}}
+\item{log_statesplot}{(logical) if \code{TRUE} then log-statesplots are shown. By default, \code{FALSE}}
 
 \item{...}{not used}
 }
