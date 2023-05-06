@@ -190,6 +190,7 @@ convert_to_ggmcmc <- function(x,
 #' @examples
 #' mat_T <- generate_random_T(3)
 #' mat_T
+#' 
 #' rowSums(mat_T)
 
 generate_random_T <- function(n = 3) {
@@ -315,9 +316,9 @@ get_pi <- function(mat_T = NULL) {
 #' @return
 #' a list with three elements:
 #' \itemize{
-#' \item lambda: eigenvalues
-#' \item forwards: left eigenvector
-#' \item backwards: right eigenvector
+#' \item \code{lambda}: eigenvalues
+#' \item \code{forwards}: left eigenvector
+#' \item \code{backwards}: right eigenvector
 #' }
 #'
 #' @export
@@ -361,8 +362,12 @@ eigen_system <- function(mat) {
 #' @param sigma (numeric) \code{sd} parameter in \code{\link{rnorm}} for emission probabilities
 #'
 #' @return
-#' Returns a data vector "data", the "true" hidden states "states" used to generate the data vector
-#' and prior probability of states "pi".
+#' Returns a list with the following elements:
+#' \itemize{
+#'   \item \code{data}: numeric vector with data
+#'   \item \code{states}: an integer vector with "true" hidden states used to generate the data vector
+#'   \item \code{pi}: numeric vector with prior probability of states
+#' } 
 #'
 #' @export
 #'
@@ -374,7 +379,11 @@ eigen_system <- function(mat) {
 #' means0 <- c(-1,0,1)
 #' sigma0 <- 1
 #' 
-#' sim_data <- hmm_simulate_normal_data(L = L, mat_T = mat_T0, means = means0, sigma = sigma0)
+#' sim_data <- hmm_simulate_normal_data(L = L, 
+#'                                      mat_T = mat_T0, 
+#'                                      means = means0, 
+#'                                      sigma = sigma0)
+#'                                      
 #' plot(density(sim_data$data), main = "Density of Simulated Normal Data")
 #' sim_data
 
@@ -438,7 +447,12 @@ hmm_simulate_normal_data <- function(L, mat_T, means, sigma) {
 #' TODO: Here some references
 #'
 #' @return
-#' TODO: List with posterior probabilities (improve description)
+#' List with the following elements: 
+#' \itemize{
+#'   \item \code{F}: auxiliary forward variables
+#'   \item \code{B}: auxiliary backward variables
+#'   \item \code{s}: weights
+#' }
 #'
 #' @export
 #'
@@ -722,14 +736,14 @@ init_hmm_mcmc_normal_ <- function(data, prior_T, prior_means, prior_sd,
 #' @return
 #' List with following elements:
 #' \itemize{
-#'   \item data: data used for simulation
-#'   \item samples: list with samples
-#'   \item estimates: list with various estimates
-#'   \item idx: indices with iterations after the warmup period
-#'   \item priors: prior parameters
-#'   \item inits: initial parameters
-#'   \item last_iter: list with samples from the last MCMC iteration
-#'   \item info: list with various meta information about the object
+#'   \item \code{data}: data used for simulation
+#'   \item \code{samples}: list with samples
+#'   \item \code{estimates}: list with various estimates
+#'   \item \code{idx}: indices with iterations after the warmup period
+#'   \item \code{priors}: prior parameters
+#'   \item \code{inits}: initial parameters
+#'   \item \code{last_iter}: list with samples from the last MCMC iteration
+#'   \item \code{info}: list with various meta information about the object
 #' }
 #'
 #' @export
@@ -749,7 +763,9 @@ init_hmm_mcmc_normal_ <- function(data, prior_T, prior_means, prior_sd,
 #'                                          means = true_means,
 #'                                          sigma = true_sd)
 #' simdata <- simdata_full$data
-#' hist(simdata, breaks = 40, probability = TRUE,  
+#' hist(simdata, 
+#'      breaks = 40, 
+#'      probability = TRUE,  
 #'      main = "Distribution of the simulated normal data")
 #' lines(density(simdata), col = "red")
 #'
@@ -946,10 +962,12 @@ summary.hmm_mcmc_normal <- function(object, ...) {
   post_states <- object$estimates$posterior_states
   state_tab <- table(post_states, dnn = "")
   
+  n_states <- length(state_tab)
+  
   dens_data <- stats::density(data)
   kl_list <- rep(NA, 500)
   for (j in 1:500) {
-    sim_output <- unlist(lapply(1:length(state_tab), function(i) {
+    sim_output <- unlist(lapply(1:n_states, function(i) {
       stats::rnorm(state_tab[i], m_est[i], sd_est) }))
     dens_sim <- stats::density(sim_output)
     kl_list[j] <- kullback_leibler_cont_appr(dens_data$y, dens_sim$y)
@@ -961,11 +979,16 @@ summary.hmm_mcmc_normal <- function(object, ...) {
                stats::median(object$estimates$log_likelihood))
   names(ll_info) <- c("mean", "sd", "median")
   
-  group_comparison <- rep(NA, length(state_tab) - 1)
-  for (k in 1:(length(state_tab) - 1)) {
+  group_comparison <- rep(NA, n_states - 1)
+  for (k in 1:(n_states - 1)) {
     gr1 <- object$data[object$estimates$posterior_states == k]
     gr2 <- object$data[object$estimates$posterior_states == (k + 1)]
-    group_comparison[k] <- stats::t.test(x = gr1, y=gr2, 
+    names(group_comparison)[k] <- paste0(k, "-", k + 1)
+    if (length(gr1) == 0 | length(gr2) == 0) {
+      next
+    } 
+    group_comparison[k] <- stats::t.test(x = gr1, 
+                                         y = gr2, 
                                          var.equal = TRUE,
                                          alternative = "less")$p.value
   }
@@ -977,7 +1000,7 @@ summary.hmm_mcmc_normal <- function(object, ...) {
                       "approximate_kullback_leibler_divergence" = kl_div,
                       "log_likelihood" = ll_info,
                       "state_differences_significance" = group_comparison)
- 
+  
   cat("Estimated means:\n")
   print(summary_res$estimated_means)
   cat("\n")
@@ -1011,7 +1034,7 @@ summary.hmm_mcmc_normal <- function(object, ...) {
   cat("P-value of t-test for difference between means of states (stepwise):\n")
   print(summary_res$state_differences_significance)
   cat("\n")
-
+  
   invisible(summary_res)
 }
 

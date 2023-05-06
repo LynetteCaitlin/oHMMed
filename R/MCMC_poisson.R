@@ -89,8 +89,12 @@ kullback_leibler_disc <- function(p, q) {
 #' @param alpha (numeric) \code{shape} parameter in \code{\link{rgamma}} for emission probabilities
 #'
 #' @return
-#' Returns a data vector "data", the "true" hidden states "states" used to generate the data vector
-#' and prior probability of states "pi".
+#' Returns a list with the following elements:
+#' \itemize{
+#'   \item \code{data}: numeric vector with data
+#'   \item \code{states}: an integer vector with "true" hidden states used to generate the data vector
+#'   \item \code{pi}: numeric vector with prior probability of states
+#' } 
 #'
 #' @export
 #'
@@ -106,11 +110,13 @@ kullback_leibler_disc <- function(p, q) {
 #'                                             mat_T = mat_T,
 #'                                             betas = betas,
 #'                                             alpha = alpha)
-#' hist(sim_data$data, breaks = 40,
-#'      main = "Histogram of Simulated Gamma-Poisson Data", xlab = "")
+#' hist(sim_data$data, 
+#'      breaks = 40,
+#'      main = "Histogram of Simulated Gamma-Poisson Data", 
+#'      xlab = "")
 #' sim_data
 
-hmm_simulate_gamma_poisson_data = function(L, mat_T, betas, alpha) {
+hmm_simulate_gamma_poisson_data <- function(L, mat_T, betas, alpha) {
   
   if (length(alpha) != 1) {
     stop("hmm_simulate_gamma_poisson_data(): shape parameter `alpha` must be of length 1", call. = FALSE)
@@ -178,7 +184,12 @@ hmm_simulate_gamma_poisson_data = function(L, mat_T, betas, alpha) {
 #' TODO: Here some references
 #'
 #' @return
-#' TODO: List with posterior probabilities (improve description)
+#' List with the following elements: 
+#' \itemize{
+#'   \item \code{F}: auxiliary forward variables
+#'   \item \code{B}: auxiliary backward variables
+#'   \item \code{s}: weights
+#' }
 #'
 #' @export
 #'
@@ -467,14 +478,14 @@ init_hmm_mcmc_gamma_poisson_ <- function(data, prior_T, prior_betas, prior_alpha
 #' @return
 #' List with following elements:
 #' \itemize{
-#'   \item data: data used for simulation
-#'   \item samples: list with samples
-#'   \item estimates: list with various estimates
-#'   \item idx: indices with iterations after the warmup period
-#'   \item priors: prior parameters
-#'   \item inits: initial parameters
-#'   \item last_iter: list with samples from the last MCMC iteration
-#'   \item info: list with various meta information about the object
+#'   \item \code{data}: data used for simulation
+#'   \item \code{samples}: list with samples
+#'   \item \code{estimates}: list with various estimates
+#'   \item \code{idx}: indices with iterations after the warmup period
+#'   \item \code{priors}: prior parameters
+#'   \item \code{inits}: initial parameters
+#'   \item \code{last_iter}: list with samples from the last MCMC iteration
+#'   \item \code{info}: list with various meta information about the object
 #' }
 #'
 #' @export
@@ -732,6 +743,10 @@ summary.hmm_mcmc_gamma_poisson <- function(object, ...) {
   for (k in 1:(length(beta_est) - 1)) {
     gr1 <- object$data[object$estimates$posterior_states == k]
     gr2 <- object$data[object$estimates$posterior_states == (k + 1)]
+    names(group_comparison)[k] <- paste0(k, "-", k + 1)
+    if (length(gr1) == 0 | length(gr2) == 0) {
+      next
+    } 
     group_comparison[k] <- stats::poisson.test(x = c(sum(gr1), sum(gr2)), 
                                                T = c(length(gr1), length(gr2)), 
                                                alternative = "l")$p.value
