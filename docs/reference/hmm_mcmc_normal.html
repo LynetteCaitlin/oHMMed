@@ -135,14 +135,14 @@
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>List with following elements:</p><ul><li><p>data: data used for simulation</p></li>
-<li><p>samples: list with samples</p></li>
-<li><p>estimates: list with various estimates</p></li>
-<li><p>idx: indices with iterations after the warmup period</p></li>
-<li><p>priors: prior parameters</p></li>
-<li><p>inits: initial parameters</p></li>
-<li><p>last_iter: list with samples from the last MCMC iteration</p></li>
-<li><p>info: list with various meta information about the object</p></li>
+<p>List with following elements:</p><ul><li><p><code>data</code>: data used for simulation</p></li>
+<li><p><code>samples</code>: list with samples</p></li>
+<li><p><code>estimates</code>: list with various estimates</p></li>
+<li><p><code>idx</code>: indices with iterations after the warmup period</p></li>
+<li><p><code>priors</code>: prior parameters</p></li>
+<li><p><code>inits</code>: initial parameters</p></li>
+<li><p><code>last_iter</code>: list with samples from the last MCMC iteration</p></li>
+<li><p><code>info</code>: list with various meta information about the object</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
@@ -169,7 +169,9 @@
 <span class="r-in">                                         means <span class="op">=</span> <span class="va">true_means</span>,</span>
 <span class="r-in">                                         sigma <span class="op">=</span> <span class="va">true_sd</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">simdata</span> <span class="op">&lt;-</span> <span class="va">simdata_full</span><span class="op">$</span><span class="va">data</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">simdata</span>, breaks <span class="op">=</span> <span class="fl">40</span>, probability <span class="op">=</span> <span class="cn">TRUE</span>,  </span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">simdata</span>, </span>
+<span class="r-in">     breaks <span class="op">=</span> <span class="fl">40</span>, </span>
+<span class="r-in">     probability <span class="op">=</span> <span class="cn">TRUE</span>,  </span>
 <span class="r-in">     main <span class="op">=</span> <span class="st">"Distribution of the simulated normal data"</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/lines.html" class="external-link">lines</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/density.html" class="external-link">density</a></span><span class="op">(</span><span class="va">simdata</span><span class="op">)</span>, col <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span></span>
 <span class="r-plt img"><img src="hmm_mcmc_normal-1.png" alt="" width="700" height="433"></span>
@@ -211,42 +213,46 @@
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span> <span class="co"># summary output can be also assigned to a variable</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Estimated means:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     mean[1]     mean[2]     mean[3] </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> -5.05896263  0.09025625  5.05136557 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -5.02600678  0.04882652  5.33564491 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Estimated sd:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1.573022</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Estimated standard deviation:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1.573221</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Estimated transition rates:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            1          2         3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 0.96343185 0.03656815 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 0.02583131 0.93628759 0.0378811</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 0.00000000 0.04038987 0.9596101</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            1          2          3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 0.95140034 0.04859966 0.00000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 0.02145581 0.95104991 0.02749428</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 0.00000000 0.07715437 0.92284563</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Assigned states:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Number of windows assigned to hidden states:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   1   2   3 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 274 383 367 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 255 569 200 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Approximate Kullback-Leibler divergence:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.001354003</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Approximate Kullback-Leibler divergence between observed and estimated distributions:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.003289678</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Log Likelihood:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         mean           sd       median </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> -2061.045727     4.860335 -2059.836026 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -2083.345985     2.257974 -2083.524573 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> P-value of t-test for difference between means of states (stepwise):</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           1-2           2-3 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3.711141e-225 1.599860e-200 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span> <span class="co"># extract model estimates</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $means</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     mean[1]     mean[2]     mean[3] </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> -5.05896263  0.09025625  5.05136557 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -5.02600678  0.04882652  5.33564491 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $sd</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.573022</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.573221</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $mat_T</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            [,1]       [,2]      [,3]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.96343185 0.03656815 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.02583131 0.93628759 0.0378811</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.00000000 0.04038987 0.9596101</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            [,1]       [,2]       [,3]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.95140034 0.04859966 0.00000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.02145581 0.95104991 0.02749428</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.00000000 0.07715437 0.92284563</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># plot(res) # MCMC diagnostics</span></span>

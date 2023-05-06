@@ -22,5 +22,6 @@ normalized.
 \examples{
 mat_T <- generate_random_T(3)
 mat_T
+
 rowSums(mat_T)
 }

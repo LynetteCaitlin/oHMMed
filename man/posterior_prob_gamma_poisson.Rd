@@ -18,7 +18,12 @@ posterior_prob_gamma_poisson(data, pi, mat_T, betas, alpha)
 \item{alpha}{(numeric) prior scale}
 }
 \value{
-TODO: List with posterior probabilities (improve description)
+List with the following elements: 
+\itemize{
+  \item \code{F}: auxiliary forward variables
+  \item \code{B}: auxiliary backward variables
+  \item \code{s}: weights
+}
 }
 \description{
 Forward-Backward Algorithm to Calculate the Posterior Probabilities of Hidden States in Poisson-Gamma Model

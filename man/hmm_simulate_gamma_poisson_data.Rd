@@ -16,8 +16,12 @@ hmm_simulate_gamma_poisson_data(L, mat_T, betas, alpha)
 \item{alpha}{(numeric) \code{shape} parameter in \code{\link{rgamma}} for emission probabilities}
 }
 \value{
-Returns a data vector "data", the "true" hidden states "states" used to generate the data vector
-and prior probability of states "pi".
+Returns a list with the following elements:
+\itemize{
+  \item \code{data}: numeric vector with data
+  \item \code{states}: an integer vector with "true" hidden states used to generate the data vector
+  \item \code{pi}: numeric vector with prior probability of states
+}
 }
 \description{
 Simulate Data Based on a Gamma-Poisson Model for a Hidden Markov Model Simulation
@@ -34,7 +38,9 @@ sim_data <- hmm_simulate_gamma_poisson_data(L = L,
                                             mat_T = mat_T,
                                             betas = betas,
                                             alpha = alpha)
-hist(sim_data$data, breaks = 40,
-     main = "Histogram of Simulated Gamma-Poisson Data", xlab = "")
+hist(sim_data$data, 
+     breaks = 40,
+     main = "Histogram of Simulated Gamma-Poisson Data", 
+     xlab = "")
 sim_data
 }

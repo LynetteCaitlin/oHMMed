@@ -50,14 +50,14 @@ hmm_mcmc_gamma_poisson(
 \value{
 List with following elements:
 \itemize{
-  \item data: data used for simulation
-  \item samples: list with samples
-  \item estimates: list with various estimates
-  \item idx: indices with iterations after the warmup period
-  \item priors: prior parameters
-  \item inits: initial parameters
-  \item last_iter: list with samples from the last MCMC iteration
-  \item info: list with various meta information about the object
+  \item \code{data}: data used for simulation
+  \item \code{samples}: list with samples
+  \item \code{estimates}: list with various estimates
+  \item \code{idx}: indices with iterations after the warmup period
+  \item \code{priors}: prior parameters
+  \item \code{inits}: initial parameters
+  \item \code{last_iter}: list with samples from the last MCMC iteration
+  \item \code{info}: list with various meta information about the object
 }
 }
 \description{

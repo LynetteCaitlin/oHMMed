@@ -16,8 +16,12 @@ hmm_simulate_normal_data(L, mat_T, means, sigma)
 \item{sigma}{(numeric) \code{sd} parameter in \code{\link{rnorm}} for emission probabilities}
 }
 \value{
-Returns a data vector "data", the "true" hidden states "states" used to generate the data vector
-and prior probability of states "pi".
+Returns a list with the following elements:
+\itemize{
+  \item \code{data}: numeric vector with data
+  \item \code{states}: an integer vector with "true" hidden states used to generate the data vector
+  \item \code{pi}: numeric vector with prior probability of states
+}
 }
 \description{
 Simulate Data Based on a Normal Model for a Hidden Markov Model Simulation
@@ -30,7 +34,11 @@ L <- 2^7
 means0 <- c(-1,0,1)
 sigma0 <- 1
 
-sim_data <- hmm_simulate_normal_data(L = L, mat_T = mat_T0, means = means0, sigma = sigma0)
+sim_data <- hmm_simulate_normal_data(L = L, 
+                                     mat_T = mat_T0, 
+                                     means = means0, 
+                                     sigma = sigma0)
+                                     
 plot(density(sim_data$data), main = "Density of Simulated Normal Data")
 sim_data
 }
