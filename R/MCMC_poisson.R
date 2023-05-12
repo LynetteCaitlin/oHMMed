@@ -89,8 +89,12 @@ kullback_leibler_disc <- function(p, q) {
 #' @param alpha (numeric) \code{shape} parameter in \code{\link{rgamma}} for emission probabilities
 #'
 #' @return
-#' Returns a data vector "data", the "true" hidden states "states" used to generate the data vector
-#' and prior probability of states "pi".
+#' Returns a list with the following elements:
+#' \itemize{
+#'   \item \code{data}: numeric vector with data
+#'   \item \code{states}: an integer vector with "true" hidden states used to generate the data vector
+#'   \item \code{pi}: numeric vector with prior probability of states
+#' } 
 #'
 #' @export
 #'
@@ -106,11 +110,13 @@ kullback_leibler_disc <- function(p, q) {
 #'                                             mat_T = mat_T,
 #'                                             betas = betas,
 #'                                             alpha = alpha)
-#' hist(sim_data$data, breaks = 40,
-#'      main = "Histogram of Simulated Gamma-Poisson Data", xlab = "")
+#' hist(sim_data$data, 
+#'      breaks = 40,
+#'      main = "Histogram of Simulated Gamma-Poisson Data", 
+#'      xlab = "")
 #' sim_data
 
-hmm_simulate_gamma_poisson_data = function(L, mat_T, betas, alpha) {
+hmm_simulate_gamma_poisson_data <- function(L, mat_T, betas, alpha) {
   
   if (length(alpha) != 1) {
     stop("hmm_simulate_gamma_poisson_data(): shape parameter `alpha` must be of length 1", call. = FALSE)
@@ -157,7 +163,6 @@ hmm_simulate_gamma_poisson_data = function(L, mat_T, betas, alpha) {
 }
 
 
-
 #' Forward-Backward Algorithm to Calculate the Posterior Probabilities of Hidden States in Poisson-Gamma Model
 #'
 #' Forward-Backward Algorithm to Calculate the Posterior Probabilities of Hidden States in Poisson-Gamma Model
@@ -179,7 +184,12 @@ hmm_simulate_gamma_poisson_data = function(L, mat_T, betas, alpha) {
 #' TODO: Here some references
 #'
 #' @return
-#' TODO: List with posterior probabilities (improve description)
+#' List with the following elements: 
+#' \itemize{
+#'   \item \code{F}: auxiliary forward variables
+#'   \item \code{B}: auxiliary backward variables
+#'   \item \code{s}: weights
+#' }
 #'
 #' @export
 #'
@@ -468,14 +478,14 @@ init_hmm_mcmc_gamma_poisson_ <- function(data, prior_T, prior_betas, prior_alpha
 #' @return
 #' List with following elements:
 #' \itemize{
-#'   \item data: data used for simulation
-#'   \item samples: list with samples
-#'   \item estimates: list with various estimates
-#'   \item idx: indices with iterations after the warmup period
-#'   \item priors: prior parameters
-#'   \item inits: initial parameters
-#'   \item last_iter: list with samples from the last MCMC iteration
-#'   \item info: list with various meta information about the object
+#'   \item \code{data}: data used for simulation
+#'   \item \code{samples}: list with samples
+#'   \item \code{estimates}: list with various estimates
+#'   \item \code{idx}: indices with iterations after the warmup period
+#'   \item \code{priors}: prior parameters
+#'   \item \code{inits}: initial parameters
+#'   \item \code{last_iter}: list with samples from the last MCMC iteration
+#'   \item \code{info}: list with various meta information about the object
 #' }
 #'
 #' @export
@@ -733,6 +743,10 @@ summary.hmm_mcmc_gamma_poisson <- function(object, ...) {
   for (k in 1:(length(beta_est) - 1)) {
     gr1 <- object$data[object$estimates$posterior_states == k]
     gr2 <- object$data[object$estimates$posterior_states == (k + 1)]
+    names(group_comparison)[k] <- paste0(k, "-", k + 1)
+    if (length(gr1) == 0 | length(gr2) == 0) {
+      next
+    } 
     group_comparison[k] <- stats::poisson.test(x = c(sum(gr1), sum(gr2)), 
                                                T = c(length(gr1), length(gr2)), 
                                                alternative = "l")$p.value
@@ -828,6 +842,8 @@ coef.hmm_mcmc_gamma_poisson <- function(object, ...) {
 #' @param true_states (integer) \code{optional parameter}; true states. To be used if \code{simulation=TRUE}
 #' 
 #' @param show_titles (logical) if \code{TRUE} then titles are shown for all graphs. By default, \code{TRUE}
+#' 
+#' @param log_statesplot (logical) if \code{TRUE} then log-statesplots are shown. By default, \code{FALSE}
 #'
 #' @param ... not used
 #'
@@ -850,7 +866,7 @@ plot.hmm_mcmc_gamma_poisson <- function(x,
                                         true_mat_T = NULL,
                                         true_states = NULL,
                                         show_titles = TRUE,
-                                        no_log_statesplot = TRUE,
+                                        log_statesplot = FALSE,
                                         ...) {
   
   info <- x$info
@@ -959,20 +975,17 @@ plot.hmm_mcmc_gamma_poisson <- function(x,
   }
   
   # Check assignment of states along chromosome
-  if(no_log_statesplot) {
-    states_df <- as.data.frame(cbind(1:length(data), data, x$estimates$posterior_states))
-    post_means <- numeric(length(data))
-    
+  n_data <- length(data)
+  post_means <- numeric(n_data)
+  if (!log_statesplot) {
+    states_df <- as.data.frame(cbind(1:n_data, data, x$estimates$posterior_states))
     for (l in 1:length(data)) {
       post_means[l] <- sum(x$estimates$alpha / x$estimates$betas * x$estimates$posterior_states_prob[l, ])
     }
-  }
-  else {
-    states_df <- as.data.frame(cbind(1:length(data), log(data+1), x$estimates$posterior_states))
-    post_means <- numeric(length(data))
-    
-    for (l in 1:length(data)) {
-      post_means[l] <- log((sum(x$estimates$alpha / x$estimates$betas * x$estimates$posterior_states_prob[l, ]))+1)
+  } else {
+    states_df <- as.data.frame(cbind(1:n_data, log(data + 1), x$estimates$posterior_states))
+    for (l in 1:n_data) {
+      post_means[l] <- log((sum(x$estimates$alpha / x$estimates$betas * x$estimates$posterior_states_prob[l, ])) + 1)
     }
   }
  
@@ -990,17 +1003,17 @@ plot.hmm_mcmc_gamma_poisson <- function(x,
                   title = if (show_titles) "States Plot" else NULL)
   
   if (simulation) {
-    if(no_log_statesplot) {
-      states_df2 <- as.data.frame(cbind(1:length(data), data, true_states))
+    if (!log_statesplot) {
+      states_df2 <- as.data.frame(cbind(1:n_data, data, true_states))
       post_means <- (true_alpha / true_betas)[true_states]
       states_df2$post_means <- post_means
     }
     else {
-      states_df2 <- as.data.frame(cbind(1:length(data), log(data+1), true_states))
+      states_df2 <- as.data.frame(cbind(1:n_data, log(data + 1), true_states))
       post_means <- (true_alpha / true_betas)[true_states]
-      states_df2$post_means <- log(post_means+1)
+      states_df2$post_means <- log(post_means + 1)
     }
-    states_df2 <- as.data.frame(cbind(1:length(data), data, true_states))
+    states_df2 <- as.data.frame(cbind(1:n_data, data, true_states))
     post_means <- (true_alpha / true_betas)[true_states]
     states_df2$post_means <- post_means
     names(states_df2) <- c("position", "data", "true_states", "true_means")
@@ -1030,7 +1043,7 @@ plot.hmm_mcmc_gamma_poisson <- function(x,
     sim_output1 <- c(sim_output1, sim_output)
   }
   sim_output1 <- sim_output1[2:length(sim_output1)]
-  dens_data1 <- table(factor(data, levels = 0:max(c(data,sim_output1)))) / sum(table(factor(data, levels = 0:max(c(data, sim_output1))))) 
+  dens_data1 <- table(factor(data, levels = 0:max(c(data, sim_output1)))) / sum(table(factor(data, levels = 0:max(c(data, sim_output1))))) 
   dens_sim1 <- table(factor(sim_output1, levels = 0:max(c(data, sim_output1)))) / sum(table(factor(sim_output1, levels = 0:max(c(data, sim_output1)))))
   
   kl_plot_f <- function() {
@@ -1064,7 +1077,7 @@ plot.hmm_mcmc_gamma_poisson <- function(x,
                               fill = "grey", position = "identity") +
       ggplot2::scale_color_manual(values = c("black")) +
       ggplot2::geom_vline(xintercept = x$estimates$means, color = "black", size = 0.6) +
-      ggplot2::geom_vline(xintercept = true_alpha/true_betas, color = "blue", 
+      ggplot2::geom_vline(xintercept = true_alpha / true_betas, color = "blue", 
                           size = 0.4, linetype = "dotted") + 
       ggplot2::labs(x = "Number of Occurences", 
                     y = "Frequency",

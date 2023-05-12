@@ -12,9 +12,9 @@ eigen_system(mat)
 \value{
 a list with three elements:
 \itemize{
-\item lambda: eigenvalues
-\item forwards: left eigenvector
-\item backwards: right eigenvector
+\item \code{lambda}: eigenvalues
+\item \code{forwards}: left eigenvector
+\item \code{backwards}: right eigenvector
 }
 }
 \description{
