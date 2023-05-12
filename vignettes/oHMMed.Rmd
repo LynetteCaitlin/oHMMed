@@ -74,10 +74,6 @@ plot(res_normal)
 
 ## 2) Gamma-Poisson model
 
-```{r data, warning=FALSE, cache=TRUE, include=FALSE}
-library(oHMMed)
-```
-
 ### 2.1) Example data
 
 ```{r, echo = FALSE}
@@ -133,12 +129,12 @@ res_gamma_poisson <- hmm_mcmc_gamma_poisson(data = simdata1,
 
 res_gamma_poisson
 
-summary_res_gamma_poisson <- summary(gamma_poisson)
+summary_res_gamma_poisson <- summary(res_gamma_poisson)
 ```
 
 ### 2.3) Diagnostics
 
-```{r diagnostics_normal, cache=TRUE, message=FALSE}
+```{r diagnostics_gamma_poisson, cache=TRUE, message=FALSE}
 plot(res_gamma_poisson)
 ```
 
