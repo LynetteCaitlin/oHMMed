@@ -2,14 +2,16 @@
 # START TUTORIAL
 #######################
 
-# ******************************************************************************
+# ********************************************************************************************
 # This script produces comparative plots for...
 # 1) summarizing the output of multiple runs of the MCMC algorithm 
 #    on the same genomic feature with different numbers of states
-# 2) analysing the output of MCMC algorithms with fixed numbers of states
-#    run on two different genomic features.
-# These  plots presented in the paper --- that accompanies the first release of the package. 
-# ******************************************************************************
+# 2)+ 3) analysing the output of MCMC algorithms with fixed numbers of states
+#    run on two different genomic features. In particular, this enables
+#    analysis of the correlation between these features. 
+# The same style of plots are presented in the paper 
+#   that accompanies the first release of the package. 
+# ********************************************************************************************
 
 #--------------------------------
 #  load the following libraries
@@ -18,15 +20,37 @@
  library(mistr)
  library(gridExtra)
  library(vcd)
+ library(zoo)
+
 # if not installed, use install(...) and then library(...)
+
+#------------------------------
+# Note: 
+#-----------------------------
+# The ohmmed assumption of autocorrelation can be checked via the following code:
+# Set: dat <- 'ta sequence of raw data'
+L=length(dat)
+#     create an index for permutating the raw data:
+randseq=sample(L-1,L-1)
+
+#     run an F-test for differences in deviation from the mean 
+#         in consecutive values in the sequences
+#   -> THIS MUST BE SIGNIFICANT!
+var.test(dat[1:(L-1)]-dat[2:L],dat[randseq]-dat[2:L])
+
+# view the individual variances of raw and permutated sequences:
+var(dat[1:(L-1)]-dat[2:L],na.rm=TRUE)
+var(dat[randseq]-dat[2:L],na.rm=TRUE)
+
+
 
 #------------------------------
 # PLOT 1) 
 #-----------------------------
 
 # Assume:
-#    res_n2 is the output of the class hmm.mcmc_normal or hmm.mcmc_poisson with 2 states inferred,
-#    res_n3 is the output of the class hmm.mcmc_normal or hmm.mcmc_poisson with 3 states inferred,
+#    res_n2 is the output of the class hmm.mcmc_normal or hmm.mcmc_gamma_poisson with 2 states inferred,
+#    res_n3 is the output of the class hmm.mcmc_normal or hmm.mcmc_gamma_poisson with 3 states inferred,
 #    etc.,... (continue for as many numbers of states as wished)
 
 # Then: 
@@ -43,7 +67,7 @@
 # 
 # note: check these vector are of the same length! 
 # 
-# --- Panel1 - NORMAL and POISSON EMISSIONS
+# --- Panel1 - NORMAL and GAMMA-POISSON EMISSIONS
 #
 # Now: run the following code
 ind_state <- c(res_n2$info$n_states,
@@ -63,7 +87,7 @@ p1 <- ggplot(df_liks) +
   ggtitle("A")
 p1
 
-# --- Panel2 - NORMAL and POISSON EMISSIONS
+# --- Panel2 - NORMAL and GAMMA-POISSON EMISSIONS
 # Now: select the model with appropriate number of states 'opt' - we will call it 'res_n_opt' here
 # opt <- 
 # res_n_opt <- 
@@ -132,7 +156,7 @@ p4 <- mistr::QQplotgg(res_n_opt$data, resulting_mixture_of_normals,
 p4
 
 
-#---- Panel3 - POISSON EMISSIONS:
+#---- Panel3 - GAMMA-POISSON EMISSIONS:
 # Then: store the plot that shows the observed data as a histogram
 #       vertical lines demark the means of each state
 data <- simdata_gp
@@ -149,7 +173,7 @@ p33 <- ggplot(dens_df, aes(x = as.numeric(value))) +
   labs(title = "C", x = "Number of Occurences", y = "Frequency") 
 p33
 
-#---- Panel4 - POISSON EMISSIONS:
+#---- Panel4 - GAMMA-POISSON EMISSIONS:
 # Next: simulate a theoretical distribution from the estimated parameters
 #       this is shown as a fitted line over a shifted bar plot of the observed 
 #       values (shifted since the bars are moved to hug the fitted line 
@@ -191,10 +215,10 @@ grid.arrange(p1, p2, p3, nrow = 2)
 p4
 
 #------------------------------
-# PLOT 2) 
+# PLOT 2)
 #-----------------------------
 
-# Assume:  The objects 'res_feature1' and 'res_feature2' of the class hmm.mcmc_normal or hmm.mcmc_poisson.
+# Assume:  The objects 'res_feature1' and 'res_feature2' of the class hmm.mcmc_normal or hmm.mcmc_gamma_poisson.
 #   Further, we will assume in the below that the input data for both of these mcmc runs is of the same length
 #   and that the entries in the input data correspond to the same windows along the genome. 
 # If this is not the case, the below code must be modified (in particular for the final plot) so that each window 
@@ -220,8 +244,13 @@ for (l in 1:Len) {
   post_means_feature2[l] = sum(res_feature2$estimates$means * res_feature2$estimates$posterior_states_prob[l, ])
 }
 
-Dat <- as.data.frame(cbind(res_feature1$estimates$posterior_states, res_feature2$estimates$posterior_states))
-names(Dat) <- c("feature1", "feature2")
+# The rolling correlation the posterior means can be calculated to assess the strength of monotone correlations (Spearman correlation) :
+#   pick the (overlapping) windows for which the correlation is determined:
+#     width <- 
+CorrDat <- as.data.frame(cbind(post_means_feature1,post_means_feature2))
+rollcorr <- rollapply(CorrDat, width=width, function(x) cor(x[,1],x[,2],method="spearman"),by.column=FALSE)
+
+
 
 # Set the limits of the y-axis to allow for space below the plotted data points for the bars to denote genomic segments
 #   ylims1 <- 
@@ -237,13 +266,17 @@ names(Dat) <- c("feature1", "feature2")
 #   length2  <- 
 #   etc.,...
 
-#Then create the following grid of plots:
-layout(matrix(c(1,1,1,1,2,2,1,1,1,1,2,2,3,3,3,3,4,4,3,3,3,3,4,4), nrow = 4, ncol = 6, byrow = T))
+# Next, pick colours to represent the different states for both features
+#     and fill them in between the "" below (and add or remove some as necessary)
+# cols1 <- c("","","","")[res_feature1$estimates$posterior_states[1:Len]]
+# cols2 <- c("","","")[res_feature2$estimates$posterior_states[1:Len]]
 
+#Then create the following grid of plots:
+par(mfrow=c(3,1))
 # First, the genomic landscape of the first feature:
 plot(1:Len,
      res_feature1$data[1:Len],
-     col = 'gray',
+     col = cols1,
      main = "A",
      ylab = "Feature 1 - Posterior Means",
      xaxt = "n",
@@ -251,15 +284,14 @@ plot(1:Len,
      ylim = ylims1)
 lines(1:Len, post_means_feature1)
 # The following lines can be used to designate genomic segments in alternating colours
-points(cbind(index_a, rep(pos, length(index_a))), pch = "|")
+points(cbind(index_a, rep(pos, length(index_a))), pch = "|", col = "darkgray")
 points(cbind(index_b, rep(pos, length(index_b))), pch = "|", col = "lightgray")
 # etc.,...
-plot(1, type = "n", axes = 0, xlab = "", ylab = "")
 
 # Then, the genomic landscape of the second feature:
 plot(1:Len,
   res_feature2$data[2:Len],
-  col = 'gray',
+  col = cols2,
   main = "A",
   ylab = "Feature 2 - Posterior Means",
   xaxt = "n",
@@ -267,19 +299,47 @@ plot(1:Len,
   ylim = ylims2)
 lines(1:Len, post_means_feature2)
 # The following lines can be used to designate genomic segments in alternating colours
-points(cbind(index_a, rep(pos, length(index_a))), pch = "|")
+points(cbind(index_a, rep(pos, length(index_a))), pch = "|", col = "darkgray" )
 points(cbind(index_b, rep(pos, length(index_b))), pch = "|", col = "lightgray")
 # etc.,...
-plot(1, type = "n", axes = 0, xlab = "", ylab = "")
+
+# Finally, the rolling correlation between the two features can be plotted:
+
+plot(1:Len,
+     rollcorr[1:Len],
+     type="l",
+     main="C",
+     ylab="Rolling Correlation",
+     xaxt="n",xlab="Windows",
+     ylim=c(-1.5,1.2))
+
+abline(h=0,col="red")
+abline(h=1,col="red")
+abline(h=-1,col="red")
+
+# The following lines can be used to designate genomic segments in alternating colours
+points(cbind(index_a, rep(-1.3, length(index_a))), pch = "|", col = "darkgray" )
+points(cbind(index_b, rep(-1.3, length(index_b))), pch = "|", col = "lightgray")
+# etc.,...
+
+par(mfrow=c(1,1))
+
+#------------------------------
+# PLOT 3)
+#-----------------------------
 
 # The final plot cross-tabulates the assignments of each window to the two features
+# This reveals the overall association between the features
+Dat <- as.data.frame(cbind(res_feature1$estimates$posterior_states, res_feature2$estimates$posterior_states))
+names(Dat) <- c("feature1", "feature2")
+
 TA <- table(Dat$feature1, Dat$feature2)
 barplot(TA, 
         beside = T, 
         ylab = "counts feature 1 ", 
         xlab = "states feature 2", 
-        main = "C")
-layout(matrix(1))
+        main = "")
+
 
 #######################
 # END TUTORIAL
