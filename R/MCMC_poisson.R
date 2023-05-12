@@ -78,7 +78,7 @@ kullback_leibler_disc <- function(p, q) {
 # ******************************************************************************************************-----
 
 
-#' Simulate Data Based on a Gamma-Poisson Model for a Hidden Markov Model Simulation
+#' Simulate data distributed according to oHMMed with gamma-poisson emission densities
 #'
 #' @param L (integer) number of simulations
 #'
@@ -178,7 +178,7 @@ hmm_simulate_gamma_poisson_data <- function(L, mat_T, betas, alpha) {
 #' @param alpha (numeric) prior scale
 #'
 #' @details
-#' TODO: Here details on how the calculation is made
+#' TODO: See the paper for mathematical details..
 #'
 #' @references
 #' TODO: Here some references
@@ -441,7 +441,7 @@ init_hmm_mcmc_gamma_poisson_ <- function(data, prior_T, prior_betas, prior_alpha
 }
 
 
-#' MCMC Simulation of a Hidden Markov Gamma-Poisson Model
+#' MCMC Sampler sampler for the Hidden Markov with Gamma-Poisson emission densities
 #'
 #' @param data (numeric) data
 #'
@@ -470,7 +470,7 @@ init_hmm_mcmc_gamma_poisson_ <- function(data, prior_T, prior_betas, prior_alpha
 #' @param verbose (logical) \code{optional parameter}; print additional messages. By default, \code{TRUE}
 #'
 #' @details
-#' TODO: Here details
+#' TODO: See the paper for mathematical details..
 #'
 #' @references
 #' TODO: Here references
@@ -831,7 +831,7 @@ coef.hmm_mcmc_gamma_poisson <- function(object, ...) {
 #'
 #' @param x (hmm_mcmc_gamma_poisson) HMM MCMC gamma-poisson object
 #'
-#' @param simulation (logical) TODO:
+#' @param simulation (logical); default is \code{simulation=FALSE}, so the input data was empirical. If the input data was simulated, it must be set \code{simulation=TRUE}. 
 #'
 #' @param true_betas (numeric) true betas. To be used if \code{simulation=TRUE}
 #'

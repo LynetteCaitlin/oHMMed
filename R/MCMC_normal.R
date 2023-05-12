@@ -351,7 +351,7 @@ eigen_system <- function(mat) {
 # ******************************************************************************************************-----
 
 
-#' Simulate Data Based on a Normal Model for a Hidden Markov Model Simulation
+#' Simulate data distributed according to oHMMed with normal emission densities
 #'
 #' @param L (integer) number of simulations
 #'
@@ -441,7 +441,7 @@ hmm_simulate_normal_data <- function(L, mat_T, means, sigma) {
 #' @param sdev (numeric) prior standard deviation
 #'
 #' @details
-#' TODO: Here details on how the calculation is made
+#' TODO: See the paper for mathematical details.
 #'
 #' @references
 #' TODO: Here some references
@@ -698,7 +698,7 @@ init_hmm_mcmc_normal_ <- function(data, prior_T, prior_means, prior_sd,
 }
 
 
-#' MCMC Simulation of a Hidden Markov Normal Model
+#' MCMC Sampler for the Hidden Markov Model with Normal emission densities
 #'
 #'
 #' @param data (numeric) normal data
@@ -707,7 +707,7 @@ init_hmm_mcmc_normal_ <- function(data, prior_T, prior_means, prior_sd,
 #'
 #' @param prior_means (numeric) prior means
 #'
-#' @param prior_sd (numeric) a single prior standard devation
+#' @param prior_sd (numeric) a single prior standard deviation
 #'
 #' @param iter (integer) number of MCMC iterations
 #'
@@ -728,7 +728,7 @@ init_hmm_mcmc_normal_ <- function(data, prior_T, prior_means, prior_sd,
 #' @param verbose (logical) \code{optional parameter}; print additional messages. By default, \code{TRUE}
 #'
 #' @details
-#' TODO: Here details
+#' TODO: See the paper for mathematical details..
 #'
 #' @references
 #' TODO: Here references
@@ -1071,7 +1071,7 @@ coef.hmm_mcmc_normal <- function(object, ...) {
 #'
 #' @param x (hmm_mcmc_normal) HMM MCMC normal object
 #'
-#' @param simulation (logical) \code{optional parameter}; TODO:
+#' @param simulation (logical) \code{optional parameter}; default is \code{simulation=FALSE}, so the input data was empirical. If the input data was simulated, it must be set \code{simulation=TRUE}. 
 #'
 #' @param true_means (numeric) \code{optional parameter}; true means. To be used if \code{simulation=TRUE}
 #'

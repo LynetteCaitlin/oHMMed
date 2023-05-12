@@ -107,8 +107,8 @@ hist(simdata1, breaks = 50, main = "")
 ### 2.2) MCMC Simulation
 
 ```{r simulation_gamma_poisson, cache=TRUE}
-iter <- 1500              
-warmup <- floor(iter * 0.4)
+iter <- 4000              
+warmup <- floor(iter * 0.55)
 print_params <- FALSE     
 verbose <- TRUE           
 
