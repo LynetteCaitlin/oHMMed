@@ -2,7 +2,7 @@
 % Please edit documentation in R/MCMC_normal.R
 \name{hmm_simulate_normal_data}
 \alias{hmm_simulate_normal_data}
-\title{Simulate Data Based on a Normal Model for a Hidden Markov Model Simulation}
+\title{Simulate data distributed according to oHMMed with normal emission densities}
 \usage{
 hmm_simulate_normal_data(L, mat_T, means, sigma)
 }
@@ -24,7 +24,7 @@ Returns a list with the following elements:
 }
 }
 \description{
-Simulate Data Based on a Normal Model for a Hidden Markov Model Simulation
+Simulate data distributed according to oHMMed with normal emission densities
 }
 \examples{
 mat_T0 <- rbind(c(1-0.01, 0.01, 0),

@@ -18,7 +18,7 @@
 \arguments{
 \item{x}{(hmm_mcmc_normal) HMM MCMC normal object}
 
-\item{simulation}{(logical) \code{optional parameter}; TODO:}
+\item{simulation}{(logical) \code{optional parameter}; default is \code{simulation=FALSE}, so the input data was empirical. If the input data was simulated, it must be set \code{simulation=TRUE}.}
 
 \item{true_means}{(numeric) \code{optional parameter}; true means. To be used if \code{simulation=TRUE}}
 

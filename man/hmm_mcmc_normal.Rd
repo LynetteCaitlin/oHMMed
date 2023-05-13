@@ -2,7 +2,7 @@
 % Please edit documentation in R/MCMC_normal.R
 \name{hmm_mcmc_normal}
 \alias{hmm_mcmc_normal}
-\title{MCMC Simulation of a Hidden Markov Normal Model}
+\title{MCMC Sampler for the Hidden Markov Model with Normal emission densities}
 \usage{
 hmm_mcmc_normal(
   data,
@@ -27,7 +27,7 @@ hmm_mcmc_normal(
 
 \item{prior_means}{(numeric) prior means}
 
-\item{prior_sd}{(numeric) a single prior standard devation}
+\item{prior_sd}{(numeric) a single prior standard deviation}
 
 \item{iter}{(integer) number of MCMC iterations}
 
@@ -61,10 +61,10 @@ List with following elements:
 }
 }
 \description{
-MCMC Simulation of a Hidden Markov Normal Model
+MCMC Sampler for the Hidden Markov Model with Normal emission densities
 }
 \details{
-TODO: Here details
+TODO: See the paper for mathematical details..
 }
 \examples{
 # Simulate normal data

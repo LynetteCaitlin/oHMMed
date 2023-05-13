@@ -29,7 +29,7 @@ List with the following elements:
 Forward-Backward Algorithm to Calculate the Posterior Probabilities of Hidden States in Poisson-Gamma Model
 }
 \details{
-TODO: Here details on how the calculation is made
+TODO: See the paper for mathematical details..
 }
 \examples{
 mat_T <- rbind(c(1-0.01,0.01,0),

@@ -19,7 +19,7 @@
 \arguments{
 \item{x}{(hmm_mcmc_gamma_poisson) HMM MCMC gamma-poisson object}
 
-\item{simulation}{(logical) TODO:}
+\item{simulation}{(logical); default is \code{simulation=FALSE}, so the input data was empirical. If the input data was simulated, it must be set \code{simulation=TRUE}.}
 
 \item{true_betas}{(numeric) true betas. To be used if \code{simulation=TRUE}}
 

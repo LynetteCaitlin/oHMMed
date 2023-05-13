@@ -2,7 +2,7 @@
 % Please edit documentation in R/MCMC_poisson.R
 \name{hmm_simulate_gamma_poisson_data}
 \alias{hmm_simulate_gamma_poisson_data}
-\title{Simulate Data Based on a Gamma-Poisson Model for a Hidden Markov Model Simulation}
+\title{Simulate data distributed according to oHMMed with gamma-poisson emission densities}
 \usage{
 hmm_simulate_gamma_poisson_data(L, mat_T, betas, alpha)
 }
@@ -24,7 +24,7 @@ Returns a list with the following elements:
 }
 }
 \description{
-Simulate Data Based on a Gamma-Poisson Model for a Hidden Markov Model Simulation
+Simulate data distributed according to oHMMed with gamma-poisson emission densities
 }
 \examples{
 mat_T <- rbind(c(1-0.01, 0.01, 0),

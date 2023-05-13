@@ -2,7 +2,7 @@
 % Please edit documentation in R/MCMC_poisson.R
 \name{hmm_mcmc_gamma_poisson}
 \alias{hmm_mcmc_gamma_poisson}
-\title{MCMC Simulation of a Hidden Markov Gamma-Poisson Model}
+\title{MCMC Sampler sampler for the Hidden Markov with Gamma-Poisson emission densities}
 \usage{
 hmm_mcmc_gamma_poisson(
   data,
@@ -61,10 +61,10 @@ List with following elements:
 }
 }
 \description{
-MCMC Simulation of a Hidden Markov Gamma-Poisson Model
+MCMC Sampler sampler for the Hidden Markov with Gamma-Poisson emission densities
 }
 \details{
-TODO: Here details
+TODO: See the paper for mathematical details..
 }
 \examples{
 # Simulate Poisson-Gamma data
