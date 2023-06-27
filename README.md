@@ -3,7 +3,6 @@
 
 Extended documentation can be found on the website:
 <https://lynettecaitlin.github.io/oHMMed/>
-(Website is still work in progress!)
 
 ## 1. Overview
 
@@ -28,6 +27,8 @@ with emission densities), and it can be applied to any system that
 fulfills these assumptions.
 
 The algorithms are from the following paper: (...tba...)
+The corresponding genome annotation results from this paper can be found at:
+<https://github.com/LynetteCaitlin/oHMMed/blob/main/Data/GenomeAnnotations.zip>
 
 ## 2. Installation
 
