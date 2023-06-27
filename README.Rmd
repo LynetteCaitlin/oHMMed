@@ -13,7 +13,7 @@ knitr::opts_chunk$set(
 ```
 
 Extended documentation can be found on the website: https://lynettecaitlin.github.io/oHMMed/
-(Website is still work in progress!)
+
 
 ## 1. Overview
 
@@ -22,6 +22,10 @@ The `oHMMed` package contains an implementation of Hidden Markov Models with ord
 Mathematical details and graphical representations of the algorihms can be found in the following article:
 (...tba...)
 
+
+The corresponding genome annotation results from this paper can be found at:
+
+https://github.com/LynetteCaitlin/oHMMed/blob/main/Data/GenomeAnnotations.zip
 
 ## 2. Installation
 
