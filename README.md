@@ -26,7 +26,8 @@ This is the general framework of `oHMMed` (ordered Hidden Markov Model
 with emission densities), and it can be applied to any system that
 fulfills these assumptions.
 
-The algorithms are from the following paper: (...tba...)
+Mathematical details and graphical representations of the algorihms can be found in the following article:
+(...tba...)
 
 The corresponding genome annotation results from this paper can be found at:
 <https://github.com/LynetteCaitlin/oHMMed/blob/main/Data/GenomeAnnotations.zip>
