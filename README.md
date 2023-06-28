@@ -27,7 +27,7 @@ with emission densities), and it can be applied to any system that
 fulfills these assumptions.
 
 Mathematical details and graphical representations of the algorihms can be found in the following article:
-(...tba...)
+<https://biorxiv.org/cgi/content/short/2023.06.26.546495v1>
 
 The corresponding genome annotation results from this paper can be found at:
 <https://github.com/LynetteCaitlin/oHMMed/blob/main/Data/GenomeAnnotations.zip>
