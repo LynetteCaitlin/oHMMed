@@ -1,0 +1,24 @@
+citHeader("To cite the oHMMed package in publications use:")
+
+bibentry(bibtype = "Unpublished",
+         title = "Inference of Genomic Landscapes using Ordered Hidden Markov Models with Emission Densities (oHMMed)",
+         author = c(as.person("Claus Vogl"),
+                    as.person("Mariia Karapetiants"),
+                    as.person("Burcin Yildirim"),
+                    as.person("Hroenn Kjartansdottir"),
+                    as.person("Carolin Kosiol"),
+                    as.person("Juraj Bergman"),
+                    as.person("Michal Majka"),
+                    as.person("Lynette Caitlin Mikula")),
+      	 journal = "bioRxiv",
+      	 year = "2023",
+         doi = "10.1101/2023.06.26.546495",
+         url = "https://www.biorxiv.org/content/early/2023/06/28/2023.06.26.546495",
+         eprint = "https://www.biorxiv.org/content/early/2023/06/28/2023.06.26.546495.full.pdf",
+         note = "In Peer-Review",
+         textVersion = paste("Inference of Genomic Landscapes using Ordered Hidden Markov Models with Emission Densities (oHMMed)", 
+         "Claus Vogl, Mariia Karapetiants, Burçin Yıldırım, Hrönn Kjartansdóttir, Carolin Kosiol, Juraj Bergman, Michal Majka, Lynette Caitlin Mikula.", 
+         "bioRxiv 2023.06.26.546495; doi: https://doi.org/10.1101/2023.06.26.546495")
+)
+
+
