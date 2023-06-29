@@ -26,10 +26,13 @@ This is the general framework of `oHMMed` (ordered Hidden Markov Model
 with emission densities), and it can be applied to any system that
 fulfills these assumptions.
 
-Mathematical details and graphical representations of the algorihms can be found in the following article:
+Mathematical details and graphical representations of the algorihms can
+be found in the following article:
 <https://biorxiv.org/cgi/content/short/2023.06.26.546495v1>
 
-The corresponding genome annotation results from this paper can be found at:
+The corresponding genome annotation results from this paper can be found
+at:
+
 <https://github.com/LynetteCaitlin/oHMMed/blob/main/Data/GenomeAnnotations.zip>
 
 ## 2. Installation
@@ -50,18 +53,21 @@ devtools::install_github("LynetteCaitlin/oHMMed")
 ```
 
 ## 3. Usage
-Please read the following usage recommendations: <https://github.com/LynetteCaitlin/oHMMed/blob/main/UsageRecommendations.pdf>
 
-The accompanying R scripts are, for the case of normal emission densities...:
+Please read the following usage recommendations:
+<https://github.com/LynetteCaitlin/oHMMed/blob/main/UsageRecommendations.pdf>
 
-<https://github.com/LynetteCaitlin/oHMMed/blob/main/simulation_scripts/MCMC_normal_sims.R>
+The accompanying R scripts are:
 
-... and for gamma-poisson emission densities:
+- for the case of normal emission densities:
+  <https://github.com/LynetteCaitlin/oHMMed/blob/main/simulation_scripts/MCMC_normal_sims.R>
 
-<https://github.com/LynetteCaitlin/oHMMed/blob/main/simulation_scripts/MCMC_gamma-poisson_sims.R>
- 
- 
-Template code for viewing summaries of oHMMed diagnostocs, and for viewing the results of two different sequence annotations side-by-side and assessing associations/correlations between them can be found at:
+- and for gamma-poisson emission densities:
+  <https://github.com/LynetteCaitlin/oHMMed/blob/main/simulation_scripts/MCMC_gamma-poisson_sims.R>
+
+Template code for viewing summaries of `oHMMed` diagnostics, and for
+viewing the results of two different sequence annotations side-by-side
+and assessing associations/correlations between them can be found at:
 
 <https://github.com/LynetteCaitlin/oHMMed/blob/main/simulation_scripts/oHMMedOutputAnalyses.R>
 
@@ -71,7 +77,5 @@ Lynette Caitlin Mikula (Algorithm development, usage, and application)
 
 Claus Vogl (Algorithm development)
 
-Michal Majka (R technicalities and code optimisation) - PACKAGE MAINTAINER
-
-
-
+Michal Majka (R technicalities and code optimisation) - PACKAGE
+MAINTAINER
