@@ -4,3 +4,4 @@
 .Ruserdata
 pkgdown/
 Meta
+^data/GenomeAnnotations.zip$
