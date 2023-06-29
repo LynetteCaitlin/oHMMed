@@ -29,7 +29,7 @@ List with the following elements:
 Forward-Backward Algorithm to Calculate the Posterior Probabilities of Hidden States in Normal Model
 }
 \details{
-TODO: See the paper for mathematical details.
+Please see supplementary material at \url{https://doi.org/10.1101/2023.06.26.546495} for more details on the algorithm.
 }
 \examples{
 prior_mat <- rbind(c(1-0.05, 0.05, 0),
@@ -56,7 +56,4 @@ post_prob <-  posterior_prob_normal(data = hmm_norm_data,
                                     means = prior_means,
                                     sdev = prior_sd)
 str(post_prob)
-}
-\references{
-TODO: Here some references
 }

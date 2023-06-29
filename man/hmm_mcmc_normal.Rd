@@ -64,7 +64,9 @@ List with following elements:
 MCMC Sampler for the Hidden Markov Model with Normal emission densities
 }
 \details{
-TODO: See the paper for mathematical details..
+Please see supplementary material at \url{https://doi.org/10.1101/2023.06.26.546495} for more details on the algorithm.
+
+For usage recommendations please see \url{https://github.com/LynetteCaitlin/oHMMed/blob/main/UsageRecommendations.pdf}.
 }
 \examples{
 # Simulate normal data
@@ -122,5 +124,7 @@ coef(res) # extract model estimates
 # plot(res) # MCMC diagnostics
 }
 \references{
-TODO: Here references
+Inference of Genomic Landscapes using Ordered Hidden Markov Models with Emission Densities (oHMMed)
+Claus Vogl, Mariia Karapetiants, Burçin Yıldırım, Hrönn Kjartansdóttir, Carolin Kosiol, Juraj Bergman, Michal Majka, Lynette Caitlin Mikula
+bioRxiv 2023.06.26.546495; doi: \url{https://doi.org/10.1101/2023.06.26.546495}
 }

@@ -62,6 +62,11 @@ reference:
   contents:
   - '`example_hmm_mcmc_normal`'
   - '`example_hmm_mcmc_gamma_poisson`'
+  
+- title: Package Description
+  contents:
+  - '`oHMMed-package`'
+  
 
 
 

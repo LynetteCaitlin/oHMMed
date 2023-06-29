@@ -8,8 +8,8 @@
 <meta name="description" content="oHMMed">
 <title> • oHMMed</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.2.2/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.2.2/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link href="../deps/bootstrap-5.1.3/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.1.3/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="">
 <meta property="og:description" content="oHMMed">
@@ -91,87 +91,87 @@
 <h3 id="example-data">1.1) Example data<a class="anchor" aria-label="anchor" href="#example-data"></a>
 </h3>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="va">N</span> <span class="op">&lt;-</span> <span class="fl">2</span><span class="op">^</span><span class="fl">10</span></span>
-<span><span class="va">true_T</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.95</span>, <span class="fl">0.05</span>, <span class="fl">0</span><span class="op">)</span>,</span>
-<span>               <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.025</span>, <span class="fl">0.95</span>, <span class="fl">0.025</span><span class="op">)</span>,</span>
-<span>               <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.0</span>, <span class="fl">0.05</span>, <span class="fl">0.95</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">true_means</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">5</span>, <span class="fl">0</span>, <span class="fl">5</span><span class="op">)</span></span>
-<span><span class="va">true_sd</span> <span class="op">&lt;-</span> <span class="fl">1.5</span></span>
-<span></span>
-<span><span class="va">simdata_full</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hmm_simulate_normal_data.html">hmm_simulate_normal_data</a></span><span class="op">(</span>L <span class="op">=</span> <span class="va">N</span>,</span>
-<span>                                        mat_T <span class="op">=</span> <span class="va">true_T</span>,</span>
-<span>                                        means <span class="op">=</span> <span class="va">true_means</span>,</span>
-<span>                                        sigma <span class="op">=</span> <span class="va">true_sd</span><span class="op">)</span></span>
-<span><span class="va">simdata</span> <span class="op">&lt;-</span> <span class="va">simdata_full</span><span class="op">$</span><span class="va">data</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/density.html" class="external-link">density</a></span><span class="op">(</span><span class="va">simdata</span><span class="op">)</span>, main <span class="op">=</span> <span class="st">""</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R">
+<span class="va">N</span> <span class="op">&lt;-</span> <span class="fl">2</span><span class="op">^</span><span class="fl">10</span>
+<span class="va">true_T</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.95</span>, <span class="fl">0.05</span>, <span class="fl">0</span><span class="op">)</span>,
+               <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.025</span>, <span class="fl">0.95</span>, <span class="fl">0.025</span><span class="op">)</span>,
+               <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.0</span>, <span class="fl">0.05</span>, <span class="fl">0.95</span><span class="op">)</span><span class="op">)</span>
+
+<span class="va">true_means</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">5</span>, <span class="fl">0</span>, <span class="fl">5</span><span class="op">)</span>
+<span class="va">true_sd</span> <span class="op">&lt;-</span> <span class="fl">1.5</span>
+
+<span class="va">simdata_full</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hmm_simulate_normal_data.html">hmm_simulate_normal_data</a></span><span class="op">(</span>L <span class="op">=</span> <span class="va">N</span>,
+                                        mat_T <span class="op">=</span> <span class="va">true_T</span>,
+                                        means <span class="op">=</span> <span class="va">true_means</span>,
+                                        sigma <span class="op">=</span> <span class="va">true_sd</span><span class="op">)</span>
+<span class="va">simdata</span> <span class="op">&lt;-</span> <span class="va">simdata_full</span><span class="op">$</span><span class="va">data</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/density.html" class="external-link">density</a></span><span class="op">(</span><span class="va">simdata</span><span class="op">)</span>, main <span class="op">=</span> <span class="st">""</span><span class="op">)</span></code></pre></div>
 <p><img src="vignettesdata_normal-1.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="mcmc-simulation">1.2) MCMC Simulation<a class="anchor" aria-label="anchor" href="#mcmc-simulation"></a>
 </h3>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Set priors</span></span>
-<span><span class="va">n_states_inferred</span> <span class="op">&lt;-</span> <span class="fl">3</span></span>
-<span><span class="va">prior_T</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/generate_random_T.html">generate_random_T</a></span><span class="op">(</span><span class="va">n_states_inferred</span><span class="op">)</span></span>
-<span><span class="va">prior_means</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">7</span>, <span class="op">-</span><span class="fl">1</span>, <span class="fl">12</span><span class="op">)</span></span>
-<span><span class="va">prior_sd</span> <span class="op">&lt;-</span> <span class="fl">3</span></span>
-<span></span>
-<span><span class="co"># Run MCMC</span></span>
-<span><span class="va">iter</span> <span class="op">&lt;-</span> <span class="fl">1500</span>          </span>
-<span><span class="va">warmup</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">floor</a></span><span class="op">(</span><span class="va">iter</span> <span class="op">*</span> <span class="fl">0.4</span><span class="op">)</span></span>
-<span><span class="va">print_params</span> <span class="op">&lt;-</span> <span class="cn">FALSE</span>     </span>
-<span><span class="va">verbose</span> <span class="op">&lt;-</span> <span class="cn">TRUE</span></span>
-<span></span>
-<span><span class="va">res_normal</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hmm_mcmc_normal.html">hmm_mcmc_normal</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">simdata</span>,</span>
-<span>                              prior_T <span class="op">=</span> <span class="va">prior_T</span>,</span>
-<span>                              prior_means <span class="op">=</span> <span class="va">prior_means</span>,</span>
-<span>                              prior_sd <span class="op">=</span> <span class="va">prior_sd</span>,</span>
-<span>                              iter <span class="op">=</span> <span class="fl">1500</span>,</span>
-<span>                              print_params <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>                              verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="va">res_normal</span></span>
-<span><span class="co">#&gt; Model: HMM Normal </span></span>
-<span><span class="co">#&gt; Type: MCMC </span></span>
-<span><span class="co">#&gt; Iter: 1500 </span></span>
-<span><span class="co">#&gt; Warmup: 300 </span></span>
-<span><span class="co">#&gt; Thin: 1 </span></span>
-<span><span class="co">#&gt; States: 3</span></span>
-<span></span>
-<span><span class="va">summary_res_normal</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">res_normal</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Estimated means:</span></span>
-<span><span class="co">#&gt;     mean[1]     mean[2]     mean[3] </span></span>
-<span><span class="co">#&gt; -4.84206407 -0.07710225  5.07102243 </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Estimated standard deviation:</span></span>
-<span><span class="co">#&gt; 1.518011</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Estimated transition rates:</span></span>
-<span><span class="co">#&gt;            1          2          3</span></span>
-<span><span class="co">#&gt; 1 0.94658255 0.05341745 0.00000000</span></span>
-<span><span class="co">#&gt; 2 0.03160574 0.94588114 0.02251312</span></span>
-<span><span class="co">#&gt; 3 0.00000000 0.06168916 0.93831084</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Number of windows assigned to hidden states:</span></span>
-<span><span class="co">#&gt;   1   2   3 </span></span>
-<span><span class="co">#&gt; 310 524 190 </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Approximate Kullback-Leibler divergence between observed and estimated distributions:</span></span>
-<span><span class="co">#&gt; -0.0006399195</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Log Likelihood:</span></span>
-<span><span class="co">#&gt;         mean           sd       median </span></span>
-<span><span class="co">#&gt; -2087.331615     1.830004 -2086.963357 </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; P-value of t-test for difference between means of states (stepwise):</span></span>
-<span><span class="co">#&gt; [1] 1.719287e-229 6.823092e-184</span></span></code></pre></div>
+<code class="sourceCode R"><span class="co"># Set priors</span>
+<span class="va">n_states_inferred</span> <span class="op">&lt;-</span> <span class="fl">3</span>
+<span class="va">prior_T</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/generate_random_T.html">generate_random_T</a></span><span class="op">(</span><span class="va">n_states_inferred</span><span class="op">)</span>
+<span class="va">prior_means</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">7</span>, <span class="op">-</span><span class="fl">1</span>, <span class="fl">12</span><span class="op">)</span>
+<span class="va">prior_sd</span> <span class="op">&lt;-</span> <span class="fl">3</span>
+
+<span class="co"># Run MCMC</span>
+<span class="va">iter</span> <span class="op">&lt;-</span> <span class="fl">1500</span>          
+<span class="va">warmup</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">floor</a></span><span class="op">(</span><span class="va">iter</span> <span class="op">*</span> <span class="fl">0.4</span><span class="op">)</span>
+<span class="va">print_params</span> <span class="op">&lt;-</span> <span class="cn">FALSE</span>     
+<span class="va">verbose</span> <span class="op">&lt;-</span> <span class="cn">TRUE</span>
+
+<span class="va">res_normal</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hmm_mcmc_normal.html">hmm_mcmc_normal</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">simdata</span>,
+                              prior_T <span class="op">=</span> <span class="va">prior_T</span>,
+                              prior_means <span class="op">=</span> <span class="va">prior_means</span>,
+                              prior_sd <span class="op">=</span> <span class="va">prior_sd</span>,
+                              iter <span class="op">=</span> <span class="fl">1500</span>,
+                              print_params <span class="op">=</span> <span class="cn">FALSE</span>,
+                              verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+<span class="va">res_normal</span>
+<span class="co">#&gt; Model: HMM Normal </span>
+<span class="co">#&gt; Type: MCMC </span>
+<span class="co">#&gt; Iter: 1500 </span>
+<span class="co">#&gt; Warmup: 300 </span>
+<span class="co">#&gt; Thin: 1 </span>
+<span class="co">#&gt; States: 3</span>
+
+<span class="va">summary_res_normal</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">res_normal</span><span class="op">)</span>
+<span class="co">#&gt; Estimated means:</span>
+<span class="co">#&gt;     mean[1]     mean[2]     mean[3] </span>
+<span class="co">#&gt; -4.84206407 -0.07710225  5.07102243 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Estimated standard deviation:</span>
+<span class="co">#&gt; 1.518011</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Estimated transition rates:</span>
+<span class="co">#&gt;            1          2          3</span>
+<span class="co">#&gt; 1 0.94658255 0.05341745 0.00000000</span>
+<span class="co">#&gt; 2 0.03160574 0.94588114 0.02251312</span>
+<span class="co">#&gt; 3 0.00000000 0.06168916 0.93831084</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Number of windows assigned to hidden states:</span>
+<span class="co">#&gt;   1   2   3 </span>
+<span class="co">#&gt; 310 524 190 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Approximate Kullback-Leibler divergence between observed and estimated distributions:</span>
+<span class="co">#&gt; -0.0006399195</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Log Likelihood:</span>
+<span class="co">#&gt;         mean           sd       median </span>
+<span class="co">#&gt; -2087.331615     1.830004 -2086.963357 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; P-value of t-test for difference between means of states (stepwise):</span>
+<span class="co">#&gt; [1] 1.719287e-229 6.823092e-184</span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="diagnostics">1.3) Diagnostics<a class="anchor" aria-label="anchor" href="#diagnostics"></a>
 </h3>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">res_normal</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">res_normal</span><span class="op">)</span></code></pre></div>
 <p><img src="vignettesdiagnostics_normal-1.png" width="700"><img src="vignettesdiagnostics_normal-2.png" width="700"><img src="vignettesdiagnostics_normal-3.png" width="700"><img src="vignettesdiagnostics_normal-4.png" width="700"><img src="vignettesdiagnostics_normal-5.png" width="700"><img src="vignettesdiagnostics_normal-6.png" width="700"><img src="vignettesdiagnostics_normal-7.png" width="700"><img src="vignettesdiagnostics_normal-8.png" width="700"><img src="vignettesdiagnostics_normal-9.png" width="700"><img src="vignettesdiagnostics_normal-10.png" width="700"></p>
 </div>
 </div>
@@ -182,102 +182,102 @@
 <h3 id="example-data-1">2.1) Example data<a class="anchor" aria-label="anchor" href="#example-data-1"></a>
 </h3>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="va">L1</span> <span class="op">&lt;-</span> <span class="fl">2</span><span class="op">^</span><span class="fl">13</span>  </span>
-<span><span class="va">true_T1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.99</span>, <span class="fl">0.01</span>, <span class="fl">0</span><span class="op">)</span>,</span>
-<span>                 <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.01</span>, <span class="fl">0.98</span>, <span class="fl">0.01</span><span class="op">)</span>,</span>
-<span>                 <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.0</span>, <span class="fl">0.01</span>, <span class="fl">0.99</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">true_betas1</span> <span class="op">&lt;-</span> <span class="fl">1</span> <span class="op">/</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.2</span>, <span class="fl">1.5</span>, <span class="fl">9</span><span class="op">)</span><span class="op">)</span> </span>
-<span><span class="va">true_alpha1</span> <span class="op">&lt;-</span> <span class="fl">1.3</span>                  </span>
-<span></span>
-<span><span class="va">simdata1full</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hmm_simulate_gamma_poisson_data.html">hmm_simulate_gamma_poisson_data</a></span><span class="op">(</span>L <span class="op">=</span> <span class="va">L1</span>,</span>
-<span>                                                mat_T <span class="op">=</span> <span class="va">true_T1</span>,</span>
-<span>                                                betas <span class="op">=</span> <span class="va">true_betas1</span>,</span>
-<span>                                                alpha <span class="op">=</span> <span class="va">true_alpha1</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">simdata1</span> <span class="op">&lt;-</span> <span class="va">simdata1full</span><span class="op">$</span><span class="va">data</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">simdata1</span>, breaks <span class="op">=</span> <span class="fl">50</span>, main <span class="op">=</span> <span class="st">""</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R">
+<span class="va">L1</span> <span class="op">&lt;-</span> <span class="fl">2</span><span class="op">^</span><span class="fl">13</span>  
+<span class="va">true_T1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.99</span>, <span class="fl">0.01</span>, <span class="fl">0</span><span class="op">)</span>,
+                 <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.01</span>, <span class="fl">0.98</span>, <span class="fl">0.01</span><span class="op">)</span>,
+                 <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.0</span>, <span class="fl">0.01</span>, <span class="fl">0.99</span><span class="op">)</span><span class="op">)</span>
+
+<span class="va">true_betas1</span> <span class="op">&lt;-</span> <span class="fl">1</span> <span class="op">/</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.2</span>, <span class="fl">1.5</span>, <span class="fl">9</span><span class="op">)</span><span class="op">)</span> 
+<span class="va">true_alpha1</span> <span class="op">&lt;-</span> <span class="fl">1.3</span>                  
+
+<span class="va">simdata1full</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hmm_simulate_gamma_poisson_data.html">hmm_simulate_gamma_poisson_data</a></span><span class="op">(</span>L <span class="op">=</span> <span class="va">L1</span>,
+                                                mat_T <span class="op">=</span> <span class="va">true_T1</span>,
+                                                betas <span class="op">=</span> <span class="va">true_betas1</span>,
+                                                alpha <span class="op">=</span> <span class="va">true_alpha1</span><span class="op">)</span>
+
+<span class="va">simdata1</span> <span class="op">&lt;-</span> <span class="va">simdata1full</span><span class="op">$</span><span class="va">data</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">simdata1</span>, breaks <span class="op">=</span> <span class="fl">50</span>, main <span class="op">=</span> <span class="st">""</span><span class="op">)</span></code></pre></div>
 <p><img src="vignettesdata_poisson-1.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="mcmc-simulation-1">2.2) MCMC Simulation<a class="anchor" aria-label="anchor" href="#mcmc-simulation-1"></a>
 </h3>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">iter</span> <span class="op">&lt;-</span> <span class="fl">4000</span>              </span>
-<span><span class="va">warmup</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">floor</a></span><span class="op">(</span><span class="va">iter</span> <span class="op">*</span> <span class="fl">0.55</span><span class="op">)</span></span>
-<span><span class="va">print_params</span> <span class="op">&lt;-</span> <span class="cn">FALSE</span>     </span>
-<span><span class="va">verbose</span> <span class="op">&lt;-</span> <span class="cn">TRUE</span>           </span>
-<span></span>
-<span><span class="va">n3_states_inferred</span> <span class="op">&lt;-</span> <span class="fl">3</span></span>
-<span><span class="va">prior3_T</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/generate_random_T.html">generate_random_T</a></span><span class="op">(</span><span class="va">n3_states_inferred</span><span class="op">)</span></span>
-<span><span class="va">prior_alpha3</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">simdata1</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span> <span class="op">/</span> <span class="op">(</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/cor.html" class="external-link">var</a></span><span class="op">(</span><span class="va">simdata1</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">simdata1</span><span class="op">)</span><span class="op">)</span> <span class="op">/</span> <span class="fl">3</span><span class="op">)</span> </span>
-<span></span>
-<span><span class="va">prior_betas3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>,<span class="fl">3</span>,<span class="fl">1</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">res_gamma_poisson</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hmm_mcmc_gamma_poisson.html">hmm_mcmc_gamma_poisson</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">simdata1</span>,</span>
-<span>                                                         prior_T <span class="op">=</span> <span class="va">prior3_T</span>,</span>
-<span>                                                         prior_betas <span class="op">=</span> <span class="va">prior_betas3</span>,</span>
-<span>                                                         prior_alpha <span class="op">=</span> <span class="va">prior_alpha3</span>,</span>
-<span>                                                         iter <span class="op">=</span> <span class="va">iter</span>,</span>
-<span>                                                         warmup <span class="op">=</span> <span class="va">warmup</span>,</span>
-<span>                                                         print_params <span class="op">=</span> <span class="va">print_params</span>,</span>
-<span>                                                         verbose <span class="op">=</span> <span class="va">verbose</span><span class="op">)</span></span>
-<span><span class="co">#&gt; 10%</span></span>
-<span><span class="co">#&gt; 20%</span></span>
-<span><span class="co">#&gt; 30%</span></span>
-<span><span class="co">#&gt; 40%</span></span>
-<span><span class="co">#&gt; 50%</span></span>
-<span><span class="co">#&gt; 60%</span></span>
-<span><span class="co">#&gt; 70%</span></span>
-<span><span class="co">#&gt; 80%</span></span>
-<span><span class="co">#&gt; 90%</span></span>
-<span><span class="co">#&gt; 100%</span></span>
-<span></span>
-<span><span class="va">res_gamma_poisson</span></span>
-<span><span class="co">#&gt; Model: HMM Gamma-Poisson </span></span>
-<span><span class="co">#&gt; Type: MCMC </span></span>
-<span><span class="co">#&gt; Iter: 4000 </span></span>
-<span><span class="co">#&gt; Warmup: 2200 </span></span>
-<span><span class="co">#&gt; Thin: 1 </span></span>
-<span><span class="co">#&gt; States: 3</span></span>
-<span></span>
-<span><span class="va">summary_res_gamma_poisson</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">res_gamma_poisson</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Estimated betas:</span></span>
-<span><span class="co">#&gt;   beta[1]   beta[2]   beta[3] </span></span>
-<span><span class="co">#&gt; 5.5016732 0.6867794 0.1154821 </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Estimated alpha:</span></span>
-<span><span class="co">#&gt; 1.312733</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Estimated means:</span></span>
-<span><span class="co">#&gt; 0.2390537 1.912613 11.37133</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Estimated transition rates:</span></span>
-<span><span class="co">#&gt;            1          2          3</span></span>
-<span><span class="co">#&gt; 1 0.98861753 0.01138247 0.00000000</span></span>
-<span><span class="co">#&gt; 2 0.01340607 0.97459836 0.01199558</span></span>
-<span><span class="co">#&gt; 3 0.00000000 0.01200495 0.98799505</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Number of windows assigned to hidden states:</span></span>
-<span><span class="co">#&gt;    1    2    3 </span></span>
-<span><span class="co">#&gt; 3055 2560 2577 </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Kullback-Leibler divergence between observed and estimated distributions:</span></span>
-<span><span class="co">#&gt; 0.02734883</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Log Likelihood:</span></span>
-<span><span class="co">#&gt;          mean            sd        median </span></span>
-<span><span class="co">#&gt; -16040.377771      1.629396 -16040.063964 </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; P-value of poisson test for difference between rates of states (stepwise):</span></span>
-<span><span class="co">#&gt; [1] 0 0</span></span></code></pre></div>
+<code class="sourceCode R"><span class="va">iter</span> <span class="op">&lt;-</span> <span class="fl">4000</span>              
+<span class="va">warmup</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">floor</a></span><span class="op">(</span><span class="va">iter</span> <span class="op">*</span> <span class="fl">0.55</span><span class="op">)</span>
+<span class="va">print_params</span> <span class="op">&lt;-</span> <span class="cn">FALSE</span>     
+<span class="va">verbose</span> <span class="op">&lt;-</span> <span class="cn">TRUE</span>           
+
+<span class="va">n3_states_inferred</span> <span class="op">&lt;-</span> <span class="fl">3</span>
+<span class="va">prior3_T</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/generate_random_T.html">generate_random_T</a></span><span class="op">(</span><span class="va">n3_states_inferred</span><span class="op">)</span>
+<span class="va">prior_alpha3</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">simdata1</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span> <span class="op">/</span> <span class="op">(</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/cor.html" class="external-link">var</a></span><span class="op">(</span><span class="va">simdata1</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">simdata1</span><span class="op">)</span><span class="op">)</span> <span class="op">/</span> <span class="fl">3</span><span class="op">)</span> 
+
+<span class="va">prior_betas3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>,<span class="fl">3</span>,<span class="fl">1</span><span class="op">)</span>
+
+<span class="va">res_gamma_poisson</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hmm_mcmc_gamma_poisson.html">hmm_mcmc_gamma_poisson</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">simdata1</span>,
+                                                         prior_T <span class="op">=</span> <span class="va">prior3_T</span>,
+                                                         prior_betas <span class="op">=</span> <span class="va">prior_betas3</span>,
+                                                         prior_alpha <span class="op">=</span> <span class="va">prior_alpha3</span>,
+                                                         iter <span class="op">=</span> <span class="va">iter</span>,
+                                                         warmup <span class="op">=</span> <span class="va">warmup</span>,
+                                                         print_params <span class="op">=</span> <span class="va">print_params</span>,
+                                                         verbose <span class="op">=</span> <span class="va">verbose</span><span class="op">)</span>
+<span class="co">#&gt; 10%</span>
+<span class="co">#&gt; 20%</span>
+<span class="co">#&gt; 30%</span>
+<span class="co">#&gt; 40%</span>
+<span class="co">#&gt; 50%</span>
+<span class="co">#&gt; 60%</span>
+<span class="co">#&gt; 70%</span>
+<span class="co">#&gt; 80%</span>
+<span class="co">#&gt; 90%</span>
+<span class="co">#&gt; 100%</span>
+
+<span class="va">res_gamma_poisson</span>
+<span class="co">#&gt; Model: HMM Gamma-Poisson </span>
+<span class="co">#&gt; Type: MCMC </span>
+<span class="co">#&gt; Iter: 4000 </span>
+<span class="co">#&gt; Warmup: 2200 </span>
+<span class="co">#&gt; Thin: 1 </span>
+<span class="co">#&gt; States: 3</span>
+
+<span class="va">summary_res_gamma_poisson</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">res_gamma_poisson</span><span class="op">)</span>
+<span class="co">#&gt; Estimated betas:</span>
+<span class="co">#&gt;   beta[1]   beta[2]   beta[3] </span>
+<span class="co">#&gt; 5.5016732 0.6867794 0.1154821 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Estimated alpha:</span>
+<span class="co">#&gt; 1.312733</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Estimated means:</span>
+<span class="co">#&gt; 0.2390537 1.912613 11.37133</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Estimated transition rates:</span>
+<span class="co">#&gt;            1          2          3</span>
+<span class="co">#&gt; 1 0.98861753 0.01138247 0.00000000</span>
+<span class="co">#&gt; 2 0.01340607 0.97459836 0.01199558</span>
+<span class="co">#&gt; 3 0.00000000 0.01200495 0.98799505</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Number of windows assigned to hidden states:</span>
+<span class="co">#&gt;    1    2    3 </span>
+<span class="co">#&gt; 3055 2560 2577 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Kullback-Leibler divergence between observed and estimated distributions:</span>
+<span class="co">#&gt; 0.02734883</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Log Likelihood:</span>
+<span class="co">#&gt;          mean            sd        median </span>
+<span class="co">#&gt; -16040.377771      1.629396 -16040.063964 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; P-value of poisson test for difference between rates of states (stepwise):</span>
+<span class="co">#&gt; [1] 0 0</span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="diagnostics-1">2.3) Diagnostics<a class="anchor" aria-label="anchor" href="#diagnostics-1"></a>
 </h3>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">res_gamma_poisson</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">res_gamma_poisson</span><span class="op">)</span></code></pre></div>
 <p><img src="vignettesdiagnostics_gamma_poisson-1.png" width="700"><img src="vignettesdiagnostics_gamma_poisson-2.png" width="700"><img src="vignettesdiagnostics_gamma_poisson-3.png" width="700"><img src="vignettesdiagnostics_gamma_poisson-4.png" width="700"><img src="vignettesdiagnostics_gamma_poisson-5.png" width="700"><img src="vignettesdiagnostics_gamma_poisson-6.png" width="700"><img src="vignettesdiagnostics_gamma_poisson-7.png" width="700"><img src="vignettesdiagnostics_gamma_poisson-8.png" width="700"><img src="vignettesdiagnostics_gamma_poisson-9.png" width="700"><img src="vignettesdiagnostics_gamma_poisson-10.png" width="700"><img src="vignettesdiagnostics_gamma_poisson-11.png" width="700"><img src="vignettesdiagnostics_gamma_poisson-12.png" width="700"></p>
 </div>
 </div>

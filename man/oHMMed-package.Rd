@@ -2,14 +2,15 @@
 % Please edit documentation in R/additional_documentation.R
 \docType{package}
 \name{oHMMed-package}
-\alias{oHMMed}
 \alias{oHMMed-package}
 \title{oHMMed: Hidden Markov Models with ordered hidden states and emission densities with applications in population genetics}
 \description{
 The oHMMed package contains an implementation of Hidden Markov Models with ordered hidden states and emission densities with applications in population genetics.
 }
 \references{
-TODO: Reference to the paper
+Inference of Genomic Landscapes using Ordered Hidden Markov Models with Emission Densities (oHMMed)
+Claus Vogl, Mariia Karapetiants, Burçin Yildirim, Hrönn Kjartansdottir, Carolin Kosiol, Juraj Bergman, Michal Majka, Lynette Caitlin Mikula
+bioRxiv 2023.06.26.546495; doi: \url{https://doi.org/10.1101/2023.06.26.546495}
 }
 \seealso{
 Useful links:
@@ -30,4 +31,3 @@ Authors:
 }
 
 }
-\keyword{internal}

@@ -441,10 +441,7 @@ hmm_simulate_normal_data <- function(L, mat_T, means, sigma) {
 #' @param sdev (numeric) prior standard deviation
 #'
 #' @details
-#' TODO: See the paper for mathematical details.
-#'
-#' @references
-#' TODO: Here some references
+#' Please see supplementary material at \url{https://doi.org/10.1101/2023.06.26.546495} for more details on the algorithm.
 #'
 #' @return
 #' List with the following elements: 
@@ -728,10 +725,14 @@ init_hmm_mcmc_normal_ <- function(data, prior_T, prior_means, prior_sd,
 #' @param verbose (logical) \code{optional parameter}; print additional messages. By default, \code{TRUE}
 #'
 #' @details
-#' TODO: See the paper for mathematical details..
-#'
+#' Please see supplementary material at \url{https://doi.org/10.1101/2023.06.26.546495} for more details on the algorithm.
+#' 
+#' For usage recommendations please see \url{https://github.com/LynetteCaitlin/oHMMed/blob/main/UsageRecommendations.pdf}.
+#' 
 #' @references
-#' TODO: Here references
+#' Inference of Genomic Landscapes using Ordered Hidden Markov Models with Emission Densities (oHMMed)
+#' Claus Vogl, Mariia Karapetiants, Burçin Yıldırım, Hrönn Kjartansdóttir, Carolin Kosiol, Juraj Bergman, Michal Majka, Lynette Caitlin Mikula
+#' bioRxiv 2023.06.26.546495; doi: \url{https://doi.org/10.1101/2023.06.26.546495}
 #'
 #' @return
 #' List with following elements:
