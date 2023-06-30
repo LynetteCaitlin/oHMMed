@@ -178,7 +178,7 @@ hmm_simulate_gamma_poisson_data <- function(L, mat_T, betas, alpha) {
 #' @param alpha (numeric) prior scale
 #'
 #' @details
-#' Please see supplementary material at \url{https://doi.org/10.1101/2023.06.26.546495} for more details on the algorithm.
+#' Please see supplementary material at \doi{10.1101/2023.06.26.546495} for more details on the algorithm.
 #'
 #' @return
 #' List with the following elements: 
@@ -467,14 +467,14 @@ init_hmm_mcmc_gamma_poisson_ <- function(data, prior_T, prior_betas, prior_alpha
 #' @param verbose (logical) \code{optional parameter}; print additional messages. By default, \code{TRUE}
 #'
 #' @details
-#' Please see supplementary material at \url{https://doi.org/10.1101/2023.06.26.546495} for more details on the algorithm.
+#' Please see supplementary material at \doi{10.1101/2023.06.26.546495} for more details on the algorithm.
 #' 
 #' For usage recommendations please see \url{https://github.com/LynetteCaitlin/oHMMed/blob/main/UsageRecommendations.pdf}.
 #' 
 #' @references
 #' Inference of Genomic Landscapes using Ordered Hidden Markov Models with Emission Densities (oHMMed)
 #' Claus Vogl, Mariia Karapetiants, Burçin Yıldırım, Hrönn Kjartansdóttir, Carolin Kosiol, Juraj Bergman, Michal Majka, Lynette Caitlin Mikula
-#' bioRxiv 2023.06.26.546495; doi: \url{https://doi.org/10.1101/2023.06.26.546495}
+#' bioRxiv 2023.06.26.546495; doi: \doi{10.1101/2023.06.26.546495}
 #'
 #' @return
 #' List with following elements:
