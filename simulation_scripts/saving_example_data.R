@@ -78,5 +78,5 @@ example_hmm_mcmc_gamma_poisson <- hmm_mcmc_gamma_poisson(data = simdata1,
 
 # 3) Save examples: ------------------------------------------------------------
 # save(list = c("example_hmm_mcmc_normal", "example_hmm_mcmc_gamma_poisson"),
-#      file = "data/simulated_models_examples.RData")
+#      file = "data/models_examples.rda")
 
