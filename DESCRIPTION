@@ -20,12 +20,12 @@ Authors@R: c(
               role = "aut", 
               comment = c(ORCID ="0000-0002-3996-7863"))
        )
-Description: The oHMMed package contains an implementation 
-    of Hidden Markov Models with ordered hidden states 
-    and emission densities with applications in population genetics.
+Description: The oHMMed package contains an implementation of
+    Hidden Markov Models with ordered hidden states and emission densities
+    with applications in population genetics.
 URL: https://github.com/LynetteCaitlin/oHMMed, https://lynettecaitlin.github.io/oHMMed/
 BugReports: https://github.com/LynetteCaitlin/oHMMed/issues
 License: GPL-3
-Encoding: UTF-8
 LazyData: true
+Encoding: UTF-8
 RoxygenNote: 7.2.3
