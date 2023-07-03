@@ -146,14 +146,15 @@
 </ul></div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>Please see supplementary material at <a href="https://doi.org/10.1101/2023.06.26.546495" class="external-link">https://doi.org/10.1101/2023.06.26.546495</a> for more details on the algorithm.</p>
+    <p>Please see supplementary material at <a href="https://doi.org/10.1101/2023.06.26.546495" class="external-link">doi:10.1101/2023.06.26.546495</a>
+ for more details on the algorithm.</p>
 <p>For usage recommendations please see <a href="https://github.com/LynetteCaitlin/oHMMed/blob/main/UsageRecommendations.pdf" class="external-link">https://github.com/LynetteCaitlin/oHMMed/blob/main/UsageRecommendations.pdf</a>.</p>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
     <p>Inference of Genomic Landscapes using Ordered Hidden Markov Models with Emission Densities (oHMMed)
-Claus Vogl, Mariia Karapetiants, Burçin Yıldırım, Hrönn Kjartansdóttir, Carolin Kosiol, Juraj Bergman, Michal Majka, Lynette Caitlin Mikula
-bioRxiv 2023.06.26.546495; doi: <a href="https://doi.org/10.1101/2023.06.26.546495" class="external-link">https://doi.org/10.1101/2023.06.26.546495</a></p>
+Claus Vogl, Mariia Karapetiants, Burçin Yıldırım, Hrönn Kjartansdóttir, Carolin Kosiol, Juraj Bergman, Michal Majka, Lynette Caitlin Mikula,
+bioRxiv 2023.06.26.546495; <a href="https://doi.org/10.1101/2023.06.26.546495" class="external-link">doi:10.1101/2023.06.26.546495</a></p>
     </div>
 
     <div class="section level2">
@@ -215,47 +216,47 @@ bioRxiv 2023.06.26.546495; doi: <a href="https://doi.org/10.1101/2023.06.26.5464
 <span class="r-in"></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span> <span class="co"># summary output can be also assigned to a variable</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Estimated means:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   mean[1]   mean[2]   mean[3] </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> -4.901954 -4.305278  1.819362 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    mean[1]    mean[2]    mean[3] </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -17.853035  -2.361345   4.650829 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Estimated standard deviation:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2.630997</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2.76969</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Estimated transition rates:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           1            2         3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 0.4923316 5.076684e-01 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 0.8646208 2.876691e-18 0.1353792</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 0.0000000 1.461719e-02 0.9853828</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>              1          2           3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 0.3421583491 0.65784165 0.000000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 0.0003919645 0.99144583 0.008162207</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 0.0000000000 0.03910932 0.960890681</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Number of windows assigned to hidden states:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   1   2   3 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 194  34 796 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   0 853 171 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Approximate Kullback-Leibler divergence between observed and estimated distributions:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.009750276</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.01206476</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Log Likelihood:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         mean           sd       median </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> -2500.236544     1.968375 -2499.704534 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -2550.827445     1.256858 -2550.508209 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> P-value of t-test for difference between means of states (stepwise):</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          1-2          2-3 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4.269004e-02 1.785212e-34 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           NA 7.37116e-146 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span> <span class="co"># extract model estimates</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $means</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   mean[1]   mean[2]   mean[3] </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> -4.901954 -4.305278  1.819362 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    mean[1]    mean[2]    mean[3] </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -17.853035  -2.361345   4.650829 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $sd</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2.630997</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2.76969</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $mat_T</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           [,1]         [,2]      [,3]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.4923316 5.076684e-01 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.8646208 2.876691e-18 0.1353792</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.0000000 1.461719e-02 0.9853828</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>              [,1]       [,2]        [,3]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.3421583491 0.65784165 0.000000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.0003919645 0.99144583 0.008162207</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.0000000000 0.03910932 0.960890681</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># plot(res) # MCMC diagnostics</span></span>

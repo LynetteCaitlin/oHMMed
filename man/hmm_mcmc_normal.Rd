@@ -125,6 +125,6 @@ coef(res) # extract model estimates
 }
 \references{
 Inference of Genomic Landscapes using Ordered Hidden Markov Models with Emission Densities (oHMMed)
-Claus Vogl, Mariia Karapetiants, Burçin Yıldırım, Hrönn Kjartansdóttir, Carolin Kosiol, Juraj Bergman, Michal Majka, Lynette Caitlin Mikula
-bioRxiv 2023.06.26.546495; doi: \doi{10.1101/2023.06.26.546495}
+Claus Vogl, Mariia Karapetiants, Burçin Yıldırım, Hrönn Kjartansdóttir, Carolin Kosiol, Juraj Bergman, Michal Majka, Lynette Caitlin Mikula,
+bioRxiv 2023.06.26.546495; \doi{10.1101/2023.06.26.546495}
 }

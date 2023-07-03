@@ -3,14 +3,14 @@
 \docType{package}
 \name{oHMMed-package}
 \alias{oHMMed-package}
-\title{oHMMed: Hidden Markov Models with Ordered Hidden States and Emission Densities with Applications in Population Genetics}
+\title{oHMMed: HMMs with Ordered Hidden States and Emission Densities}
 \description{
-The oHMMed package contains an implementation of Hidden Markov Models with ordered hidden states and emission densities with applications in population genetics.
+Inference using a class of Hidden Markov models (HMMs) called 'oHMMed'(ordered HMM with emission densities \doi{10.1101/2023.06.26.546495}): The 'oHMMed' algorithms identify the number of comparably homogeneous regions within observed sequences with autocorrelation patterns. These are modelled as discrete hidden states; the observed data points are then realisations of continuous probability distributions with state-specific means that enable ordering of these distributions. The observed sequence is labelled according to the hidden states, permitting only neighbouring states that are also neighbours within the ordering of their associated distributions. The parameters that characterise these state-specific distributions are then inferred. Relevant for application to genomic sequences, time series, or any other sequence data with serial autocorrelation.
 }
 \references{
 Inference of Genomic Landscapes using Ordered Hidden Markov Models with Emission Densities (oHMMed)
-Claus Vogl, Mariia Karapetiants, Burçin Yildirim, Hrönn Kjartansdottir, Carolin Kosiol, Juraj Bergman, Michal Majka, Lynette Caitlin Mikula
-bioRxiv 2023.06.26.546495; doi: \doi{10.1101/2023.06.26.546495}
+Claus Vogl, Mariia Karapetiants, Burçin Yildirim, Hrönn Kjartansdottir, Carolin Kosiol, Juraj Bergman, Michal Majka, Lynette Caitlin Mikula,
+bioRxiv 2023.06.26.546495; \doi{10.1101/2023.06.26.546495}
 }
 \seealso{
 Useful links:
