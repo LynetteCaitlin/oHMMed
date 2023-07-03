@@ -1,5 +1,5 @@
-Type: Package
 Package: oHMMed
+Type: Package
 Title: HMMs with Ordered Hidden States and Emission Densities
 Version: 1.0.0
 Authors@R: c(
