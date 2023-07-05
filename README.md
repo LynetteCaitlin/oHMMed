@@ -1,6 +1,10 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/oHMMed)](https://cran.r-project.org/package=oHMMed)
+[![](http://cranlogs.r-pkg.org/badges/oHMMed)](http://cran.rstudio.com/web/packages/oHMMed%20/index.html)
+[![](https://cranlogs.r-pkg.org/badges/grand-total/oHMMed)](http://cran.rstudio.com/web/packages/oHMMed%20/index.html)
+
 Extended documentation can be found on the website:
 <https://lynettecaitlin.github.io/oHMMed/>
 
@@ -37,16 +41,13 @@ at:
 
 ## 2. Installation
 
-<!-- Just like many other `R` packages, `oHMMed` can be installed from the `CRAN` repository by simply executing in the console the following line: -->
-<!-- ```{r, eval = FALSE} -->
-<!-- # install.packages("oHMMed") -->
-<!-- # Or the the development version from GitHub: -->
-<!-- devtools::install_github("majkamichal/oHMMed") -->
-<!-- ``` -->
+You can install latest stable cran version using (recommended):
 
-The `oHMMed` package is currently in development and it can be installed
-from `github` repository by simply executing in the console the
-following line:
+``` r
+install.packages("oHMMed")
+```
+
+Or the the development version from GitHub:
 
 ``` r
 devtools::install_github("LynetteCaitlin/oHMMed")
