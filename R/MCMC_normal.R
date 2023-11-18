@@ -1334,7 +1334,9 @@ plot.hmm_mcmc_normal <- function(x,
 #' @export
 #'
 #' @examples
-#' res <- conf_mat(100, example_hmm_mcmc_normal, plot = TRUE) 
+#' if (interactive()) {
+#'   res <- conf_mat(100, example_hmm_mcmc_normal, plot = TRUE) 
+#' }
 
 conf_mat <- function(N, res, plot = TRUE) {
   
@@ -1398,7 +1400,8 @@ conf_mat <- function(N, res, plot = TRUE) {
   if (plot) {
     print(suppressWarnings(
           cvms::plot_confusion_matrix(conf_mat$`Confusion Matrix`[[1]],
-                                      add_sums = TRUE))
+                                      add_sums = TRUE,
+                                      sums_settings = list(label = "Total")))
     )
   }
   conf_mat
