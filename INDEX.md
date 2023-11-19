@@ -31,15 +31,26 @@ fulfils these assumptions.
 
 ## 2. Installation
 
-You can install latest stable cran version using (recommended):
+You can install the latest stable
+[cran](https://cran.r-project.org/web/packages/oHMMed/index.html)
+version using (recommended):
 
 ``` r
 install.packages("oHMMed")
 ```
 
-Or the the development version from GitHub:
+In order to install the latest stable development version from GitHub
+you can use:
 
 ``` r
+# install.packages("devtools")
+devtools::install_github("LynetteCaitlin/oHMMed@*release")
+```
+
+The development version can be installed using:
+
+``` r
+# install.packages("devtools")
 devtools::install_github("LynetteCaitlin/oHMMed")
 ```
 
