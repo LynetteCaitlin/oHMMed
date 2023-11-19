@@ -5,6 +5,10 @@
 [![](http://cranlogs.r-pkg.org/badges/oHMMed)](http://cran.rstudio.com/web/packages/oHMMed%20/index.html)
 [![](https://cranlogs.r-pkg.org/badges/grand-total/oHMMed)](http://cran.rstudio.com/web/packages/oHMMed%20/index.html)
 
+<br>
+
+# oHMMed
+
 ## 1. Overview
 
 The `oHMMed` package contains an implementation of Hidden Markov Models
