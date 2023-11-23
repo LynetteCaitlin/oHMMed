@@ -2,8 +2,8 @@
 <!-- INDEX.md is generated from INDEX.Rmd. Please edit that file -->
 
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/oHMMed)](https://cran.r-project.org/package=oHMMed)
-[![](http://cranlogs.r-pkg.org/badges/oHMMed)](http://cran.rstudio.com/web/packages/oHMMed%20/index.html)
-[![](https://cranlogs.r-pkg.org/badges/grand-total/oHMMed)](http://cran.rstudio.com/web/packages/oHMMed%20/index.html)
+[![](http://cranlogs.r-pkg.org/badges/oHMMed)](http://cran.rstudio.com/web/packages/oHMMed/index.html)
+[![](https://cranlogs.r-pkg.org/badges/grand-total/oHMMed)](http://cran.rstudio.com/web/packages/oHMMed/index.html)
 
 <br>
 
