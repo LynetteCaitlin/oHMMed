@@ -64,7 +64,7 @@ List with following elements:
 MCMC Sampler sampler for the Hidden Markov with Gamma-Poisson emission densities
 }
 \details{
-Please see supplementary material at \doi{10.1101/2023.06.26.546495} for more details on the algorithm.
+Please see \href{https://static-content.springer.com/esm/art\%3A10.1186\%2Fs12859-024-05751-4/MediaObjects/12859_2024_5751_MOESM1_ESM.pdf}{supplementary information} at \doi{10.1186/s12859-024-05751-4} for more details on the algorithm.
 
 For usage recommendations please see \url{https://github.com/LynetteCaitlin/oHMMed/blob/main/UsageRecommendations.pdf}.
 }
@@ -123,7 +123,7 @@ coef(res) # extract model estimates
 # plot(res) # MCMC diagnostics
 }
 \references{
-Inference of Genomic Landscapes using Ordered Hidden Markov Models with Emission Densities (oHMMed)
-Claus Vogl, Mariia Karapetiants, Burçin Yıldırım, Hrönn Kjartansdóttir, Carolin Kosiol, Juraj Bergman, Michal Majka, Lynette Caitlin Mikula,
-bioRxiv 2023.06.26.546495; \doi{10.1101/2023.06.26.546495}
+Claus Vogl, Mariia Karapetiants, Burçin Yıldırım, Hrönn Kjartansdóttir, Carolin Kosiol, Juraj Bergman, Michal Majka, Lynette Caitlin Mikula.
+Inference of genomic landscapes using ordered Hidden Markov Models with emission densities (oHMMed).
+BMC Bioinformatics 25, 151 (2024). \doi{10.1186/s12859-024-05751-4}
 }

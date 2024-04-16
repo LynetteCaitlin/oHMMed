@@ -5,12 +5,12 @@
 \alias{oHMMed-package}
 \title{oHMMed: HMMs with Ordered Hidden States and Emission Densities}
 \description{
-Inference using a class of Hidden Markov models (HMMs) called 'oHMMed'(ordered HMM with emission densities \doi{10.1101/2023.06.26.546495}): The 'oHMMed' algorithms identify the number of comparably homogeneous regions within observed sequences with autocorrelation patterns. These are modelled as discrete hidden states; the observed data points are then realisations of continuous probability distributions with state-specific means that enable ordering of these distributions. The observed sequence is labelled according to the hidden states, permitting only neighbouring states that are also neighbours within the ordering of their associated distributions. The parameters that characterise these state-specific distributions are then inferred. Relevant for application to genomic sequences, time series, or any other sequence data with serial autocorrelation.
+Inference using a class of Hidden Markov models (HMMs) called 'oHMMed'(ordered HMM with emission densities \doi{10.1186/s12859-024-05751-4}): The 'oHMMed' algorithms identify the number of comparably homogeneous regions within observed sequences with autocorrelation patterns. These are modelled as discrete hidden states; the observed data points are then realisations of continuous probability distributions with state-specific means that enable ordering of these distributions. The observed sequence is labelled according to the hidden states, permitting only neighbouring states that are also neighbours within the ordering of their associated distributions. The parameters that characterise these state-specific distributions are then inferred. Relevant for application to genomic sequences, time series, or any other sequence data with serial autocorrelation.
 }
 \references{
-Inference of Genomic Landscapes using Ordered Hidden Markov Models with Emission Densities (oHMMed)
-Claus Vogl, Mariia Karapetiants, Burçin Yildirim, Hrönn Kjartansdottir, Carolin Kosiol, Juraj Bergman, Michal Majka, Lynette Caitlin Mikula,
-bioRxiv 2023.06.26.546495; \doi{10.1101/2023.06.26.546495}
+Claus Vogl, Mariia Karapetiants, Burçin Yıldırım, Hrönn Kjartansdóttir, Carolin Kosiol, Juraj Bergman, Michal Majka, Lynette Caitlin Mikula.
+Inference of genomic landscapes using ordered Hidden Markov Models with emission densities (oHMMed).
+BMC Bioinformatics 25, 151 (2024). \doi{10.1186/s12859-024-05751-4}
 }
 \seealso{
 Useful links:

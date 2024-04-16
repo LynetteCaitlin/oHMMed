@@ -1,7 +1,8 @@
 citHeader("To cite the oHMMed package in publications use:")
 
-bibentry(bibtype = "Unpublished",
-         title = "Inference of Genomic Landscapes using Ordered Hidden Markov Models with Emission Densities (oHMMed)",
+bibentry(bibtype = "article",
+         key = "Vogl2024",
+         title = "Inference of genomic landscapes using ordered Hidden Markov Models with emission densities (oHMMed)",
          author = c(as.person("Claus Vogl"),
                     as.person("Mariia Karapetiants"),
                     as.person("Burcin Yildirim"),
@@ -10,15 +11,17 @@ bibentry(bibtype = "Unpublished",
                     as.person("Juraj Bergman"),
                     as.person("Michal Majka"),
                     as.person("Lynette Caitlin Mikula")),
-      	 journal = "bioRxiv",
-      	 year = "2023",
-         doi = "10.1101/2023.06.26.546495",
-         url = "https://www.biorxiv.org/content/early/2023/06/28/2023.06.26.546495",
-         eprint = "https://www.biorxiv.org/content/early/2023/06/28/2023.06.26.546495.full.pdf",
-         note = "In Peer-Review",
-         textVersion = paste("Inference of Genomic Landscapes using Ordered Hidden Markov Models with Emission Densities (oHMMed)", 
-         "Claus Vogl, Mariia Karapetiants, Burçin Yıldırım, Hrönn Kjartansdóttir, Carolin Kosiol, Juraj Bergman, Michal Majka, Lynette Caitlin Mikula.", 
-         "bioRxiv 2023.06.26.546495; doi: https://doi.org/10.1101/2023.06.26.546495")
+      	 journal = "BMC Bioinformatics",
+      	 volume = "25",
+         pages = "151",
+         year = "2024",
+         month = "April",
+         day = "16",
+         doi = "10.1186/s12859-024-05751-4",
+         url = "https://doi.org/10.1186/s12859-024-05751-4",
+         textVersion = paste("Claus Vogl, Mariia Karapetiants, Burçin Yıldırım, Hrönn Kjartansdóttir, Carolin Kosiol, Juraj Bergman, Michal Majka, Lynette Caitlin Mikula.", 
+         "Inference of genomic landscapes using ordered Hidden Markov Models with emission densities (oHMMed).",
+         "BMC Bioinformatics 25, 151 (2024). https://doi.org/10.1186/s12859-024-05751-4")
 )
 
 

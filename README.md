@@ -11,7 +11,8 @@ Extended documentation can be found on the website:
 ## 1. Overview
 
 The `oHMMed` package contains an implementation of Hidden Markov Models
-with ordered hidden states and emission densities. More precisely: We
+with ordered hidden states and emission densities
+(<https://doi.org/10.1186/s12859-024-05751-4>). More precisely: We
 assume a sequence of un-observable (’hidden’) variables with discrete
 categories known as states. Moving along this sequence, the probability
 of a specific state occurring at any step depends only on the state

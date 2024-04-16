@@ -1,7 +1,7 @@
 Package: oHMMed
 Type: Package
 Title: HMMs with Ordered Hidden States and Emission Densities
-Version: 1.0.1
+Version: 1.0.2
 Authors@R: c(
     person(given = "Michal",
            family = "Majka", 
@@ -21,7 +21,7 @@ Authors@R: c(
     )
 Description: Inference using a class of Hidden Markov models
     (HMMs) called 'oHMMed'(ordered HMM with emission densities 
-    <doi:10.1101/2023.06.26.546495>): The 'oHMMed' algorithms identify 
+    <doi:10.1186/s12859-024-05751-4>): The 'oHMMed' algorithms identify 
     the number of comparably homogeneous regions within observed sequences
     with autocorrelation patterns. These are modelled as discrete hidden
     states; the observed data points are then realisations of continuous
