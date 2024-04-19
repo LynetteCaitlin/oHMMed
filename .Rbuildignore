@@ -20,4 +20,6 @@
 ^saving_example_data.R$
 ^sequences.zip$
 ^data/GenomeAnnotations.zip$
+^data/EpiGenomeAnnotations.zip$
 ^CRAN-SUBMISSION$
+^cran_submission.R$

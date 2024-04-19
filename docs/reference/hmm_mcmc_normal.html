@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">oHMMed</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.3</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -218,47 +218,47 @@ BMC Bioinformatics 25, 151 (2024). <a href="https://doi.org/10.1186/s12859-024-0
 <span class="r-in"></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span> <span class="co"># summary output can be also assigned to a variable</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Estimated means:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  mean[1]  mean[2]  mean[3] </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> -1.79744 -1.52582  4.64792 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     mean[1]     mean[2]     mean[3] </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -5.09751719  0.04374939  4.82255597 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Estimated standard deviation:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2.615806</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1.627941</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Estimated transition rates:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>              1          2          3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 1.801552e-05 0.99998198 0.00000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 8.150590e-01 0.15237416 0.03256681</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 0.000000e+00 0.04473669 0.95526331</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            1          2          3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 0.92443851 0.07556149 0.00000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 0.01993701 0.96846835 0.01159464</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 0.00000000 0.04192795 0.95807205</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Number of windows assigned to hidden states:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   1   2   3 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 234 504 286 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 174 665 185 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Approximate Kullback-Leibler divergence between observed and estimated distributions:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.01652043</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.003984903</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Log Likelihood:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         mean           sd       median </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> -2502.664937     1.886035 -2502.276619 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -2080.337774     2.643706 -2080.155805 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> P-value of t-test for difference between means of states (stepwise):</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           1-2           2-3 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  1.450386e-02 2.507996e-160 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9.736449e-189 8.199530e-173 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span> <span class="co"># extract model estimates</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $means</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  mean[1]  mean[2]  mean[3] </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> -1.79744 -1.52582  4.64792 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     mean[1]     mean[2]     mean[3] </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -5.09751719  0.04374939  4.82255597 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $sd</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2.615806</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.627941</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $mat_T</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>              [,1]       [,2]       [,3]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 1.801552e-05 0.99998198 0.00000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 8.150590e-01 0.15237416 0.03256681</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.000000e+00 0.04473669 0.95526331</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            [,1]       [,2]       [,3]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.92443851 0.07556149 0.00000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.01993701 0.96846835 0.01159464</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.00000000 0.04192795 0.95807205</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># plot(res) # MCMC diagnostics</span></span>
