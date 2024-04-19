@@ -7,7 +7,7 @@
 }
 
 
-.onDetach <- function(libpath) {
+.onDetach <- function(libpath) { 
   
   rule <- paste0(rep("=", getOption("width")), collapse = "")
   packageStartupMessage(rule)
