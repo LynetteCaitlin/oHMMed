@@ -1,7 +1,9 @@
-pandoc: 3.1.1
-pkgdown: 2.0.7
+pandoc: '3.2'
+pkgdown: 2.1.1
 pkgdown_sha: ~
 articles:
   oHMMed: oHMMed.html
-last_built: 2024-04-20T17:30Z
-
+last_built: 2025-02-07T19:00Z
+urls:
+  reference: https://lynettecaitlin.github.io/oHMMed/reference
+  article: https://lynettecaitlin.github.io/oHMMed/articles

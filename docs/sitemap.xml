@@ -1,102 +1,36 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>/404.html</loc>
-  </url>
-  <url>
-    <loc>/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>/articles/oHMMed.html</loc>
-  </url>
-  <url>
-    <loc>/authors.html</loc>
-  </url>
-  <url>
-    <loc>/index.html</loc>
-  </url>
-  <url>
-    <loc>/news/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/coef.hmm_mcmc_normal.html</loc>
-  </url>
-  <url>
-    <loc>/reference/conf_mat.html</loc>
-  </url>
-  <url>
-    <loc>/reference/convert_to_ggmcmc.html</loc>
-  </url>
-  <url>
-    <loc>/reference/eigen_system.html</loc>
-  </url>
-  <url>
-    <loc>/reference/example_hmm_mcmc_gamma_poisson.html</loc>
-  </url>
-  <url>
-    <loc>/reference/example_hmm_mcmc_normal.html</loc>
-  </url>
-  <url>
-    <loc>/reference/example_hmm_mcmc_pois.html</loc>
-  </url>
-  <url>
-    <loc>/reference/generate_random_T.html</loc>
-  </url>
-  <url>
-    <loc>/reference/get_pi.html</loc>
-  </url>
-  <url>
-    <loc>/reference/hmm_mcmc_gamma_poisson.html</loc>
-  </url>
-  <url>
-    <loc>/reference/hmm_mcmc_normal.html</loc>
-  </url>
-  <url>
-    <loc>/reference/hmm_mcmc_pois.html</loc>
-  </url>
-  <url>
-    <loc>/reference/hmm_simulate_gamma_poisson_data.html</loc>
-  </url>
-  <url>
-    <loc>/reference/hmm_simulate_normal_data.html</loc>
-  </url>
-  <url>
-    <loc>/reference/hmm_simulate_poisgamma_data.html</loc>
-  </url>
-  <url>
-    <loc>/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/kullback_leibler_cont_appr.html</loc>
-  </url>
-  <url>
-    <loc>/reference/kullback_leibler_disc.html</loc>
-  </url>
-  <url>
-    <loc>/reference/oHMMed-package.html</loc>
-  </url>
-  <url>
-    <loc>/reference/plot.hmm_mcmc_gamma_poisson.html</loc>
-  </url>
-  <url>
-    <loc>/reference/plot.hmm_mcmc_normal.html</loc>
-  </url>
-  <url>
-    <loc>/reference/plot.hmm_mcmc_poisson.html</loc>
-  </url>
-  <url>
-    <loc>/reference/posterior_prob_gamma_poisson.html</loc>
-  </url>
-  <url>
-    <loc>/reference/posterior_prob_normal.html</loc>
-  </url>
-  <url>
-    <loc>/reference/posterior_probabilities_normal.html</loc>
-  </url>
-  <url>
-    <loc>/reference/posterior_probabilities_poisgamma.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://lynettecaitlin.github.io/oHMMed/404.html</loc></url>
+<url><loc>https://lynettecaitlin.github.io/oHMMed/LICENSE-text.html</loc></url>
+<url><loc>https://lynettecaitlin.github.io/oHMMed/articles/index.html</loc></url>
+<url><loc>https://lynettecaitlin.github.io/oHMMed/articles/oHMMed.html</loc></url>
+<url><loc>https://lynettecaitlin.github.io/oHMMed/authors.html</loc></url>
+<url><loc>https://lynettecaitlin.github.io/oHMMed/index.html</loc></url>
+<url><loc>https://lynettecaitlin.github.io/oHMMed/news/index.html</loc></url>
+<url><loc>https://lynettecaitlin.github.io/oHMMed/reference/coef.hmm_mcmc_normal.html</loc></url>
+<url><loc>https://lynettecaitlin.github.io/oHMMed/reference/conf_mat.html</loc></url>
+<url><loc>https://lynettecaitlin.github.io/oHMMed/reference/convert_to_ggmcmc.html</loc></url>
+<url><loc>https://lynettecaitlin.github.io/oHMMed/reference/eigen_system.html</loc></url>
+<url><loc>https://lynettecaitlin.github.io/oHMMed/reference/example_hmm_mcmc_gamma_poisson.html</loc></url>
+<url><loc>https://lynettecaitlin.github.io/oHMMed/reference/example_hmm_mcmc_normal.html</loc></url>
+<url><loc>https://lynettecaitlin.github.io/oHMMed/reference/example_hmm_mcmc_pois.html</loc></url>
+<url><loc>https://lynettecaitlin.github.io/oHMMed/reference/generate_random_T.html</loc></url>
+<url><loc>https://lynettecaitlin.github.io/oHMMed/reference/get_pi.html</loc></url>
+<url><loc>https://lynettecaitlin.github.io/oHMMed/reference/hmm_mcmc_gamma_poisson.html</loc></url>
+<url><loc>https://lynettecaitlin.github.io/oHMMed/reference/hmm_mcmc_normal.html</loc></url>
+<url><loc>https://lynettecaitlin.github.io/oHMMed/reference/hmm_mcmc_pois.html</loc></url>
+<url><loc>https://lynettecaitlin.github.io/oHMMed/reference/hmm_simulate_gamma_poisson_data.html</loc></url>
+<url><loc>https://lynettecaitlin.github.io/oHMMed/reference/hmm_simulate_normal_data.html</loc></url>
+<url><loc>https://lynettecaitlin.github.io/oHMMed/reference/hmm_simulate_poisgamma_data.html</loc></url>
+<url><loc>https://lynettecaitlin.github.io/oHMMed/reference/index.html</loc></url>
+<url><loc>https://lynettecaitlin.github.io/oHMMed/reference/kullback_leibler_cont_appr.html</loc></url>
+<url><loc>https://lynettecaitlin.github.io/oHMMed/reference/kullback_leibler_disc.html</loc></url>
+<url><loc>https://lynettecaitlin.github.io/oHMMed/reference/oHMMed-package.html</loc></url>
+<url><loc>https://lynettecaitlin.github.io/oHMMed/reference/plot.hmm_mcmc_gamma_poisson.html</loc></url>
+<url><loc>https://lynettecaitlin.github.io/oHMMed/reference/plot.hmm_mcmc_normal.html</loc></url>
+<url><loc>https://lynettecaitlin.github.io/oHMMed/reference/plot.hmm_mcmc_poisson.html</loc></url>
+<url><loc>https://lynettecaitlin.github.io/oHMMed/reference/posterior_prob_gamma_poisson.html</loc></url>
+<url><loc>https://lynettecaitlin.github.io/oHMMed/reference/posterior_prob_normal.html</loc></url>
+<url><loc>https://lynettecaitlin.github.io/oHMMed/reference/posterior_probabilities_normal.html</loc></url>
+<url><loc>https://lynettecaitlin.github.io/oHMMed/reference/posterior_probabilities_poisgamma.html</loc></url>
 </urlset>
+

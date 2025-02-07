@@ -2,6 +2,7 @@
 % Please edit documentation in R/additional_documentation.R
 \docType{package}
 \name{oHMMed-package}
+\alias{oHMMed}
 \alias{oHMMed-package}
 \title{oHMMed: HMMs with Ordered Hidden States and Emission Densities}
 \description{
